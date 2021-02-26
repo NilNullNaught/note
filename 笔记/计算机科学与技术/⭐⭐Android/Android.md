@@ -1,4 +1,4 @@
-# 1	概述
+# 1	概述（需要修复）
 
 <br>
 
@@ -10,13 +10,13 @@
 
 <br>
 
-# 2	Activity
+# 2	Activity（需要修复）
 
 ---
 
 <br>
 
-# 3	UI控件
+# 3	UI控件（需要修复）
 
 ## ConstraintLayout
 
@@ -28,19 +28,19 @@
 
 <br>
 
-# 4	Fragment
+# 4	Fragment（需要修复）
 
 ---
 
 <br>
 
-# 5	广播机制
+# 5	广播机制（需要修复）
 
 ---
 
 <br>
 
-# 6	数据持久化
+# 6	数据持久化（需要修复）
 
 ## 6.0	概述
 
@@ -78,7 +78,7 @@
 
 ### 6.2.3	通过高阶函数简化 SharedPreferences 的使用
 
-**步骤**：
+**步骤**
 
 1. 新建 SharedPreferences.kt 文件，加入以下代码
 
@@ -104,7 +104,7 @@
    }
    ```
 
-**注意**：
+**注意**
 
 - Google 提供的 KTX 扩展库中已经包含了上述 SharedPreferences 的简化用法，这个扩展库会在 Android Studio 创建项目的时候自动引入 build.gradle 的 dependencies 中。因此，我们可以在项目中使用如下写法来向 SharedPreferences 中存储数据：
 
@@ -178,7 +178,7 @@
 
 ### 6.3.10	简化 ContentValues 的写法
 
-**步骤**：
+**步骤**
 
 1. 新建一个 ContentValues.kt 文件，然后在里面定义一个 cvOf() 方法。
 
@@ -232,14 +232,14 @@
    }
    ```
 
-3. **使用例**：
+3. **使用例**
 
    ```kotlin
    val values = cvOf("name" to "Game of Thrones", "author" to "George Martin", "pages" to 720, "price" to 20.85)
    db.insert("Book", null, values)
    ```
 
-**注意**：
+**注意**
 
 - Google 提供的 KTX 扩展库中已经包含相同作用的 contentValuesOf() 方法。我们可以在项目中使用如下写法：
 
@@ -263,12 +263,12 @@
 
 ## 7.0	概述
 
-**Android 中的数据共享**：
+**Android 中的数据共享**
 
 - 不管是使用文件存储、Sharedpreferences 存储还是数据库存储，使用这些数据保存的数据都只能在当前应用程序中访问， 无法进行共享（Android 官方并不推荐直接的跨程序数据共享功能）。
 - Android 推荐使用更安全的可靠的 ContentProvider 技术实现跨程序的数据共享。
 
-**什么是 ContentProvider**：
+**什么是 ContentProvider**
 
 - ContentProvider 主要用于**在不同的应用程序之间实现数据共享的功能**，它提供了一套完整的机制，允许一个程序访问另一个程序中的数据，同时还能保证被访问数据的安全性。
 - 目前，使用 ContentProvider 是 Android 实现跨程序共享数据的标准方式。
@@ -282,27 +282,27 @@
 
 ### 7.1.0	概述
 
-**权限声明**：
+**权限声明**
 
 - 在 AndroidManifest.xml 文件中可以为应用程序设置权限声明。
 - 设置权限声明后，其实用户主要在两个方面得到了保护：
   - 一方面，如果用户在低于 Android 6.0系统的设备上安装该程序，会在安装界面给出提醒。这样用户就可以清楚地知晓该程序一共申请了哪些权限，从而决定是否要安装这个程序。
   - 另一方面，用户可以随时在应用程序管理界面查看任意一个程序的权限申请情况。这样该程序申请的所有权限就尽收眼底，什么都瞒不过用户的眼睛，以此保证应用程序不会出现各种滥用权限的情况。
-- **问题**：
+- **问题**
   - 常用应用程序普遍存在着滥用权限的情况，而如果不开放应用程序所需要的所有权限，那么应用程序甚至无法被安装。
   - 为了解决这个问题，Android 开发团队在 Android 6.0 系统中加入了运行时权限功能。
 
-**什么是运行时权限**：
+**什么是运行时权限**
 
 - 用户不需要在安装软件的时候一次性授权所有申请的权限，而是可以在软件的使用过程中再对某一项权限申请进行授权。比如一款相机应用在运行时申请了地理位置定位权层。就算我拒绝了这个权限，也应该可以使用这个应用的其他功能，而不是像之前那样直接无法安装。
 
-**普通权限和危险权限**：
+**普通权限和危险权限**
 
 - 并不是所有权限都需要在运行时申请，对于用户来说，不停地授权也很烦琐。Andoid 现在将常用的权限大致归成了两类，一类是普通权限，一类是危险权限。（准确地讲，其实还有一些特殊权限，不过这些权限使用得相对较少，因此暂不讨论。）
 
-- **普通权限**：普通权限指的是那些不会直接威胁到用户的安全和隐私的权限，对于这部分权限申请，系统会自动帮我们进行授权。
+- **普通权限**普通权限指的是那些不会直接威胁到用户的安全和隐私的权限，对于这部分权限申请，系统会自动帮我们进行授权。
 
-- **危险权限**：危险权限则表示那些可能会触及用户隐私或者对设备安全性造成影响的权限，如获取设备联系人信息、定位设备地理位置等，对于这部分权限申请，必须由用户手动授权才可以，否则程序就无法使用施功能。
+- **危险权限**危险权限则表示那些可能会触及用户隐私或者对设备安全性造成影响的权限，如获取设备联系人信息、定位设备地理位置等，对于这部分权限申请，必须由用户手动授权才可以，否则程序就无法使用施功能。
 
 - 到 Android 10 系统为止所有的危险权限（11 组 30 个权限）：
 
@@ -338,7 +338,7 @@
   | READ_EXTERNAL_STORAGE      | STORAGE(存储组)      | 允许程序可以读取设备外部存储空间                             |
   | WRITE_EXTERNAL_STORAGE     | STORAGE(存储组)      | 允许程序写入外部存储,如SD卡上写                              |
 
-**注意**：
+**注意**
 
 - 每当要使用一个权限时，可以先到表中查一下，如果是危险权限，就需要进行运行时权限处理，否则，只需要在 AndroidManifest.xml 文件中添加权限说明即可。
 - 每个危险权限都属于一个权限组，虽然在进行运行时权限处理时使用的是权限名，但是原则上，**一旦用户同意了某个权限申请后，同组的其他权限也会被系统自动授权。**
@@ -350,7 +350,7 @@
 
 ### 7.1.1	在程序运行时申请权限
 
-**步骤**：
+**步骤**
 
 1. 判断用户是否已经赋予权限
 2. 如果已经授权，则直接执行逻辑操作
@@ -467,7 +467,7 @@ class MainActivity : AppCompatActivity() {
 
 ### 7.2.0	概述
 
-**ContentProvider 的用法**：
+**ContentProvider 的用法**
 
 - ContentProvider 的用法一般有两种：
   1. 使用现有的 ContentProvider 读取和操作相应程序中的数据；
@@ -480,13 +480,13 @@ class MainActivity : AppCompatActivity() {
 
 ### 7.2.1	ContentResolver 基本用法
 
-**ContentResolver**：
+**ContentResolver**
 
 - 对于每一个应用程序来说，如果想要访问 ContentProvider 中共享的是数据，就一定要借助 ContentResolver 类。
 - 可以通过 Context 中的 getContentResolver() 方法获取该类的实例。
 - ContentResolver 中提供了一系列的方法用于对数据进行增删改查操作，其中 insert() 方法用于添加数据，update() 方法用于更新数据，delete() 方法用于删除数据，query() 方法用于查询数据。
 
-**内容 Uri**：
+**内容 Uri**
 
 - 内容 Uri 给 ContentProvider 中的数据建立了唯一标识符，它主要由两部分组成：authority 和 path：
 
@@ -495,7 +495,7 @@ class MainActivity : AppCompatActivity() {
 
 - 除了 authority 和 path，还需要在字符串的头部加上协议声明。
 
-- **内容 Uri 的标准格式示例**：
+- **内容 Uri 的标准格式示例**
 
   ```kotlin
   //应用包名为 cn.nnn.appname，一般会添加 .provider
@@ -508,7 +508,7 @@ class MainActivity : AppCompatActivity() {
 
   以路径结尾的内容 Uri 表示期望访问该表中所有的数据，以 id 结尾表示期望访问该表中拥有相应 id 的数据。
 
-**Uri 对象**：
+**Uri 对象**
 
 - 得到内容 Uri 后，还需要将它解析成 Uri 对象才可以作为参数传入。
 
@@ -542,7 +542,7 @@ class MainActivity : AppCompatActivity() {
 
 ## 7.3	创建自己的 ContentProvider
 
-**说明**：
+**说明**
 
 - 想要实现跨程序共享数据的功能，可以通过新建一个类去继承ContentProvider的方式来实现。
 
@@ -634,7 +634,7 @@ class MainActivity : AppCompatActivity() {
   
   ```
 
-**匹配内容 Uri**：
+**匹配内容 Uri**
 
 - 使用 UriMatcher 类可以实现匹配内容 URI 的功能。UriMatcher 中提供了一个 addURI() 方法，这个方法接收 3 个参数，可以分别把 anthority、path 和一个自定义代码传进去。
 
@@ -652,7 +652,7 @@ class MainActivity : AppCompatActivity() {
   content://cn.nnn.appname.provider/table1/#
   ```
 
-**MIME类型**：
+**MIME类型**
 
 - ContentProvider 都必须提供的 getType() 方法，该方法用于获取 Uri 对象所对应的 MIME 类型。
 
@@ -662,7 +662,7 @@ class MainActivity : AppCompatActivity() {
   - 如果内容 URI 以路径结尾，则后接 `android.cursor.dir/`；如果内容 URI 以 id 结尾，则后接 `android.cursor.item/`
   - 最后接上 `vnd.<authority>.<path>`
 
-- **例**：
+- **例**
 
   ```kotlin
   对于 content://cn.nnn.appname.provider/table1 这个内容 URI 可以写成
@@ -672,7 +672,7 @@ class MainActivity : AppCompatActivity() {
   vnd.android.cursor.item/vnd.cn.nnn.appname.provider.table1
   ```
 
-**注意**：
+**注意**
 
 - 因为所有的增删改查操作都一定要匹配到相应的内容 URI 格式 才能进行，而我们不可能向 UriMatcher 中添加隐私数据的 URI，所以这部分数据根本无法被外部程序访问，安全问题也就不存在了。
 
@@ -749,7 +749,7 @@ override fun getType(uri: Uri) = when (uriMatcher.match(uri)) {
 
 ## 7.4	实现跨程序数据共享
 
-**注意**：
+**注意**
 
 - 跨程序访问时，不能直接使用 Toast。
 - ContentProvider 一定要在 AndroidManifest.xml 文件中注册才可以使用。
@@ -764,7 +764,7 @@ override fun getType(uri: Uri) = when (uriMatcher.match(uri)) {
 
 ### 8.1.0	概述
 
-**什么是通知**：
+**什么是通知**
 
 - 通知（notification）是 Android 中比较有特色的一个功能，当某个应用程序希望向用户发出一些提示信息，而该应用程序又不在前台运行时，就可以借助通知来实现。
 - 发出一条通知后，手机最上方的状态栏中会显示一个通知的图标，下拉状态栏后可以看到通知的详细内容。
@@ -775,17 +775,17 @@ override fun getType(uri: Uri) = when (uriMatcher.match(uri)) {
 
 ### 8.1.1	创建通知渠道
 
-**问题——通知的滥用**：
+**问题——通知的滥用**
 
 - 每发出一条通知，意味着应用程序会拥有更改的打开率，因此有太多太多的应用会想尽办法给用户发送通知，以博取更多的展示机会。如果每个应用都这么做的话，那么用户手机的状态栏会被各种各样的通知信息堆满，不胜其烦。
 - 虽然 Android 系统允许我们将某个应用程序的通知完全屏蔽，以防止它一直给我们发送垃圾信息，但是这些信息中，可能会有我们所关心的内容。在过去，用户无法对这些信息进行区分，要么同意接受所有信息，要么屏蔽所有信息。
 - 为了解决这个问题，Android 8.0 系统引入了通知渠道这个概念。
 
-**什么是通知渠道**：
+**什么是通知渠道**
 
 - 每条通知都要属于一个对应的渠道。每个应用程序都可以自由地创建当前应用拥有哪些渠道，但是，**这些通知渠道的控制权是掌握在用户手上的**，用户可以自由地控制这些通知渠道的重要程度（是否响铃、是否振动、或者是否关闭这个渠道的通知）。
 
-**创建通知渠道**：
+**创建通知渠道**
 
 1. 首先需要一个 NotificationManager 对通知进行管理，可以通过调用 Context 的 getSystemService() 方法获取。getSystemService() 方法接受一个字符串参数用于确定获取系统的哪个服务，这里我们传入 `Context.NOTIFICATION_SERVICE` 即可。
 
@@ -806,7 +806,7 @@ override fun getType(uri: Uri) = when (uriMatcher.match(uri)) {
    }
    ```
 
-**注意**：
+**注意**
 
 - 创建通知渠道的代码只在第一次执行的时候才会执行，当下次再执行创建代码时，系统会检测到该通知渠道已经存在了，因此不会重复创建，也不会运行效率。通知渠道一旦被创建之后将无法被程序修改，只有用户可以进行修改。
 
@@ -816,11 +816,11 @@ override fun getType(uri: Uri) = when (uriMatcher.match(uri)) {
 
 ### 8.1.2	通知的基本用法
 
-**灵活的创建通知**：
+**灵活的创建通知**
 
 - 通知可以在 Activity 中创建，可以在 Broadcast 中创建，也可以在BroadcastReceiver 里创建，当然也可以在 service 里创建。
 
-**创建通知——步骤**：
+**创建通知——步骤**
 
 1. 首先使用一个 Builder 构造器来创建 Notification 对象。由于 Android 系统的每一个版本都会对通知功能进行或多或少的修改，API 不稳定的问题在通知上凸显得尤其严重。这个问题可以使用 AndroidX 中提供的兼容 API 解决。
 
@@ -845,12 +845,12 @@ override fun getType(uri: Uri) = when (uriMatcher.match(uri)) {
    manager.notify(1,notification)
    ```
 
-**PendingIntent**：
+**PendingIntent**
 
 - 创建通知后，直接点击通知会发现没有任何效果，而一般的通知被点击后都有所反应。
 - 想要实现上述效果，需要在代码中通过 PendingIntent 进行相应设置。
-- **什么是 PendingIntent**：PendingIntent 和 Intent 有些类似，都可以用于启动 Activity、启动 Service 以及发送广播等。但是 Intent 倾向于立即执行某个动作，而 PendingIntent 倾向于在某个合适的时机执行某个动作（可以把 PendingIntent 简单理解为延迟执行的 Intent）
-- **使用**：
+- **什么是 PendingIntent**PendingIntent 和 Intent 有些类似，都可以用于启动 Activity、启动 Service 以及发送广播等。但是 Intent 倾向于立即执行某个动作，而 PendingIntent 倾向于在某个合适的时机执行某个动作（可以把 PendingIntent 简单理解为延迟执行的 Intent）
+- **使用**
   - PendingIntent 提供了几个静态方法用于获取 PendingIntent 的实例，可以根据需求来选择是使用 getActivity() 方法、getBroadcast() 方法，还是 getService() 方法。这几个方法接受的参数都是相同的：
     1. 第一个参数 Context
     2. 第二个参数是一般用不到，传入 0 即可
@@ -858,7 +858,7 @@ override fun getType(uri: Uri) = when (uriMatcher.match(uri)) {
     4. 第四个参数用于确定 PendingIntent 的行为，有 FLAG_ONE_SHOT、FLAG_NO_CREATE、FLAG_CANCEL_CURRENT 和 FLAG_UPDATE_CURRENT 这四种值可选，通常情况下这个参数传入 0 即可。
   - 通过 NotificationCompat.Builder 可以连缀一个 setContentIntent() 方法，接受的参数正是一个 PendingIntent 对象。因此可以通过 PendingIntent  构建一个延迟执行的 “意图”，当用户点击这条通知时就会执行相应的逻辑。
 
-**注意**：
+**注意**
 
 - 渠道 ID 和 NotificationCompat.Builder() 中传入的渠道 ID 必须相同，如果传入了一个不存在的渠道 ID，那么通知将无法显示出来。
 - 如果没有在代码中对通知进行取消，那么通知会一直显示在系统的状态栏上，解决方法有两种：
@@ -922,7 +922,7 @@ class MainActivity : AppCompatActivity() {
 
 ### 8.1.3	通知的进阶技巧
 
-**setStyle() 方法**：
+**setStyle() 方法**
 
 - 该方法允许我们构建出富文本的通知内容。
 
@@ -952,7 +952,7 @@ class MainActivity : AppCompatActivity() {
           .build()
   ```
 
-**通知渠道的重要等级**：
+**通知渠道的重要等级**
 
 - 通知渠道的重要等级会影响通知的显示方式，以及通知发出时的行为（提示音和振动等）。
 
@@ -964,23 +964,23 @@ class MainActivity : AppCompatActivity() {
 
 ### 8.2.1	调用摄像头
 
-**应用关联缓存目录**：
+**应用关联缓存目录**
 
 - 指 SD 卡中专门用于存放当前应用缓存数据的位置，调用 getExternalCacheDir() 方法可以得到这个目录。
 - 从 Android 6.0 系统开始，读写 SD 卡被列为了危险权限，所以将图片存放在 SD 卡的任何其他目录，都要进行运行时权限处理才行，而使用应用关联目录则可以跳过这一步。
 - 此外，从 Android 10.0 系统开始，公有的 SD 卡目录已经不再允许被应用程序直接访问了，而是要使用作用域存储才行。
 
-**FileProvider**：
+**FileProvider**
 
 - 在 Android 7.0 系统以下，可以直接调用 Uri 的 fromFile() 方法将 File 对象转换成 Uri 对象，这个 Uri 对象标识着文件的本地真实路径。
 
 - 从 Android 7.0 开始，直接使用本地真实路径的Urine被认为是不安全的，会排除一个 FileUriExposedException 异常。
 
-- **什么是 FileProvider**：
+- **什么是 FileProvider**
 
   - FileProvider 是一种特殊的 ContentProvider，它使用了和 ContentProvider 类似的机制来对数据进行保护，可以选择性的将封装过的 Uri 共享给外部，从而提高了应用的安全性。
 
-- **使用 FileProvider 封装 Uri 对象**：
+- **使用 FileProvider 封装 Uri 对象**
 
   - 通过 FileProvider 的 getUriForFile() 方法将 File 对象转换成一个封装过的 Uri 对象。
   - getUriForFile() 方法接受三个参数：
@@ -988,7 +988,7 @@ class MainActivity : AppCompatActivity() {
     2. 第二个参数可以是任意唯一的字符串
     3. 第三个参数是 File 对象
 
-- **注册 FileProvider**：FileProvider 作为特殊的 ContentProvider，必须要在 AndroidManifest.xml 文件中进行注册。
+- **注册 FileProvider**FileProvider 作为特殊的 ContentProvider，必须要在 AndroidManifest.xml 文件中进行注册。
 
   ```xml
   <!-- android:authorities 的值必须和 FileProvider 的 getUriForFile() 方法中的第二个参数一致-->
@@ -1005,7 +1005,7 @@ class MainActivity : AppCompatActivity() {
   </provider>
   ```
 
-**注意**：
+**注意**
 
 - 调用照相机去拍照有可能会在一些手机上发生照片旋转的情况。这是因为这些手机认为打开摄像头进行拍摄时，手机就应该是横屏的，因此回到竖屏的情况下就会发送 90 都的旋转。所以需要加上判断图片方向的代码，如果发现图片需要进行旋转，那么就先将图片旋转相应的角度，然后再显示到界面上。
 
@@ -1017,14 +1017,14 @@ class MainActivity : AppCompatActivity() {
 
 ### 8.2.2	从相册中选择图片
 
-**步骤**：
+**步骤**
 
 1. 在布局文件中添加按钮，在 activity 中为按钮添加点击事件。
 2. 在点击事件中构建一个 Intent 对象，并将它的 action 指定为 Intent.ACTION_OPEN_DOCUMENT，表示打开系统的文件选择器。
 3. 给 Intent 对象设置一些条件过滤，只允许可打开的图片文件显示出来，然后调用 startActivityResult() 方法即可。在调用startActivityResult() 方法时，给第二参数传入的值为 fromAlbum，这样当选择完图片回到 onActivityResult() 方法时，就会进入 fromAlbum 的条件下处理图片。
 4. 调用返回 intent 的getData()  方法来获取选中图片的 Uri，然后再调用 getBitmapFromUri() 方法将 Uri 转换成 Bitmap 对象，追钟将图片显示到界面上。
 
-**注意**：
+**注意**
 
 - 如果某些图片的像素过高，直接加载到内存中就有可能会导致程序崩溃，更好的做法是根据项目的需求先对图片进行适当的压缩，然后再加载到内存中。
 
@@ -1036,12 +1036,12 @@ class MainActivity : AppCompatActivity() {
 
 ### 8.3.1	播放音频
 
-**MediaPlayer 类**：
+**MediaPlayer 类**
 
 - 在 Android 中播放音频文件一般是使用 MediaPlayer 类实现的，它对多种格式的阴平文件提供了非常全面的控制方法，从而使播放音乐的工作变得十分简单。
 - MediaPlayer 可以用于播放网络、本地以及应用程序安装包[^2]中的音频。
 
-**MediaPlayer 类中一些较为常用的控制方法**：
+**MediaPlayer 类中一些较为常用的控制方法**
 
 | **方法名**      | **功能描述**                                        |
 | --------------- | --------------------------------------------------- |
@@ -1056,7 +1056,7 @@ class MainActivity : AppCompatActivity() {
 | isPlaying()     | 判断当前MediaPlayer是否正在播放音频                 |
 | getDuration()   | 获取载入的音频文件的时长                            |
 
-**MediaPlayer 的工作流程**：
+**MediaPlayer 的工作流程**
 
 1. 创建一个 MediaPlayer 对象；
 2. 调用 setDAtaSource() 方法设置音频文件的路径；
@@ -1064,7 +1064,7 @@ class MainActivity : AppCompatActivity() {
 4. 接下来调用 start() 方法就可以开始播放音频。
 5. 调用 pause() 方法就会暂停播放，调用 reset()  方法就会停止播放。
 
-**asset 目录**：
+**asset 目录**
 
 - Android Studio 允许我们在项目工程中创建一个 assets 目录，并在这个目录下存放任意文件和子目录，这些文件和子目录在项目打包时会一并被打包到安装文件中，然后我们在程序中就可以借助 AssetManager 这个类提供的接口对 assets 目录下的文件进行读取。
 
@@ -1129,12 +1129,12 @@ class MainActivity : AppCompatActivity() {
 
 ### 8.3.2	播放视频
 
-**VideoView 类**：
+**VideoView 类**
 
 - 播放视频主要使用 VidioView 类来实现。这个类将视频的显示和控制集于一身，我们仅仅借助它就可以完成一个简易的视频播放器。
 - VideoView 的用法和 MediaPlayer 比较类似。
 
-**VideoView 的常用方法**：
+**VideoView 的常用方法**
 
 | **方　法　名** | **功能描述**               |
 | -------------- | -------------------------- |
@@ -1146,7 +1146,7 @@ class MainActivity : AppCompatActivity() {
 | isPlaying()    | 判断当前是否正在播放视频   |
 | getDuration()  | 获取载入的视频文件的时长   |
 
-**注意**：
+**注意**
 
 - VideoView 不支持直接播放 asset 目录下的视频资源。但是，res 目录下允许我们再创建一个 raw 目录，诸如音频、视频之类的资源文件可以放在这里，并且 VideoView 是可以直接播放这个目录下的视频资源的。
 - VideoView 并不是一个万能的视频播放工具类，它在视频格式的支持以及播放效率方面都存在着较大的不足。
@@ -1200,7 +1200,7 @@ class MainActivity : AppCompatActivity() {
 
 ## 9.0	概述
 
-**Service 是什么**：
+**Service 是什么**
 
 - Service 是 Android 中实现 **程序后台运行** 的解决方案，它非常适合执行那些不需要和用户交互而且还要求长期运行的任务。
 - Service 的运行不依赖于任何用户界面，即使程序被切换到后台，或者用户打开了另外一个应用程序，Service 仍然能够保持正常运行。
@@ -1215,7 +1215,7 @@ class MainActivity : AppCompatActivity() {
 
 ### 9.1.1	线程的基本用法
 
-**语法**：
+**语法**
 
 - 继承 Thread 类：
 
@@ -1272,7 +1272,7 @@ class MainActivity : AppCompatActivity() {
 
 ### 9.1.2	在子线程中更新 UI
 
-**问题**：
+**问题**
 
 - 和许多其他的 GUI 库一样，Android 的 UI 也是线程不安全的。也就是说，如果想要更新应用程序里的 UI 元素，必须在主线程中进行，否则就会出现异常。
 - 为了解决这个问题，Android 提供了一套异步消息处理机制，完美地解决了在子线程中进行 UI 操作的问题。
@@ -1331,31 +1331,31 @@ class MainActivity : AppCompatActivity() {
 
 ### 9.1.3	解析异步消息处理机制
 
-**Android中的异步消息处理主要由4个部分组成**：
+**Android中的异步消息处理主要由4个部分组成**
 
 - Message
 - Handler
 - MessageQueue
 - Looper
 
-**Message**：
+**Message**
 
 - Message 用于**在线程之间传递的消息**，它可以在内部携带少量的信息，用于在不同线程之间传递数据。
 
-**Handler**：
+**Handler**
 
 - Handler 主要用于**发送和处理消息**，发送消息一般是使用 Handler 的 sendMessage() 方法、post()方法等，而发出的消息经过一系列地辗转处理后，最终会传递到Handler的handleMessage()方法中。
 
 
-**MessageQueue**：
+**MessageQueue**
 
 - MessageQueue 是消息队列的意思，它主要用于**存放所有通过 Handler 发送的消息**。这部分消息会一直存在于消息队列中，等待被处理。**每个线程中只会有一个 MessageQueue 对象**。
 
-**Looper**：
+**Looper**
 
 - Looper 是每个线程中的 MessageQueue 的管家，调用 Looper 的 loop() 方法后，就会进入一个无限循环当中，然后**每当发现 MessageQueue 中存在一条消息时，Looper 就会将它取出**，并传递到 Handler 的 handleMessage() 方法中。**每个线程中只会有一个 Looper 对象**。
 
-**异步消息处理的完整流程**：
+**异步消息处理的完整流程**
 
 1. 首先在主线程当中创建一个 Handler 对象，并重写 handleMessage() 方法。
 2. 当子线程中需要进行 UI 操作时，就创建一个 Message 对象，并通过 Handler 将这条消息发送出去。
@@ -1363,7 +1363,7 @@ class MainActivity : AppCompatActivity() {
 4.  Looper 一直尝试从 MessageQueue 中取出待处理消息，最后分发回 Handler 的 handleMessage() 方法中。
 5. 由于 Handler 是在主线程中创建的，所以此时 handleMessage() 方法中的代码也会在主线程中运行。
 
-**异步消息处理机制流程示意图**：
+**异步消息处理机制流程示意图**
 
 ![image-20210216221131176](img/image-20210216221131176.png)
 
@@ -1373,13 +1373,13 @@ class MainActivity : AppCompatActivity() {
 
 ### 9.1.4	使用 AsyncTask
 
-**说明**：
+**说明**
 
 - Android 提供了一些更好的工具用来在子线程中对 UI 进行操作，比如 AsyncTask。
 - 借助 AsyncTask 哪怕对异步消息处理机制完全不了解，也可以十分简单地从子线程切换到主线程。
 - AsyncTask 的实现原理也是基于异步消息处理机制的，只是 Android 帮我们做了很好的封装。
 
-**AsyncTask 的基本用法**：
+**AsyncTask 的基本用法**
 
 - AsyncTask 是一个抽象类，所以必须使用时必须创建一个子类去继承它。
 
@@ -1402,12 +1402,12 @@ class MainActivity : AppCompatActivity() {
 
 - AsyncTask 中经常需要重写的重要方法有以下 4 个：
 
-  1. **onPreExecute() **：这个方法会在后台任务开始执行之前调用，用于进行一些界面上的初始化操作，比如显示一个进度条对话框等。
-  2. **doInBackgroud(Params...)**：这个方法中的所有代码都会在子线程中运行，我们应该在这里去处理所有的耗时任务。任务一旦完成，就可以通过 return 语句将任务的执行结果返回，如果 AsyncTask 的第三个泛型参数指定的是 Unit，就可以不返回任务执行结果。**注意，在这个方法中不可以进行 UI 操作，如果需要更新 UI 元素，可以调用 publishProgress(Progress...) 方法来完成**
-  3. **onProgressUpdate(Progress...)**：当在后台任务中调用了 ProgressUpdate(Progress...) 方法后，onProgressUpdate(Progress...) 就会很快被调用，该方法中携带的参数就是后台任务中传递过来的。在这个方法中可以对 UI 进行操作，利用参数中的数值就可以对界面元素进行相应的更新。
-  4. **onPostExecute(Result)**：当后台任务执行完毕并通过 return 语句进行返回时，这个方法就很快会被调用。返回的数据会作为参数传递到此方法中，可以利用返回的数据进行一些 UI 操作，比如提醒任务执行的结果，以及关闭进度条对话框等。
+  1. **onPreExecute() **这个方法会在后台任务开始执行之前调用，用于进行一些界面上的初始化操作，比如显示一个进度条对话框等。
+  2. **doInBackgroud(Params...)**这个方法中的所有代码都会在子线程中运行，我们应该在这里去处理所有的耗时任务。任务一旦完成，就可以通过 return 语句将任务的执行结果返回，如果 AsyncTask 的第三个泛型参数指定的是 Unit，就可以不返回任务执行结果。**注意，在这个方法中不可以进行 UI 操作，如果需要更新 UI 元素，可以调用 publishProgress(Progress...) 方法来完成**
+  3. **onProgressUpdate(Progress...)**当在后台任务中调用了 ProgressUpdate(Progress...) 方法后，onProgressUpdate(Progress...) 就会很快被调用，该方法中携带的参数就是后台任务中传递过来的。在这个方法中可以对 UI 进行操作，利用参数中的数值就可以对界面元素进行相应的更新。
+  4. **onPostExecute(Result)**当后台任务执行完毕并通过 return 语句进行返回时，这个方法就很快会被调用。返回的数据会作为参数传递到此方法中，可以利用返回的数据进行一些 UI 操作，比如提醒任务执行的结果，以及关闭进度条对话框等。
 
-**例**：
+**例**
 
 ```kotlin
 class DownloadTask:AsyncTask<Unit,Int,Boolean>() {
@@ -1456,7 +1456,7 @@ DownloadTask().execute()
 
 ### 9.1.5	runOnUiThread()
 
-**说明**：
+**说明**
 
 - handle 和 AsyncTask 在 Android 11 中都已经过时。
 
@@ -1468,7 +1468,7 @@ DownloadTask().execute()
 
 ### 9.2.1	定义一个Service
 
-**步骤**：
+**步骤**
 
 1. 右键包，选择 New → Service →  Service
 
@@ -1489,7 +1489,7 @@ DownloadTask().execute()
    }
    ```
 
-**Service 中最常用的 3 个方法**：
+**Service 中最常用的 3 个方法**
 
 ```kotlin
 class MyService : Service() {
@@ -1520,17 +1520,17 @@ class MyService : Service() {
 
 ### 9.2.2	启动和停止 Service
 
-**说明**：
+**说明**
 
 - 启动和停止 Service 主要借助 Intent 来实现。
 - startService() 和 stopService() 方法都是定义在 Context 类中的，所以我们在 Activity 里可以直接调用这两个方法。
 
-**注意**：
+**注意**
 
 - 可以在安卓系统的 Setting → System → Advanced → Develop options → Running services 中查看启动的Service（不同手机路径可能不同，甚至有可能无此选项）
 - 从 Android 8.0 开始，应用的后台功能被大幅削减。现在只有当应用保持在前台可见状态的请款下，Service 才能保证稳定运行，**一旦应用进入后台之后，Service 随时都有可能被系统回收**。
 
-**例**：
+**例**
 
 ```kotlin
 class MainActivity : AppCompatActivity() {
@@ -1558,7 +1558,7 @@ class MainActivity : AppCompatActivity() {
 
 ### 9.2.3	Activity 和 Service 进行通信
 
-**说明**：
+**说明**
 
 - 虽然 Service 是在 Activity 中启动的，但是在启动了 Service 之后，Activity 与 Service 基本就没有什么关系了。
 - 通过 Service 的 onBind() 方法，可以使 Activity 和 Service 之间的联系更紧密。当一个Activity和Service绑定了之后，就可以调用该Service里的Binder提供的方法了。
@@ -1637,26 +1637,26 @@ class MainActivity : AppCompatActivity() {
 
 ### 9.2.4	Service 的生命周期[^!1]
 
-**说明**：
+**说明**
 
 - Service 有自己的生命周期。
 
-**启动 Service**：
+**启动 Service**
 
 - 一旦在项目的任何位置调用了 Context 的 startService() 方法，相应的 Service 就会启动，并回调onStartCommand()方法。
 - 如果这个 Service 之前还没有创建过，onCreate() 方法会先于 onStartCommand() 方法执行。
 
-**停止 Service**：
+**停止 Service**
 
 - Service 启动了之后会一直保持运行状态，直到 stopService() 或 stopSelf() 方法被调用，或者被系统回收。
 - 注意，虽然每调用一次 startService() 方法，onStartCommand() 就会执行一次，但实际上**每个 Service 只会存在一个实例**。所以不管你调用了多少次startService()方法，只需调用一次stopService()或stopSelf()方法，Service就会停止。
 
-**获取 Service 的持久连接**：
+**获取 Service 的持久连接**
 
 - 可以调用 Context 的 bindService() 来获取一个 Service 的持久连接，这时就会回调 Service 中的 onBind() 方法。（类似地，如果这个Service之前还没有创建过，onCreate()方法会先于onBind()方法执行）
 - 之后，调用方可以获取到 onBind() 方法里返回的 IBinder 对象的实例，这样就能自由地和 Service 进行通信了。只要调用方和 Service 之间的连接没有断开，Service 就会一直保持运行状态，直到被系统回收。
 
-**销毁 Service**：
+**销毁 Service**
 
 - 当调用了 startService() 方法后，再去调用 stopService() 方法。这时 Service 中的 onDestroy() 方法就会执行，表示 Service 已经销毁了。
 - 类似地，当调用了 bindService() 方法后，再去调用 unbindService() 方法，onDestroy()方法也会执行。
@@ -1671,13 +1671,13 @@ class MainActivity : AppCompatActivity() {
 
 ### 9.3.1	前台 Service
 
-**说明**：
+**说明**
 
-- **作用**：从 Android 8.0 系统开始，只有当应用保持在前台可见状态的情况下，Service 才能保证稳定运行，一旦应用进入后台之后，Service 随时都有可能被系统回收。如果你 **希望 Service 能够一直保持运行状态**，就可以考虑使用前台 Service。
-- **前台 Service 和普通 Service 的区别**： **前台 Service 一直会有一个正在运行的图标在系统的状态栏显示**，下拉状态栏后可以看到更加详细的信息（类似于通知的效果）。
-- **原理**：由于状态栏中一直有一个正在运行的图标，**相当于我们的应用以另外一种形式保持在前台可见状态**，所以系统不会倾向于回收前台 Service。另外，用户也可以通过下拉状态栏清楚地知道当前什么应用正在运行，因此也不存在某些恶意应用长期在后台偷偷占用手机资源的情况。
+- **作用**从 Android 8.0 系统开始，只有当应用保持在前台可见状态的情况下，Service 才能保证稳定运行，一旦应用进入后台之后，Service 随时都有可能被系统回收。如果你 **希望 Service 能够一直保持运行状态**，就可以考虑使用前台 Service。
+- **前台 Service 和普通 Service 的区别** **前台 Service 一直会有一个正在运行的图标在系统的状态栏显示**，下拉状态栏后可以看到更加详细的信息（类似于通知的效果）。
+- **原理**由于状态栏中一直有一个正在运行的图标，**相当于我们的应用以另外一种形式保持在前台可见状态**，所以系统不会倾向于回收前台 Service。另外，用户也可以通过下拉状态栏清楚地知道当前什么应用正在运行，因此也不存在某些恶意应用长期在后台偷偷占用手机资源的情况。
 
-**创建前台 Service**： 
+**创建前台 Service** 
 
 ```kotlin
 class MyService : Service() {
@@ -1710,7 +1710,7 @@ class MyService : Service() {
 }
 ```
 
-**注意**：
+**注意**
 
 - 从 Android 9.0 系统开始，使用前台 Service 必须在 AndroidManifest.xml 文件中进行权限声明才行：
 
@@ -1730,7 +1730,7 @@ class MyService : Service() {
 
 ### 9.3.2	IntentService
 
-**问题**：
+**问题**
 
 - 为了直接在 Service 里处理一些耗时的逻辑，而不出现 ANR（ Application Not Responding），需要使用 Android 多线程编程技术。所以标准的 Service 应该在每个具体的方法里开启一个子线程，然后在这里处理那些耗时的逻辑。并且，为了让 Service 在执行完毕后自动停止，还需要调用 用 stopService() 或 stopSelf() 方法。
 
@@ -1751,7 +1751,7 @@ class MyService : Service() {
 
 - 但是，总会有一些程序员忘记开启线程，或者忘记调用 stopSelf() 方法。为了可以**简单地创建一个异步的、会自动停止的 Service**，Android 专门提供了一个 IntentService 类，这个类就很好地解决了前面所提到的两种尴尬。
 
-**例**：
+**例**
 
 ```kotlin
 //先调用父类的构造函数，并传入一个字符串，这个字符串可以随意指定，只在调试的时候有用。
@@ -1780,11 +1780,11 @@ class MyIntentService : IntentService("MyIntentService") {
 
 ## 10.1	WebView
 
-**作用**：
+**作用**
 
 - 借助 WebView 我们可以在自己的应用程序里嵌入一个浏览器，从而非常轻松地展示各种各样的网页。
 
-**例**：
+**例**
 
 ```xml
 <!-- activity_main.xml -->
@@ -1834,11 +1834,11 @@ class MainActivity : AppCompatActivity() {
 
 ### 10.2.1	HttpURLConnection
 
-**HttpClient**：
+**HttpClient**
 
 - 在过去，Android上发送HTTP请求一般有两种方式：HttpURLConnection 和 HttpClien。但是由于 HttpClient 存在 API 数量过多、扩展困难等缺点，Android团队越来越不建议我们使用这种方式。终于在Android 6.0系统中，HttpClient的功能被完全移除了，标志着此功能被正式弃用。
 
-**HttpURLConnection 的步骤**：
+**HttpURLConnection 的步骤**
 
 1. 首先需要获取 HttpURLConnection 的实例，一般只需创建一个 URL 对象，并传入目标的网络地址，然后调用一下 openConnection()方法即可：
 
@@ -1873,7 +1873,7 @@ class MainActivity : AppCompatActivity() {
    connection.disconnect()
    ```
 
-**提交数据**：
+**提交数据**
 
 - HTTP请求的方法改成POST，并在获取输入流之前把要提交的数据写出即可。
 
@@ -1968,12 +1968,12 @@ output.writeBytes("username=admin&password=123456")
 
 ### 10.2.2	OkHttp
 
-**说明**：
+**说明**
 
 - OkHttp 是 Square 公司开发的网络通信库，kHttp不仅在接口封装上做得简单易用，就连在底层实现上也是自成一派，比起原生的 HttpURLConnection，可以说是有过之而无不及，现在已经成了广大 Android 开发者首选的网络通信库。
-- **OkHttp 项目主页**：https://github.com/square/okhttp
+- **OkHttp 项目主页**https://github.com/square/okhttp
 
-**项目中添加OkHttp库的依赖**：
+**项目中添加OkHttp库的依赖**
 
 ```groovy
 // 编辑 app/build.gradle 文件
@@ -1984,9 +1984,9 @@ dependencies {
 }
 ```
 
-**OkHttp 的具体用法**：
+**OkHttp 的具体用法**
 
-**get 请求**：
+**get 请求**
 
 1. 首先需要创建一个 OkHttpClient 的实例
 
@@ -2020,7 +2020,7 @@ dependencies {
    val responseData = response.body?.string()
    ```
 
-**Post请求**：
+**Post请求**
 
 1. POST请求会比 GET请求稍微复杂一点，我们需要先构建一个 Request Body 对象来存放待提交的参数，如下所示：
 
@@ -2050,7 +2050,7 @@ dependencies {
 
 ### 10.3.1	Pull 解析方式
 
-**例**：
+**例**
 
 ```xml
 <!-- get_data.xml -->
@@ -2144,7 +2144,7 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
-**注意**：
+**注意**
 
 - Android 9.0 系统开始，应用程序默认只允许使用 HTTPS 类型的网络请求，HTTP 类型的网络请求因为有安全隐患默认不再被支持。
 
@@ -2154,7 +2154,7 @@ class MainActivity : AppCompatActivity() {
 
 ### 10.3.2	SAX 解析方式
 
-**说明**：
+**说明**
 
 - SAX 解析也是一种特别常用的 XML 解析方式，虽然**它的用法比 Pull 解析要复杂一些，但在语义方面会更加清楚**。
 
@@ -2189,7 +2189,7 @@ class MainActivity : AppCompatActivity() {
 
 - 注意：在获取节点中的内容时，characters() 方法可能会被调用多次，**一些换行符也被当作内容解析出来**，我们需要针对这种情况在代码中做好控制。
 
-**例**：
+**例**
 
 ```kotlin
 class ContentHandler : DefaultHandler() {
@@ -2290,7 +2290,7 @@ class MainActivity : AppCompatActivity() {
 
 ### 10.4.1	使用 JSONObject
 
-**例**：
+**例**
 
 ```json
 //Apache\htdocs 目录中新建一个 get_data.json 文件
@@ -2353,7 +2353,7 @@ class MainActivity : AppCompatActivity() {
 
 ### 10.4.2	使用 GSON
 
-**说明**：
+**说明**
 
 - google 提供的 GSON 开源库可以让解析 JSON 数据的工作更加简单。
 
@@ -2383,7 +2383,7 @@ class MainActivity : AppCompatActivity() {
   val people = gson.fromJson<List<Person>>(jsonData, typeOf)
   ```
 
-**例**：
+**例**
 
 ```kotlin
 /* App 类*/
@@ -2431,11 +2431,11 @@ class MainActivity : AppCompatActivity() {
 
 ## 10.5	实现网络请求回调
 
-**说明**：
+**说明**
 
 - 因为一个应用程序很可能会在许多地方都使用到网络功能，而发送 HTTP 请求的代码基本是相同的，如果我们每次都去编写一遍发送 HTTP 请求的代码，这显然是非常差劲的做法。通常情况下我们应该将这些通用的网络操作提取到一个公共的类里，并提供一个通用方法，当想要发起网络请求的时候，只需简单地调用一下这个方法即可。
 
-- **例**：
+- **例**
 
   ```kotlin
   object HttpUtil {
@@ -2473,11 +2473,11 @@ class MainActivity : AppCompatActivity() {
 
   而**如果直接在 sendHttpRequest()  中开启一个线程来发起 HTTP 请求，服务器响应的数据是无法进行返回的**。这是由于所有的耗时逻辑都在子线程里进行，sendHttpRequest() 方法会在服务器还没来得及响应的时候就执行结束了，当然也就无法返回响应的数据了。
 
-- **解决**：
+- **解决**
 
   - 使用编程语言的回调机制可以解决上述问题。
 
-**使用 HttpURLConnection 实现**：
+**使用 HttpURLConnection 实现**
 
 1. 首先需要定义一个接口，比如将它命名成HttpCallbackListener，代码如下所示：
 
@@ -2542,7 +2542,7 @@ class MainActivity : AppCompatActivity() {
    })
    ```
 
-**使用 OKHttp 实现**：
+**使用 OKHttp 实现**
 
 1. 在 httpUtil 中加入一个 sendOkHttpRequest() 方法
 
@@ -2576,7 +2576,7 @@ class MainActivity : AppCompatActivity() {
    })
    ```
 
-**注意**：
+**注意**
 
 - 用 HttpURLConnection 还是 OkHttp，最终的回调接口都还是在子线程中运行的，因此我们不可以在这里执行任何的 UI 操作，除非借助 runOnUiThread() 方法来进行线程转换。
 
@@ -2588,19 +2588,19 @@ class MainActivity : AppCompatActivity() {
 
 ### 10.6.1	Retrofit 的基本用法
 
-**Retrofit 的设计基于以下几个事实**：
+**Retrofit 的设计基于以下几个事实**
 
 1. 同一款应用程序中所发起的网络请求绝大多数指向的是同一个服务器域名。因为任何公司的产品，客户端和服务器都是配套的，很难想象一个客户端一会去这个服务器获取数据，一会又要去另外一个服务器获取数据吧？
 2. 另外，服务器提供的接口通常是可以根据功能来归类的。比如新增用户、修改用户数据、查询用户数据这几个接口就可以归为一类，上架新书、销售图书、查询可供销售图书这几个接口也可以归为一类。将服务器接口合理归类能够让代码结构变得更加合理，从而提高可阅读性和可维护性。
 3. 最后，开发者肯定更加习惯于“调用一个接口，获取它的返回值”这样的编码方式，但当调用的是服务器接口时，却很难想象该如何使用这样的编码方式。其实大多数人并不关心网络的具体通信细节，但是传统网络库的用法却需要编写太多网络相关的代码。
 
-**Retrofit 的用法**：
+**Retrofit 的用法**
 
 1. 首先我们可以**配置好一个根路径，然后在指定服务器接口地址时只需要使用相对路径即可**，这样就不用每次都指定完整的 URL 地址了。
 2. 另外，Retrofit 允许我们对服务器接口进行归类，**将功能同属一类的服务器接口定义到同一个接口文件当中**，从而让代码结构变得更加合理。
 3. 最后，我们也完全不用关心网络通信的细节，**只需要在接口文件中声明一系列方法和返回值，然后通过注解的方式指定该方法对应哪个服务器接口，以及需要提供哪些参数**。当我们在程序中调用该方法时，Retrofit 会自动向对应的服务器接口发起请求，并将响应的数据解析成返回值声明的类型。这就使得我们可以用更加面向对象的思维来进行网络操作。
 
-**添加 Retrofit 依赖**：
+**添加 Retrofit 依赖**
 
 ```groovy
 //编辑app/build.gradle文件，在dependencies闭包中添加如下内容
@@ -2614,12 +2614,12 @@ dependencies{
 }
 ```
 
-**注意**：
+**注意**
 
 - 通常 Retrofit 的接口文件建议以具体的功能种类名开头，并以 Service 结尾，这是一种比较好的命名习惯。
 - Retrofit 还提供了强大的 CallAdapters 功能来允许我们自定义方法返回值的类型，比如 Retrofit 结合 RxJava 使用就可以将返回值声明成 Observable、Flowable 等类型。
 
-**例**：
+**例**
 
 ```kotlin
 //请求返回数据对象
@@ -2688,11 +2688,11 @@ getAppDataBtn.setOnClickListener{
 
 ### 10.6.2	处理复杂的接口类型（未完成）
 
-**说明**：
+**说明**
 
 - 在真实的开发环境当中，服务器所提供的接口地址不可能一直简单不变。如果你在使用浏览器上网时观察一下浏览器上的网址，你会发现这些网址可能会是千变万化的。在很多场景下，接口地址中的部分内容可能是会动态变化的。
 
-**例一**：
+**例一**
 
 ```http
 //在这个接口当中，<page>部分代表页数，我们传入不同的页数，服务器返回的数据也会不同。
@@ -2707,7 +2707,7 @@ interface ExampleService {
 }
 ```
 
-**例二**：
+**例二**
 
 ```http
 //很多服务器接口还会要求我们传入一系列的参数，格式如下：
@@ -2735,16 +2735,16 @@ interface ExampleService {
 
 ## 11.0	概述
 
-**什么是 Material Design**：
+**什么是 Material Design**
 
 - Material Design 是由 Google 的设计工程师们基于传统优秀的设计原则，结合丰富的创意和科学技术所开发的一套全新的**界面设计语言**，包含了视觉、运动、互动效果等特性。
 - Google 从 Android 5.0 系统开始，就将所有内置的应用都使用 Material Design 风格进行设计。
 
-**Material Design 过去的问题**：
+**Material Design 过去的问题**
 
 - 在推出后，Material Design 的普及程度却不是特别理想。因为这只是一个推荐的设计规范，主要是面向 UI 设计人员的，而不是面向开发者的。很多开发者可能根本就搞不清楚什么样的界面和效果才叫 Material Design，就算搞清楚了，实现起来也会很费劲，因为不少 Material Design 的效果是很难实现的，而Android中几乎没有提供相应的API支持，基本需要靠开发者自己从零写起。
 
-**Design Support 库与 Material 库**：
+**Design Support 库与 Material 库**
 
 - 基于上述问题，在2015年的 Google I/O 大会上推出了一个 Design Support 库，这个库将 Material Design 中最具代表性的一些控件和效果进行了封装，使得开发者即使在不了解 Material Design 的情况下，也能非常轻松地将自己的应用 Material 化。后来 Design Support 库又改名成了 Material 库，用于给 Google 全平台类的产品提供 Material Design 的支持。
 
@@ -2754,16 +2754,16 @@ interface ExampleService {
 
 ## 11.1	Toolbar
 
-**ActionBar**：
+**ActionBar**
 
-- **什么是 ActionBar**：每个 Activity 最顶部默认的标题栏其实就是 ActionBar。
-- **ActionBar 的问题**：ActionBar 由于其设计的原因，**被限定只能位于 Activity 的顶部**，从而不能实现一些 Material Design 的效果，因此官方已经不再建议使用 ActionBar。
+- **什么是 ActionBar**每个 Activity 最顶部默认的标题栏其实就是 ActionBar。
+- **ActionBar 的问题**ActionBar 由于其设计的原因，**被限定只能位于 Activity 的顶部**，从而不能实现一些 Material Design 的效果，因此官方已经不再建议使用 ActionBar。
 
-**Toolbar**：
+**Toolbar**
 
 - Toolbar 的强大之处在于，它不仅 **继承了 ActionBar 的所有功能，而且灵活性很高**，可以配合其他控件完成一些Material Design的效果。
 
-**清除默认的 ActionBar**：
+**清除默认的 ActionBar**
 
 1. 打开 AndroidManifest.xml 文件
 
@@ -2814,7 +2814,7 @@ interface ExampleService {
    </resources>
    ```
 
-**AppTheme 中的属性颜色重写**：
+**AppTheme 中的属性颜色重写**
 
 - AppTheme 中重写了 `colorPrimary`、`colorPrimaryDark `和 `colorAccent` 这3个属性的颜色，在三个属性分别代表下列位置的颜色：
 
@@ -2822,7 +2822,7 @@ interface ExampleService {
 
 - 除了上述3个属性之外，我们还可以通过 `textColorPrimary`、`windowBackground` 和 `navigationBarColor` 等属性控制更多位置的颜色。不过唯独 `colorAccent` 这个属性比较难理解，它不只是用来指定这样一个按钮的颜色，而是更多表达了一种强调的意思，比如一些控件的选中状态也会使用 `colorAccent` 的颜色。
 
-**使用 Toolbar 来替代 ActionBar**：
+**使用 Toolbar 来替代 ActionBar**
 
 1. 修改 activity_main.xml 中的代码，如下所示：
 
@@ -2844,7 +2844,7 @@ interface ExampleService {
    ```
 
    - 上述代码第二行使用 xmlns:app 指定了一个新的命名空间。（由于每个布局文件都会使用 xmlns:android 来指定一个命名空间，我们才能一直使用 android:id、android: layout_width 等写法。）这里指定了 xmlns:app，也就是说现在可以使用 app:attribute 这样的写法了。之所以要指定该命名空间，是由于许多 Material 属性是在新系统中新增的，老系统中并不存在，那么为了能够兼容老系统，我们就不能使 用 android:attribute 这样的写法了，而是应该使用 app:attribute。
-   - **为什么需要设置 Toolbar 的 theme 属性：**由于我们刚才在 styles.xml 中将程序的主题指定成了浅色主题，因此 Toolbar 现在也是浅色主题，那么 Toolbar 上面的各种元素就会自动使用深色系，从而和主体颜色区别开。但是之前使用 ActionBar 时文字都是白色的，现在变成黑色的会很难看。那么为了能让 Toolbar 单独使用深色主题，这里我们使用了android:theme属性，将 Toolbar 的主题指定成了ThemeOverlay.AppCompat.Dark.ActionBar。但是这样指定之后又会出现新的问题，如果 Toolbar 中有菜单按钮，那么弹出的菜单项也会变成深色主题，这样就再次变得十分难看了，于是这里又使用了 app:popupTheme 属性，单独将弹出的菜单项指定成了浅色主题。
+   - **为什么需要设置 Toolbar 的 theme 属性**由于我们刚才在 styles.xml 中将程序的主题指定成了浅色主题，因此 Toolbar 现在也是浅色主题，那么 Toolbar 上面的各种元素就会自动使用深色系，从而和主体颜色区别开。但是之前使用 ActionBar 时文字都是白色的，现在变成黑色的会很难看。那么为了能让 Toolbar 单独使用深色主题，这里我们使用了android:theme属性，将 Toolbar 的主题指定成了ThemeOverlay.AppCompat.Dark.ActionBar。但是这样指定之后又会出现新的问题，如果 Toolbar 中有菜单按钮，那么弹出的菜单项也会变成深色主题，这样就再次变得十分难看了，于是这里又使用了 app:popupTheme 属性，单独将弹出的菜单项指定成了浅色主题。
 
 2. 修改 MainActivity
 
@@ -2861,7 +2861,7 @@ interface ExampleService {
    }
    ```
 
-**修改标题栏上显示的文字内容**：
+**修改标题栏上显示的文字内容**
 
 ```xml
 //文字内容是在 AndroidManifest.xml 中指定的
@@ -2882,7 +2882,7 @@ interface ExampleService {
 
 - android:label 属性由于指定在 Toolbar 中显示的文字内容，如果没有指定的话，会默认使用 application 中指定的 label 内容，也就是我们的应用名称
 
-**为 Toolbar 添加 action 按钮**：
+**为 Toolbar 添加 action 按钮**
 
 1. 添加图片等资源文件
 
@@ -2951,7 +2951,7 @@ interface ExampleService {
 
 ### 11.2.0	概述
 
-**什么是滑动菜单**：
+**什么是滑动菜单**
 
 - 所谓的滑动菜单，就是将一些菜单选项隐藏起来，而不是放置在主屏幕上，然后可以通过滑动的方式将菜单显示出来。
 - 这种方式既节省了屏幕空间，又实现了非常好的动画效果，是 Material Design 中推荐的做法。
@@ -2962,18 +2962,18 @@ interface ExampleService {
 
 ### 11.2.1	DrawerLayout
 
-**说明**：
+**说明**
 
 - Google 在 AndroidX 库中提供了 DrawerLayout 控件，借助这个控件，可以简单又方便的实现滑动菜单。
 
-**DrawerLayout 的用法**：
+**DrawerLayout 的用法**
 
 - DrawerLayout 是一个布局，在布局中允许放入两个直接子控件：
 
   1. 第一个子控件是主屏幕中显示的内容
   2. 第二个子控件是滑动菜单中显示的内容。
 
-- **例：**
+- **例**
 
   ```xml
   <androidx.drawerlayout.widget.DrawerLayout
@@ -3008,11 +3008,11 @@ interface ExampleService {
   </androidx.drawerlayout.widget.DrawerLayout>
   ```
 
-- **注意**：DrawerLayout 的第二个子控件的 `layout_gravity` 属性必须指定，因为我们需要告诉 DrawerLayout 滑动菜单是在屏幕的左边还是右边，指定left表示滑动菜单在左边，指定right表示滑动菜单在右边。如果指定为 start，表示会根据系统语言进行判断，如果系统语言是从左往右的，比如英语、汉语，滑动菜单就在左边，如果系统语言是从右往左的，比如阿拉伯语，滑动菜单就在右边。
+- **注意**DrawerLayout 的第二个子控件的 `layout_gravity` 属性必须指定，因为我们需要告诉 DrawerLayout 滑动菜单是在屏幕的左边还是右边，指定left表示滑动菜单在左边，指定right表示滑动菜单在右边。如果指定为 start，表示会根据系统语言进行判断，如果系统语言是从左往右的，比如英语、汉语，滑动菜单就在左边，如果系统语言是从右往左的，比如阿拉伯语，滑动菜单就在右边。
 
-**使用导航按钮提示滑动菜单的存在**：
+**使用导航按钮提示滑动菜单的存在**
 
-- **为什么需要导航按钮：**
+- **为什么需要导航按钮**
 
   - 因为只有在屏幕的左侧边缘进行拖动时才能将菜单拖出来，而 **很多用户可能根本就不知道有这个功能**，所以需要提示。
   - 因此，Material Design 建议的做法是在 Toolbar 的最左边加入一个导航按钮，点击按钮也会将滑动菜单的内容展示出来。这样就相当于给用户提供了两种打开滑动菜单的方式，防止一些用户不知道屏幕的左侧边缘是可以拖动的。
@@ -3056,12 +3056,12 @@ interface ExampleService {
 
 ### 11.2.2	NavigationView
 
-**说明**：
+**说明**
 
 - 你可以在滑动菜单页面定制任意的布局，不过 Google 给我们提供了一种更好的方法——使用NavigationView。
 - NavigationView 是 Material 库中提供的一个控件，它不仅是严格按照 Material Design 的要求来设计的，而且可以将滑动菜单页面的实现变得非常简单。
 
-**需要引入的依赖：**
+**需要引入的依赖**
 
 ```groovy
 //打开app/build.gradle文件，在dependencies闭包中添加如下内容：
@@ -3075,11 +3075,11 @@ dependencies {
 }
 ```
 
-**注意**：
+**注意**
 
 - 当你引入了 Material 库之后，还需要将 res/values/styles.xml 文件中 AppTheme 的 parent 主题改成 `Theme.MaterialComponents.Light.NoActionBar`，否则在使用接下来的一些控件时可能会遇到崩溃问题。
 
-**NavigationView 使用步骤**：
+**NavigationView 使用步骤**
 
 1. 准备 menu 和 headerLayout。menu 是用来在 NavigationView 中显示具体的菜单项的，headerLayout 则是用来在 NavigationView 中显示头部布局的。
 
@@ -3222,7 +3222,7 @@ dependencies {
 
 ### 11.3.0	概述
 
-**立面设计**：
+**立面设计**
 
 - 立面设计是 Material Design中 一条非常重要的设计思想，也就是说，按照 Material Design 的理念，**应用程序的界面不仅仅是一个平面，而应该是有立体效果的**。
 - 在官方给出的示例中，最简单且最具代表性的立面设计就是悬浮按钮了，这种按钮不属于主界面平面的一部分，而是位于另外一个维度的，因此就会给人一种悬浮的感觉。
@@ -3233,15 +3233,15 @@ dependencies {
 
 ### 11.3.1	FloatingActionButton
 
-**说明**：
+**说明**
 
 - FloatingActionButton 是 Material库 中提供的一个控件，这个控件可以帮助我们比较轻松地实现悬浮按钮的效果。
 
-**注意**：
+**注意**
 
 - FloatingActionButton 默认会使用 colorAccent 作为按钮的颜色，我们还可以通过给按钮指定一个图标来表明这个按钮的作用是什么。
 
-**设置 FloatingActionButton**：
+**设置 FloatingActionButton**
 
 ```xml
 <androidx.drawerlayout.widget.DrawerLayout
@@ -3278,7 +3278,7 @@ dependencies {
 </androidx.drawerlayout.widget.DrawerLayout>
 ```
 
-**FloatingActionButton 的悬浮高度**：
+**FloatingActionButton 的悬浮高度**
 
 - 为了体现 FloatingActionButton 的悬浮效果，悬浮按钮的下面会有一点阴影。
 
@@ -3295,7 +3295,7 @@ dependencies {
       app:elevation="8dp" /><!-- app:elevation属性给FloatingActionButton指定一个高度值。高度值越大，投影范围也越大，但是投影效果越淡；高度值越小，投影范围也越小，但是投影效果越浓。 -->
   ```
 
-**FloatingActionButton 处理点击事件**：
+**FloatingActionButton 处理点击事件**
 
 ```kotlin
 class MainActivity : AppCompatActivity() {
@@ -3318,13 +3318,13 @@ class MainActivity : AppCompatActivity() {
 
 ### 11.3.2	Snackbar
 
- **说明**：
+ **说明**
 
 - Snackbar 是 Material 库提供的更加先进的提示工具，Snackbar 的用法和 Toast 基本相似，只不过可以额外增加一个按钮的点击事件。
 - 但是请注意，Snackbar 并不是 Toast 的替代品，它们有着不同的应用场景。
 - Toast 的作用是告诉用户现在发生了什么事情，但用户只能被动接收这个事情，因为没有什么办法能让用户进行选择。而 Snackbar 则在这方面进行了扩展，它允许在提示中加入一个可交互按钮，当用户点击按钮的时候，可以执行一些额外的逻辑操作。
 
-**使用 Snackbar**：
+**使用 Snackbar**
 
 ```kotlin
 class MainActivity : AppCompatActivity() {
@@ -3359,7 +3359,7 @@ class MainActivity : AppCompatActivity() {
 
 ### 11.3.3	简化 Snackbar 的用法
 
-**Snackbar 的常规用法**：
+**Snackbar 的常规用法**
 
 ```
 Snackbar.make(view, "This is Snackbar", Snackbar.LENGTH_SHORT)
@@ -3369,12 +3369,12 @@ Snackbar.make(view, "This is Snackbar", Snackbar.LENGTH_SHORT)
         .show()
 ```
 
-**简化思想**：
+**简化思想**
 
 1. 由于`make()`方法接收一个`View`参数，Snackbar 会使用这个 `View` 自动查找最外层的布局，用于展示 Snackbar。因此，我们就可以给 `View` 类添加一个扩展函数，并在里面封装显 示Snackbar 的具体逻辑
 2. 为了实现  setAction() 方法，可以让简化方法接收一个函数类型参数，以此来实现 Snackbar的 完整功能支持。
 
-**实现**：
+**实现**
 
 ```kotlin
 fun View.showSnackbar(text: String, actionText: String? = null,
@@ -3400,7 +3400,7 @@ fun View.showSnackbar(resId: Int, actionResId: Int? = null,
 }
 ```
 
-**注意**：
+**注意**
 
 - 对于 Snackbar 这种类型的 API，简化的方式并不固定，可以探索自己的简化方式
 
@@ -3410,17 +3410,17 @@ fun View.showSnackbar(resId: Int, actionResId: Int? = null,
 
 ### 11.3.4	CoordinatorLayout
 
-**问题**：
+**问题**
 
 - Snackbar 弹出的提示框可能会将悬浮按钮给遮挡住，带来不好的用户体验。
 - 为了解决这个问题，可以使用 CoordinatorLayout。
 
-**什么是 CoordinatorLayout**：
+**什么是 CoordinatorLayout**
 
 - CoordinatorLayout 可以说是一个加强版的FrameLayout，由 AndroidX 库提供。它在普通情况下的作用和 FrameLayout 基本一致，但是它拥有一些额外的 Material 能力。
 - 事实上，**CoordinatorLayout 可以监听其所有子控件的各种事件，并自动帮助我们做出最为合理的响应**。比如，刚才弹出的Snackbar 提示将悬浮按钮遮挡住了，而如果我们能让 CoordinatorLayout 监听到 Snackbar 的弹出事件，那么它会自动将内部的FloatingActionButton向上偏移，从而确保不会被 Snackbar 遮挡。
 
-**使用 CoordinatorLayout**：
+**使用 CoordinatorLayout**
 
 ```xml
 <androidx.drawerlayout.widget.DrawerLayout
@@ -3456,11 +3456,11 @@ fun View.showSnackbar(resId: Int, actionResId: Int? = null,
 </androidx.drawerlayout.widget.DrawerLayout>
 ```
 
-**CoordinatorLayout 监听 FloatingActionButton 控件的原理**：
+**CoordinatorLayout 监听 FloatingActionButton 控件的原理**
 
-- **问题**：
+- **问题**
   - Snackbar 并不是 CoordinatorLayout的子控件，为什么它却可以被监听到呢？
-- **原因**：
+- **原因**
   - 在 Snackbar 的 `make()` 方法中传入的第一个参数用来指定 Snackbar 是基于哪个 View 触发的，刚才我们传入的是 FloatingActionButton 本身，而 FloatingActionButton 是 CoordinatorLayout 中的子控件，因此这个事件就理所应当能被监听到了。
 
 ---
@@ -3471,7 +3471,7 @@ fun View.showSnackbar(resId: Int, actionResId: Int? = null,
 
 ### 11.4.0	概述
 
-**什么是卡片式布局**：
+**什么是卡片式布局**
 
 - 卡片式布局也是Materials Design中提出的一个新概念，它可以让页面中的元素看起来就像在卡片中一样，并且还能拥有圆角和投影
 
@@ -3481,12 +3481,12 @@ fun View.showSnackbar(resId: Int, actionResId: Int? = null,
 
 ### 11.4.1	MaterialCardView
 
-**什么是 MaterialCardView**：
+**什么是 MaterialCardView**
 
 - MaterialCardView 是用于实现卡片式布局效果的重要控件，由 Material 库提供。
 - 实际上，MaterialCardView 也是一个 FrameLayout，只是额外提供了圆角和阴影等效果，看上去会有立体的感觉。
 
-**MaterialCardView 的基本用法**：
+**MaterialCardView 的基本用法**
 
 ```xml
 <!--
@@ -3507,7 +3507,7 @@ fun View.showSnackbar(resId: Int, actionResId: Int? = null,
 </com.google.android.material.card.MaterialCardView>
 ```
 
-**Glide 库**：
+**Glide 库**
 
 - Glide是一个超级强大的开源图片加载库，它不仅可以用于加载本地图片，还可以加载网络图片、GIF图片甚至是本地视频。
 
@@ -3522,12 +3522,12 @@ fun View.showSnackbar(resId: Int, actionResId: Int? = null,
   }
   ```
 
-- **为什么有时使用 Glide 而不是传统方式设置图片**：
+- **为什么有时使用 Glide 而不是传统方式设置图片**
 
   - 如果图片像素非常高，不进行压缩就直接展示的话，很容易**引起内存溢出**。
   - 而使用 Glide 就完全不需要担心这回事，Glide 在内部做了许多非常复杂的逻辑操作，其中就包括了图片压缩，我们只需要安心按照 Glide 的标准用法去加载图片就可以了。
 
-**注意**：
+**注意**
 
 - 由于 MaterialCardView 是一个 FrameLayout，因此它没有什么方便的定位方式，但是可以在 MaterialCardView 中再嵌套一个LinearLayout，然后在 LinearLayout 中放置具体的内容。
 
@@ -3681,7 +3681,7 @@ class MainActivity : AppCompatActivity() {
 
 - 本例需要使用 Glide 库添加图片资源文件，所以需要引入 Glide 库
 
-- **本例效果图**：
+- **本例效果图**
 
   ![图书封面](img/00323.jpeg)
 
@@ -3699,11 +3699,11 @@ class MainActivity : AppCompatActivity() {
 >
 > 但是因为使用的布局是 CoordinatorLayout，所以可以有更加巧妙地解决办法——AppBarLayout。
 
-**什么是 AppBarLayout**：
+**什么是 AppBarLayout**
 
 - AppBarLayout 是 Material 库中提供的工具之一。AppBarLayout 实际上是一个垂直方向的 LinearLayout，它在内部做了很多滚动事件的封装，并应用了一些 Material Design 的设计理念。
 
-**使用 AppBarLayout 解决 Toolbar 遮挡问题**：
+**使用 AppBarLayout 解决 Toolbar 遮挡问题**
 
 ```xml
 <!-- 第一步将Toolbar嵌套到AppBarLayout中，第二步给RecyclerView指定一个布局行为。 -->
@@ -3744,7 +3744,7 @@ class MainActivity : AppCompatActivity() {
 </androidx.drawerlayout.widget.DrawerLayout>
 ```
 
-**指定当 AppBarLayout 接收到滚动事件时，它内部的子控件如何去响应这些事件**：
+**指定当 AppBarLayout 接收到滚动事件时，它内部的子控件如何去响应这些事件**
 
 ```xml
 <!-- 通过 AppBarLayout 自控件的 app:layout_scrollFlags 属性实现响应事件 -->
@@ -3779,7 +3779,7 @@ class MainActivity : AppCompatActivity() {
 </androidx.drawerlayout.widget.DrawerLayout>
 ```
 
-**向上滚动 RecyclerView 隐藏 Toolbar 对应的 Material Design 思想**：
+**向上滚动 RecyclerView 隐藏 Toolbar 对应的 Material Design 思想**
 
 - 当用户在向上滚动 RecyclerView 的时候，**其注意力肯定是在 RecyclerView 的内容上的**，这个时候如果Toolbar还占据着屏幕空间，就会在一定程度上影响用户的阅读体验，而将 Toolbar 隐藏则可以让阅读体验达到最佳状态。
 - 当用户需要操作 Toolbar 上的功能时，只需要轻微向下滚动，Toolbar 就会重新出现。这种设计方式既保证了用户的最佳阅读效果，又不影响任何功能上的操作。
@@ -3790,16 +3790,16 @@ class MainActivity : AppCompatActivity() {
 
 ## 11.5	下拉刷新
 
-**下拉刷新的官方规范**：
+**下拉刷新的官方规范**
 
 - 由于市面上现有的下拉刷新功能在风格上各不相同，并且和 Material Design 有些格格不入。因此，Google 为了让 Android 的下拉刷新风格能有一个统一的标准，在 Material Design 中制定了一个官方的设计规范。
 - 我们并不需要深入了解这个规范到底是什么样的，因为 Google 早就提供好了现成的控件，我们在项目中直接使用就可以了。
 
-**SwipeRefreshLayout**：
+**SwipeRefreshLayout**
 
 - SwipeRefreshLayout 就是用于实现下拉刷新功能的核心类，我们把想要实现下拉刷新功能的控件放置到 SwipeRefreshLayout 中，就可以迅速让这个控件支持下拉刷新。
 
-**需要添加依赖**：
+**需要添加依赖**
 
 ```groovy
 //在app/build.gradle文件中添加如下依赖：
@@ -3809,7 +3809,7 @@ dependencies {
 }
 ```
 
-**SwipeRefreshLayout 的用法示例**：
+**SwipeRefreshLayout 的用法示例**
 
 1. 修改activity_main.xml中的代码
 
@@ -3893,15 +3893,15 @@ dependencies {
 
 ### 11.6.1	CollapsingToolbarLayout
 
-**什么是 CollapsingToolbarLayout**：
+**什么是 CollapsingToolbarLayout**
 
 - CollapsingToolbarLayout 是一个作用于 Toolbar 基础之上的布局，它也是由 Material 库提供的。CollapsingToolbarLayout 可以让 Toolbar 的效果变得更加丰富，不仅仅是展示一个标题栏，而且能够实现非常华丽的效果。
 
-**注意**：
+**注意**
 
 - CollapsingToolbarLayout 是不能独立存在的，它在设计的时候就被限定只能作为 AppBarLayout 的直接子布局来使用。而AppBarLayout 又必须是 CoordinatorLayout 的子布局。
 
-**步骤**：
+**步骤**
 
 1. 新建一个空 activity，在这个空 Activity 的布局文件中添加以下代码
 
@@ -4082,7 +4082,7 @@ dependencies {
 
 ## 12.0	概述
 
-**Android 项目架构规范的发展**：
+**Android 项目架构规范的发展**
 
 1. 长久以来，Android官方并没有制定一个项目架构的规范，只要能够实现功能，代码怎么编写都是你的自由。但是不同的人技术水平不同，最终编写出来的代码质量是千差万别的。
 2. 由于Android官方没有制定规范，为了追求更高的代码质量，慢慢就有第三方的社区和开发者将一些更加高级的项目架构引入到了Android平台上，如MVP、MVVM等。使用这些架构开发出来的应用程序，在代码质量、可读性、易维护性等方面都有着更加出色的表现，于是这些架构渐渐成为了主流。
@@ -4090,7 +4090,7 @@ dependencies {
 4. 2018年，Google 又推出了一个全新的开发组件工具集 Jetpack，并将 Architecture Components 作为 Jetpack 的一部分纳入其中。
 5. 当然，Jetpack 并没有就此定版，2019年又有许多新的组件被加入 Jetpack 当中，未来的 Jetpack 还会不断地继续扩充。
 
-**什么是 Jetpack**：
+**什么是 Jetpack**
 
 - Jetpack 是一个开发组件工具集，它的主要目的是帮助我们编写出更加简洁的代码，并简化我们的开发过程。
 
@@ -4100,10 +4100,10 @@ dependencies {
 
   ![{%}](img/00335.jpeg)
 
-**Jetpack 架构组件**：
+**Jetpack 架构组件**
 
 - Jetpack 中组件数量繁多，不可能全部学习。事实上，在这么多的组件当中，最需要我们关注的其实还是架构组件。
-- **MVVM 与 Jetpack 架构组件**：
+- **MVVM 与 Jetpack 架构组件**
   - 目前 Android 官方最为推荐的项目架构就是 MVVM，因而 **Jetpack中 的许多架构组件是专门为 MVVM 架构量身打造的**。
 
 ---
@@ -4114,18 +4114,18 @@ dependencies {
 
 ### 12.1.0	ViewModel 概述
 
-**传统开发模式下，Activity 的问题**：
+**传统开发模式下，Activity 的问题**
 
 - 在传统的开发模式下，Activity 的任务十分繁重，既要负责逻辑处理，又要控制UI展示，甚至还得处理网络回调。
 - 在小型项目中尚且可以如此处理，但是如果在大型项目中仍然使用这种写法的话，那么这个项目将会变得非常臃肿并且难以维护，
 
-**ViewModel 的作用**：
+**ViewModel 的作用**
 
 1. ViewModel 可以帮助 Activity 分担一部分工作，它是专门用于存放与界面相关的数据的。也就是说，只要是界面上能看得到的数据，它的相关变量都应该存放在 ViewModel 中，而不是 Activity 中，这样可以在一定程度上减少 Activity中 的逻辑。
 
 2. 此外，ViewModel还有一个非常重要的特性。当手机发生横竖屏旋转的时候，Activity 会被重新创建，同时存放在 Activity中 的数据也会丢失。而 ViewModel 的生命周期和 Activity 不同，它可以保证在手机屏幕发生旋转的时候不会被重新创建，只有当 Activity 退出的时候才会跟着 Activity 一起销毁。因此，**将与界面相关的变量存放在 ViewModel 当中，这样即使旋转手机屏幕，界面上显示的数据也不会丢失。**
 
-   **ViewModel 的生命周期**：
+   **ViewModel 的生命周期**
 
 <img src="img/00336.gif" alt="img" style="zoom:50%;" />
 
@@ -4135,7 +4135,7 @@ dependencies {
 
 ### 12.1.1	ViewModel 的基本用法
 
-**添加依赖**：
+**添加依赖**
 
 ```groovy
 //在app/build.gradle文件中添加如下依赖：
@@ -4154,7 +4154,7 @@ ViewModelProvider(<你的Activity或Fragment实例>).get(<你的ViewModel>::clas
 - 绝对不可以直接去创建 ViewModel 的实例，而是一定要通过 ViewModelProvider 来。
 - 之所以这么写，是**因为 ViewModel 有其独立的生命周期，并且其生命周期要长于 Activity**。如果我们在 onCreate() 方法中创建 ViewModel 的实例，那么每次 onCreate() 方法执行的时候，ViewModel 都会创建一个新的实例。
 
-**例：ViewModel 实现计数器**：
+**例：ViewModel 实现计数器**
 
 1. 给每一个 Activity 和 Fragment 都创建一个对应的 ViewModel，例如：
 
@@ -4240,7 +4240,7 @@ ViewModelProvider(<你的Activity或Fragment实例>).get(<你的ViewModel>::clas
 >
 > 如果我们确实需要通过构造函数来传递一些参数，应该怎么办呢？
 
-**ViewModelProvider.Factory**：
+**ViewModelProvider.Factory**
 
 - 通过 ViewModelProvider.Factory 可以实现向 ViewModel 的构造函数中传递参数。
 
@@ -4347,19 +4347,19 @@ ViewModelProvider(<你的Activity或Fragment实例>).get(<你的ViewModel>::clas
 >
 > 因此，**我们需要能够时刻感知到Activity的生命周期，以便在适当的时候进行相应的逻辑控制**。
 
-**在非 Activity 的类中感知 Activity 的生命周期**：
+**在非 Activity 的类中感知 Activity 的生命周期**
 
 - 由于 Activity 类提供了完整的生命周期方法，所以 **在一个 Activity中 去感知它的生命周期非常简单**。
 
   但是如果要在一个非 Activity 的类中去感知 Activity 的生命周期就很麻烦了。
 
-- **解决方案**：
+- **解决方案**
 
   - 通过在Activity中嵌入一个隐藏的 Fragment 来进行感知。
   - 通过手写监听器的方式来进行感知。
   - 其他感知方法。
 
-**示例：通过手写监听器的方式来对 Activity 的生命周期进行感知**：
+**示例：通过手写监听器的方式来对 Activity 的生命周期进行感知**
 
 ```kotlin
 class MyObserver {
@@ -4393,15 +4393,15 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
-**上述方法存在的问题**：
+**上述方法存在的问题**
 
 - 不够优雅，需要在 Activity 中编写太多额外的逻辑。
 
-**Lifecycles 组件**：
+**Lifecycles 组件**
 
 - Lifecycles 组件可以让任何一个类都能轻松感知到 Activity 的生命周期，同时又不需要在 Activity 中编写大量的逻辑处理。
 
-**示例：Lifecycles 组件的使用**：
+**示例：Lifecycles 组件的使用**
 
 1. 新建一个 `MyObserver` 类，并让它实现 `LifecycleObserver` 接口
 
@@ -4483,7 +4483,7 @@ class MainActivity : AppCompatActivity() {
 
 ### 12.3.0	概述
 
-**什么是 LiveData**：
+**什么是 LiveData**
 
 - LiveData 是 Jetpack 提供的一种 **响应式编程组件**，它可以包含任何类型的数据，并 **在数据发生变化的时候通知给观察者**。
 - LiveData 特别适合与 ViewModel 结合在一起使用，虽然它也可以单独用在别的地方，但是在绝大多数情况下，它是使用在 ViewModel 当中的。
@@ -4498,11 +4498,11 @@ class MainActivity : AppCompatActivity() {
 >
 > 问题在于，我们一直使用的都是 **在 Activity 中手动获取 ViewModel 中的数据**这种交互方式，但是 **ViewModel 却无法将数据的变化主动通知给 Activity**。
 
-**通过 LiveData 将数据变化通知给 Activity**：
+**通过 LiveData 将数据变化通知给 Activity**
 
 - LiveData 可以包含任何类型的数据，并在数据发生变化的时候通知给观察者。也就是说，**如果我们将计数器的计数使用 LiveData 来包装，然后在Activity中去观察它，就可以主动将数据变化通知给Activity了**。
 
-**MutableLiveData**：
+**MutableLiveData**
 
 - `MutableLiveData`是一种可变的 LiveData。
 - MutableLiveData 主要有3种读写数据的方法
@@ -4510,14 +4510,14 @@ class MainActivity : AppCompatActivity() {
   - `setValue()`方法用于给LiveData设置数据，但是只能在主线程中调用；
   - `postValue()`方法用于在非主线程中给LiveData设置数据。
 
-**观察 LiveData 数据的变化**：
+**观察 LiveData 数据的变化**
 
 - 任何 `LiveData` 对象都可以调用它的 `observe() `方法来观察数据的变化。
 - `observe()`方法接收两个参数：
   1. 第一个参数是一个 `LifecycleOwner` 对象，Activity 本身就是一个 `LifecycleOwner` 对象，因此在 Activity 中使用 observer() 方法时，可以直接传入 this；
   2. 第二个参数是一个 `Observer` 接口，当 `counter` 中包含的数据发生变化时，就会回调到这里，因此可以在这里进行 UI 数据的更新。
 
-**注意**：
+**注意**
 
 - 如果需要在子线程中给 LiveData 设置数据，一定要调用 `postValue()` 方法，而不能再使用 `setValue()` 方法，否则会发生崩溃。
 
@@ -4609,7 +4609,7 @@ class MainActivity : AppCompatActivity() {
    - 然后我们再重新定义了一个 counter 变量，将它的类型声明为不可变的 LiveData，并在它的 get() 属性方法中返回 _counter 变量。
    - 这样，当外部调用counter变量时，实际上获得的就是 `_counter` 的实例，但是无法给 counter 设置数据，从而保证了 ViewModel 的数据封装性。
 
-**注意**：
+**注意**
 
 - 把 Activity 的实例传给 ViewModel，可以使 ViewModel 能主动对 Activity 进行通知。但是，**千万不要采用这种做法**。因为， ViewModel 的生命周期是长于 Activity 的，如果把 Activity 的实例传给 ViewModel，就很有可能会因为 Activity 无法释放而 **造成内存泄漏**。
 
@@ -4623,12 +4623,12 @@ class MainActivity : AppCompatActivity() {
 >
 > 但是，**`observe()` 方法不能使用 Java 函数式 API 的写法进行简化**。
 
-**原因**：
+**原因**
 
 - 这是一种非常特殊的情况，因为 `observe()` 方法接收的另一个参数 `LifecycleOwner` 也是一个单抽象方法接口。**当一个 Java 方法同时接收两个单抽象方法接口参数时，要么同时使用函数式 API 的写法，要么都不使用函数式API的写法。**
 - 但是，**由于我们第一个参数传的是 `this`**，因此第二个参数就无法使用函数式 API 的写法了。
 
-**lifecycle-livedata-ktx**：
+**lifecycle-livedata-ktx**
 
 - 在 2019 年的 Google I/O 大会上，Android 团队官宣了 Kotlin First，并且承诺未来会在 Jetpack 中提供更多专门面向 Kotlin 语言的 API。其中，lifecycle-livedata-ktx 就是一个专门为Kotlin语言设计的库。**这个库在2.2.0版本中加入了对`observe()`方法的语法扩展。**
 
@@ -4657,18 +4657,18 @@ class MainActivity : AppCompatActivity() {
 
 > LiveData 的基本用法虽说可以满足大部分的开发需求，但是当项目变得复杂之后，可能会出现一些更加特殊的需求。
 
-**LiveData 为了能够应对各种不同的需求场景，提供了两种转换方法**：
+**LiveData 为了能够应对各种不同的需求场景，提供了两种转换方法**
 
 - `map()`
 - ``switchMap()`
 
-**`map()`方法**：
+**`map()`方法**
 
-- **作用**：
+- **作用**
 
   - 将实际包含数据的 LiveData 和仅用于观察数据的 LiveData 进行转换。
 
-- **使用场景举例**：
+- **使用场景举例**
 
   - 假设有一个 `User` 类，`User`中包含用户的姓名和年龄：
 
@@ -4709,13 +4709,13 @@ class MainActivity : AppCompatActivity() {
   }
   ```
 
-**`switchMap()`方法**：
+**`switchMap()`方法**
 
-- **问题**：
+- **问题**
 
   - 在之前的所有代码中，**LiveData 对象的实例都是在 ViewModel 中创建的**。然而在实际的项目中，不可能一直是这种理想情况，**很有可能 ViewModel 中的某个 LiveData 对象是通过调用另外的方法获取的**。
 
-- **场景举例**：
+- **场景举例**
 
   - 新建一个`Repository`单例类，代码如下所示：
 
@@ -4753,7 +4753,7 @@ class MainActivity : AppCompatActivity() {
     }
     ```
 
-  - **使用 switchMap 解决上述问题**：
+  - **使用 switchMap 解决上述问题**
 
     ```kotlin
     //修改 MainViewModel 中的代码
@@ -4777,7 +4777,7 @@ class MainActivity : AppCompatActivity() {
     }
     ```
 
-  - **`switchMap()`的整体工作流程**：
+  - **`switchMap()`的整体工作流程**
 
     1. 首先，当外部调用 MainViewModel 的`getUser()`方法来获取用户数据时，并不会发起任何请求或者函数调用，只会将传入的 `userId` 值设置到 `userIdLiveData` 当中。
     2. 一旦 `userIdLiveData` 的数据发生变化，那么观察 `userIdLiveData` 的 `switchMap()` 方法就会执行，并且调用我们编写的转换函数。
@@ -4806,7 +4806,7 @@ class MainActivity : AppCompatActivity() {
     }
     ```
 
-  **LiveData 与 Lifecycles 之间的关系**：
+  **LiveData 与 Lifecycles 之间的关系**
 
   - LiveData 之所以能够成为 Activity 与 ViewModel 之间通信的桥梁，并且还不会有内存泄漏的风险，靠的就是 Lifecycles 组件。**LiveData 在内部使用了 Lifecycles 组件来自我感知生命周期的变化**，从而可以在Activity销毁的时候及时释放引用，避免产生内存泄漏的问题。
   - 此外，由于要减少性能消耗，**当 Activity 处于不可见状态的时候**（比如手机息屏，或者被其他的Activity遮挡），**如果LiveData中的数据发生了变化，是不会通知给观察者的**。只有当Activity重新恢复可见状态时，才会将数据通知给观察者，而 LiveData 之所以能够实现这种细节的优化，依靠的还是 Lifecycles 组件。
@@ -4820,16 +4820,16 @@ class MainActivity : AppCompatActivity() {
 
 ### 12.4.0	概述
 
-**Android 原生 API 操作数据库的问题**：
+**Android 原生 API 操作数据库的问题**
 
 - 原生 API 虽然简单易用，但是如果放到大型项目当中的话，会非常容易让项目的代码变得混乱，除非你进行了很好的封装。
 - 为此市面上出现了诸多专门为 Android 数据库设计的 ORM 框架[^4]。
 
-**ORM 框架的优点**：
+**ORM 框架的优点**
 
 - ORM 框架赋予了我们一个强大的功能，就是**可以用面向对象的思维来和数据库进行交互**，绝大多数情况下不用再和SQL语句打交道了，同时也不用担心操作数据库的逻辑会让项目的整体代码变得混乱。
 
-**什么是 Room**：
+**什么是 Room**
 
 - 由于许多大型项目中会用到数据库的功能，为了帮助我们编写出更好的代码，Android官方推出了一个ORM框架，并将它加入了Jetpack当中，这就是 Room。
 
@@ -4839,14 +4839,14 @@ class MainActivity : AppCompatActivity() {
 
 ### 12.4.1	使用 Room 进行增删改查
 
-**Room的整体结构**：
+**Room的整体结构**
 
-- 它主要由Entity、Dao和Database这3部分组成，每个部分都有明确的职责：
-  - **Entity**：用于定义封装实际数据的实体类，每个实体类都会在数据库中有一张对应的表，并且表中的列是根据实体类中的字段自动生成的。
-  - **Dao**：Dao是数据访问对象的意思，通常会在这里对数据库的各项操作进行封装，在实际编程的时候，逻辑层就不需要和底层数据库打交道了，直接和Dao层进行交互即可。
-  - **Database**：用于定义数据库中的关键信息，包括数据库的版本号、包含哪些实体类以及提供Dao层的访问实例。
+- 它主要由Entity、Dao 和 Database 这3部分组成，每个部分都有明确的职责：
+  - **Entity**用于定义封装实际数据的实体类，每个实体类都会在数据库中有一张对应的表，并且表中的列是根据实体类中的字段自动生成的。
+  - **Dao**Dao 是数据访问对象的意思，通常会在这里对数据库的各项操作进行封装，在实际编程的时候，逻辑层就不需要和底层数据库打交道了，直接和 Dao 层进行交互即可。
+  - **Database**用于定义数据库中的关键信息，包括数据库的版本号、包含哪些实体类以及提供 Dao 层的访问实例。
 
-**添加 Room 依赖**：
+**添加 Room 依赖**
 
 ```groovy
 //在 app/build.gradle 文件中添加如下的依赖
@@ -4864,12 +4864,12 @@ dependencies {
 
 - 由于 Room 会根据我们在项目中声明的注解来动态生成代码，因此这里一定要使用 kapt 引入 Room 的编译时注解库，而启用编译时注解功能则一定要先添加 kotlin-kapt 插件[^5]。
 
-**Room 使用示例**：
+**Room 使用示例**
 
-1. 声明实体类
+1. 声明实体类：
 
    ```kotlin
-   @Entity //在 Use r的类名上使用 @Entity 注解，将它声明成了一个实体类
+   @Entity //在 User 的类名上使用 @Entity 注解，将它声明成了一个实体类
    data class User(var firstName: String, var lastName: String, var age: Int) {
    
    	//使用 @PrimaryKey 注解将 id 字段设为主键，再把 autoGenerate 参数指定成 true，使得主键的值是自动生成的。
@@ -4879,14 +4879,13 @@ dependencies {
    }
    ```
 
-2. 新建一个`UserDao`接口，注然后在接口中编写如下代码：
+2. 新建一个`UserDao`接口，然后在接口中编写如下代码：
 
    ```kotlin
    @Dao //UserDao接口的上面使用了一个 @Dao 注解，这样Room才能将它识别成一个Dao。
    interface UserDao {
    
        //数据库操作通常有增删改查这 4 种，因此 Room 也提供了 @Insert、@Delete、@Update 和 @Query 这 4 种相应的注解。
-       //
        
        @Insert
        fun insertUser(user: User): Long
@@ -4904,13 +4903,13 @@ dependencies {
        @Delete
        fun deleteUser(user: User)
    
-       //如果是使用非实体类参数来增删改数据，那么也要编写SQL语句才行，而且这个时候不能使用@Insert、@Delete或@Update注解，而是都要使用 @Query 注解才行
+       //使用非实体类参数对数据进行增删改
        @Query("delete from User where lastName = :lastName")
        fun deleteUserByLastName(lastName: String): Int
    
    }
    ```
-
+   
 3. 定义 Database，这部分内容的写法是非常固定的，只需要定义好 3 个部分的内容：数据库的版本号、包含哪些实体类，以及提供 Dao 层的访问实例。
 
    ```kotlin
@@ -4947,9 +4946,9 @@ dependencies {
    }
    ```
 
-**注意**：
+###### 📌Room 默认不允许在主线程中进行数据库操作
 
-- 由于数据库操作属于耗时操作，R**oom 默认是不允许在主线程中进行数据库操作**。不过为了方便测试，Room 还提供了一个更加简单的方法，如下所示：
+- 由于数据库操作属于耗时操作，所以 **Room 默认是不允许在主线程中进行数据库操作**。不过为了方便测试，Room 还提供了一个更加简单的方法，如下所示：
 
   ```kotlin
   //在构建 AppDatabase 实例的时候，加入一个 allowMainThreadQueries() 方法，这样 Room 就允许在主线程中进行数据库操作了
@@ -4959,13 +4958,17 @@ dependencies {
       .build()
   ```
 
+###### 📌通过 Query 注解使用非实体类参数增删改数据
+
+- 如果使用非实体类参数来增删改数据，那么也要编写SQL语句才行，而且这个时候不能使用@Insert、@Delete或@Update注解，而是都要使用 @Query 注解才行。
+
 ---
 
 <br>
 
 ### 12.4.2	Room 的数据库升级（未完成）
 
-**在开发环境下通过 Room 升级数据库**：
+**在开发环境下通过 Room 升级数据库**
 
 - Room 在数据库升级方面设计得非常烦琐，基本上没有比使用原生的 SQLiteDatabase 简单到哪儿去，每一次升级都需要手动编写升级逻辑才行。
 
@@ -4987,23 +4990,23 @@ dependencies {
 
 ### 12.5.0	WorkManager 概述
 
-**Android 的后台机制频繁变更导致的问题**：
+**Android 的后台机制频繁变更导致的问题**
 
 - 频繁的功能和 API 变更，导致应用程序的后台代码在不同系统版本上的兼容性难以保证。
 - 为了解决这个问题，Google 推出了 WorkManager 组件。
 
-**WorkManager的作用**：
+**WorkManager的作用**
 
 - WorkManager 很适合用于处理一些要求定时执行的任务，它可以根据操作系统的版本自动选择底层是使用 AlarmManager[^6] 实现还是 JobScheduler[^7] 实现，从而降低了我们的使用成本。
 - 另外，它还支持周期性任务、链式任务处理等功能，是一个非常强大的工具。
 
-**WorkManager 和 Service 的区别：**
+**WorkManager 和 Service 的区别**
 
 - WorkManager 和 Service 并不相同，也没有直接的联系。
 - Service 是 Android 系统的四大组件之一，它在没有被销毁的情况下是一直保持在后台运行的。
 - 而 WorkManager 只是一个处理定时任务的工具，它可以保证即使在应用退出甚至手机重启的情况下，之前注册的任务仍然将会得到执行（因此 WorkManager 很适合用于执行一些定期和服务器进行交互的任务，比如周期性地同步数据，等等）。
 
-**注意：**
+**注意**
 
 - **使用 WorkManager 注册的周期性任务不能保证一定会准时执行**，这并不是 bug，而是系统为了减少电量消耗，可能会将触发时间临近的几个任务放在一起执行，这样可以大幅度地减少 CPU 被唤醒的次数，从而有效延长电池的使用时间。
 
@@ -5013,7 +5016,7 @@ dependencies {
 
 ### 13.6.1　WorkManager 的基本用法
 
-**添加依赖：**
+**添加依赖**
 
 ```kotlin
 //在 app/build.gradle 文件中添加如下的依赖：
@@ -5107,7 +5110,7 @@ WorkManager 基本用法步骤：
 
 ## 12.6	使用 WorkManager 处理复杂的任务
 
-**让后台任务在指定的延迟时间后运行：**
+**让后台任务在指定的延迟时间后运行**
 
 ```kotlin
 val request = OneTimeWorkRequest.Builder(SimpleWorker::class.java)
@@ -5117,7 +5120,7 @@ val request = OneTimeWorkRequest.Builder(SimpleWorker::class.java)
     .build()
 ```
 
-**给后台任务请求添加标签：**
+**给后台任务请求添加标签**
 
 ```kotlin
 val request = OneTimeWorkRequest.Builder(SimpleWorker::class.java)
@@ -5126,25 +5129,25 @@ val request = OneTimeWorkRequest.Builder(SimpleWorker::class.java)
     .build()
 ```
 
-**添加标签后，我们可以通过标签来取消后台任务请求：**
+**添加标签后，我们可以通过标签来取消后台任务请求**
 
 ```kotlin
 WorkManager.getInstance(this).cancelAllWorkByTag("simple")
 ```
 
-**如果没有标签，也通过id来取消后台任务请求：**
+**如果没有标签，也通过id来取消后台任务请求**
 
 ```kotlin
 WorkManager.getInstance(this).cancelWorkById(request.id)
 ```
 
-**一次性取消所有后台任务请求：**
+**一次性取消所有后台任务请求**
 
 ```kotlin
 WorkManager.getInstance(this).cancelAllWork()
 ```
 
-**如果后台任务的 `doWork()` 方法中返回了 `Result.retry()`，那么可以结合 `setBackoffCriteria()` 方法来重新执行任务的：**
+**如果后台任务的 `doWork()` 方法中返回了 `Result.retry()`，那么可以结合 `setBackoffCriteria()` 方法来重新执行任务的**
 
 ```kotlin
 val request = OneTimeWorkRequest.Builder(SimpleWorker::class.java)
@@ -5157,7 +5160,7 @@ val request = OneTimeWorkRequest.Builder(SimpleWorker::class.java)
     .build()
 ```
 
-**对后台任务的运行结果进行监听：**
+**对后台任务的运行结果进行监听**
 
 ```kotlin
 WorkManager.getInstance(this)
@@ -5174,7 +5177,7 @@ WorkManager.getInstance(this)
 - 这里调用了 `getWorkInfoByIdLiveData()` 方法，并传入后台任务请求的 `id`，会返回一个 `LiveData` 对象。然后我们就可以调用 `LiveData `对象的 `observe()` 方法来观察数据变化了，以此监听后台任务的运行结果。
 - 另外，你也可以调用 `getWorkInfosByTagLiveData()` 方法，监听同一标签名下所有后台任务请求的运行结果，用法是差不多的。
 
-**执行链式任务：**
+**执行链式任务**
 
 ```kotlin
 //假设这里定义了3个独立的后台任务：同步数据、压缩数据和上传数据。现在我们想要实现先同步、再压缩、最后上传的功能
@@ -5190,7 +5193,7 @@ WorkManager.getInstance(this)
 
 - 对于链式任务，WorkManager 要求必须在前一个后台任务运行成功之后，下一个后台任务才会运行。也就是说，**如果某个后台任务运行失败，或者被取消了，那么接下来的后台任务就都得不到运行了。**
 
-**注意：**
+**注意**
 
 - 使用 id 只能取消单个后台任务请求，而使用标签的话，则可以将同一标签名的所有后台任务请求全部取消，这个功能在逻辑复杂的场景下尤其有用。
 - **前面所介绍的 WorkManager 的所有功能，在国产手机上都有可能得不到正确的运行**。这是因为绝大多数的国产手机厂商在进行 Android 系统定制的时候会增加一个一键关闭的功能，允许用户一键杀死所有非白名单的应用程序。而被杀死的应用程序既无法接收广播，也无法运行 WorkManager 的后台任务。这个功能虽然与 Android 原生系统的设计理念并不相符，但是我们也没有什么解决办法。或许就是因为有太多恶意应用总是想要无限占用后台，国产手机厂商才增加了这个功能吧。因此，这里给你的建议就是， WorkManager 可以用，但是千万别依赖它去实现什么核心功能，因为它在国产手机上可能会非常不稳定。
@@ -5203,7 +5206,7 @@ WorkManager.getInstance(this)
 
 ## 13.1	简化 Toast 的用法
 
-**思路**：
+**思路**
 
 1. Toast的`makeText()`方法接收3个参数：
 
@@ -5215,7 +5218,7 @@ WorkManager.getInstance(this)
 
 2. 为了设置 Toast 的显示时长，需要传入时长参数，对此可以使用函数参数默认值进行简化
 
-**实现**：
+**实现**
 
 ```kotlin
 //新建一个Toast.kt文件，并在其中编写如下代码：
@@ -5241,17 +5244,17 @@ fun Int.showToast(context: Context, duration: Int = Toast.LENGTH_SHORT) {
 
 ## 13.2	全局获取 Context
 
-**为什么需要全局获取 Context**：
+**为什么需要全局获取 Context**
 
 - 在 Android 中，有众多的方法需要获取 Context 对象（弹出 Toast 的时候需要，启动 Activity 的时候需要，发送广播的时候需要，操作数据库的时候需要，使用通知的时候需要…），在很多时候操作是 在Activity 中进行的，而 Activity 本身就是一个 `Context` 对象。所以不需要费力获取 Context 对象。
 - 但是，当应用程序的架构逐渐开始复杂起来的时候，很多逻辑代码将脱离 `Activity` 类，如果此时又恰恰需要使用 `Context`，那么将会变得麻烦起来。
 
-**解决**：
+**解决**
 
 - Android 提供了一个 `Application` 类，每当应用程序启动的时候，系统就会自动将这个类进行初始化。
 - 而我们可以定制一个自己的 `Application` 类，以便于管理程序内一些全局的状态信息，比如全局 `Context`。
 
-**定制自己的 Application 类以获取全局 Context**：
+**定制自己的 Application 类以获取全局 Context**
 
 1. 创建一个 MyApplication 类继承自 Application
 
@@ -5311,17 +5314,17 @@ class MyApplication : Application() {
 
 ### 13.3.0	概述
 
-**Intent 的 `putExtra()` 方法的局限**：
+**Intent 的 `putExtra()` 方法的局限**
 
 - `putExtra()`方法中所支持的数据类型是有限的，虽然常用的一些数据类型是支持的，但是当你想去传递一些自定义对象的时候，就会发现无从下手。
 
-**解决上述问题**：
+**解决上述问题**
 
 - 使用 Intent 来传递对象通常有两种实现方式：
   1. Serializable
   2. Parcelable。
 
-**注意：**
+**注意**
 
 - Serializable 的方式较为简单，但由于会把整个对象进行序列化，因此效率会比 Parcelable方式低一些，所以**在通常情况下，还是更加推荐使用 Parcelable 的方式来实现 Intent 传递对象的功能**。
 
@@ -5331,15 +5334,15 @@ class MyApplication : Application() {
 
 ### 13.3.1	Serializable方式
 
-**序列化**：
+**序列化**
 
 - Serializable 是序列化的意思，表示将一个对象转换成可存储或可传输的状态。序列化后的对象可以在网络上进行传输，也可以存储到本地。
 
-**实现序列化：**
+**实现序列化**
 
 - 让需要序列化的类实现 `Serializable` 接口即可。
 
-- **例：**
+- **例**
 
   ```kotlin
   class Person : Serializable {
@@ -5349,7 +5352,7 @@ class MyApplication : Application() {
   ```
 
 
-**通过序列化传递对象：**
+**通过序列化传递对象**
 
 1. 让 `Person` 类实现 `Serializable` 接口，这样所有的 `Person` 对象都是可序列化的了。
 
@@ -5370,7 +5373,7 @@ class MyApplication : Application() {
    val person = intent.getSerializableExtra("person_data") as Person
    ```
 
-**注意：**
+**注意**
 
 - 这种传递对象的工作原理是先将一个对象序列化成可存储或可传输的状态，传递给另外一个 Activity 后再将其反序列化成一个新的对象。**虽然这两个对象中存储的数据完全一致，但是它们实际上是不同的对象**。
 
@@ -5380,11 +5383,11 @@ class MyApplication : Application() {
 
 ### 13.3.2	Parcelable 方式
 
-**Parcelable 方式实现对象传递的原理**：
+**Parcelable 方式实现对象传递的原理**
 
 - Parcelable 方式的实现原理是将一个完整的对象进行分解，而分解后的每一部分都是 Intent 所支持的数据类型，这样就能实现传递对象的功能了。
 
-**第一种实现：**
+**第一种实现**
 
 1. 修改 `Person` 中的代码，如下所示：
 
@@ -5446,7 +5449,7 @@ class MyApplication : Application() {
 
 ## 13.4	定制自己的日志工具
 
-**日志工具的作用：**
+**日志工具的作用**
 
 - 在开发时期为了进行测试要添加的日志代码，在项目正式上线后需要清除。
 - 通过自定义的日志工具，可以让日志只在开发时期打印，当程序上线之后就把日志屏蔽掉。
@@ -5537,17 +5540,17 @@ LogUtil.w("TAG", "warn log")
 
 ### 13.6.0	概述
 
-**Android 10 深色主题：**
+**Android 10 深色主题**
 
 - 在 Android 10.0 系统中，Google 引入了深色主题这一特性，从而让夜间模式成为了官方支持的功能。
 
-**开启 Android 10 深色主题：**
+**开启 Android 10 深色主题**
 
 - Android 10.0 及以上系统的手机，都可以在 Settings → Display → Dark theme 中对深色主题进行开启和关闭。开启深色主题后，系统的界面风格包括一些内置的应用程序都会变成深色主题的色调。
 
-**注意：**
+**注意**
 
-- 仅仅操作系统自身支持深色主题是没有用的，还得让所有的应用程序都能够支持才行，也就是说：**需要开发者为自己的应用提供深色主题支持**。
+- 仅仅操作系统自身支持深色主题是没有用的，还得让所有的应用程序都能够支持才行，也就是说**需要开发者为自己的应用提供深色主题支持**。
 
 ---
 
@@ -5555,20 +5558,20 @@ LogUtil.w("TAG", "warn log")
 
 ### 13.6.1	使用 Force Dark 实现深色主题
 
-**说明：**
+**说明**
 
 - Force Dark 能让应用程序快速适配深色主题，并且几乎不用编写额外代码的方式。
 
-**Force Dark 的工作原理：**
+**Force Dark 的工作原理**
 
 - Force Dark的工作原理是 **系统** 会分析浅色主题应用下的每一层 View，并且在这些 View 绘制到屏幕之前，自动将它们的颜色转换成更加适合深色主题的颜色。
 
-**注意：**
+**注意**
 
 - 只有原本使用浅色主题的应用才能使用 Force Dark 实现深色主题，如果你的应用原本使用的就是深色主题，Force Dark 将不会起作用。
 - Force Dark 是一种简单粗暴的转换方式，并且它的转换效果 **通常是不尽如人意的**。
 
-**通过系统差异性编程，利用 Force Dark 实现深色主题：**
+**通过系统差异性编程，利用 Force Dark 实现深色主题**
 
 1. 右击 res 目录 → New → Directory，创建一个values-v29目录
 
@@ -5596,12 +5599,12 @@ LogUtil.w("TAG", "warn log")
 
 > 想实现最佳的深色主题效果，应该针对每一个界面都进行浅色和深色两种主题的界面设计。对此，有一些好用的技巧能让这个过程变得简单。
 
-**通过 DayNight 主题手动实现深色主题：**
+**通过 DayNight 主题手动实现深色主题**
 
 - AppCompat 库内置的主题恰好主要分为浅色主题和深色主题两类，比如 Theme.AppCompat.Light.NoActionBar 就是浅色主题，而 Theme.AppCompat.NoActionBar 就是深色主题。选用不同的主题，在控件的默认颜色等方面会有完全不同的效果。
 - 而使用了 DayNight 主题后，当用户在系统设置中开启深色主题时，应用程序会自动使用深色主题，反之则会使用浅色主题。
 
-**使用 DayNight 实现深色主题：**
+**使用 DayNight 实现深色主题**
 
 1. 修改 res/values/styles.xml 中的代码
 
@@ -5627,7 +5630,7 @@ LogUtil.w("TAG", "warn log")
 
 5. 这样的话，在普通情况下，系统仍然会读取 values/colors.xml 文件中的颜色值，而一旦用户开启了深色主题，系统就会去读取values-night/colors.xml 文件中的颜色值了。
 
-**注意：**
+**注意**
 
 - 虽说使用主题差异型的编程方式几乎可以帮你解决所有的适配问题，但是在DayNight主题下，我们最好还是尽量减少通过硬编码的方式来指定控件的颜色，而是 **应该更多地使用能够根据当前主题自动切换颜色的主题属性**。比如说黑色的文字通常应该衬托在白色的背景下，反之白色的文字通常应该衬托在黑色的背景下，那么此时我们就可以使用主题属性来指定背景以及文字的颜色，示例写法如下：
 
@@ -5664,11 +5667,91 @@ LogUtil.w("TAG", "warn log")
 
 <br>
 
-# 14	Android SDK 开发
+# 14	发布 APP（未完成）
 
-## 14.0	Android SDK 开发概述
+## 14.1	制作 App 图标
 
-**SDK 开发和传统的应用程序开发的不同**：
+**Android 8.0 之后的 App 图标**
+
+- 在过去，Android 应用程序的图标都应该放到相应分辨率的 mipmap 目录下，不过从 Android 8.0 系统开始，Google 已经不再建议使用单一的一张图片来作为应用程序的图标，而是应该使用前景和背景分离的图标设计方式。
+- 具体来讲，应用程序的图标应该被分为两层：前景层和背景层。前景层用来展示应用图标的 Logo，背景层用来衬托应用图标的 Logo。需要注意的是，背景层在设计的时候只允许定义颜色和纹理，不能定义形状。
+
+**图标的形状**
+
+- 手机厂商会在图标的前景层和背景层之上再盖上一层 mask，这个 mask 可以是圆角矩形、圆形或者是方形等，视具体手机厂商而定，这样就可以将手机上所有应用程序的图标都裁剪成相同的形状，从而统一图标的设计规范。
+- **原理**
+
+<img src="img/00402.gif" alt="图书封面" style="zoom: 33%;" />
+
+**制作 App 图标**
+
+1. 可以借助 Android Studio 提供的 Asset Studio 工具来制作能够兼容各个 Android 系统版本的应用程序图标。点击导航栏中的 File → New → Image Asset 打开 Asset Studio 工具，如图：
+
+   <img src="img/image-20210225100418772.png" alt="image-20210225100418772" style="zoom:50%;" />
+
+   - 左边是操作区域，右边是预览区域。
+
+2. 操作区域，第一行的 Icon Type 保持默认就可以了，表示同时创建兼容 8.0 系统以及老版本系统的应用图标。第二行的 Name 用于指定应用图标的名称，这里也保持 `ic_launcher` 的命名即可，这样可以覆盖掉之前自动生成的应用程序图标。接下来的3个页签， Foreground Layer 用于编辑前景层，Background Layer 用于编辑背景层，Legacy 用于编辑老版本系统的图标。
+
+3. 预览区域，它的主要作用就是预览应用图标的最终效果。在预览区域中给出了可能生成的图标形状，包括圆形、圆角矩形、方形，等等。**注意，每个预览图标中都有一个圆圈，这个圆圈叫作安全区域，必须保证图标的前景层完全处于安全区域中才行**，否则可能会出现应用图标的Logo被手机厂商的mask裁剪掉的情况。
+
+4. 选择前景 logo 与后景样式
+
+5. 点击“Next”，进入一个确认图标生成路径的界面，然后直接点击界面上的“Finish”按钮就可以完成图标的制作了。所有图标相关的文件都会被生成到相应分辨率的mipmap目录下
+
+**Android 8.0 之后的图标位置**
+
+- 上述生成的 mipmap目录中，有一个 mipmap-anydpi-v26 目录中放的并不是图片，而是 xml 文件（ic_launcher.xml），只要是Android 8.0及以上系统的手机，都会使用这个目录下的文件来作为图标。
+
+  ```xml
+  <!-- ic_launcher.xml -->
+  <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+      <background android:drawable="@color/ic_launcher_background"/>
+      <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
+  </adaptive-icon>
+  ```
+
+  - 这就是适配Android 8.0及以上系统应用图标的标准写法。可以看到，这里在`<adaptive-icon>`标签中定义了一个`<background>`标签用于指定图标的背景层，引用的是我们之前设置的颜色值。又定义一个`<foreground>`标签用于指定图标的前景层，引用的就是我们之前准备的那张Logo图片。
+
+- 这个ic_launcher.xml文件在 AndroidManifest.xml 中被引用：
+
+  ```xml
+  <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.sunnyweather.android">
+      ...
+      <application
+          android:name=".SunnyWeatherApplication"
+          android:allowBackup="true"
+          android:icon="@mipmap/ic_launcher"
+          android:label="@string/app_name"
+          android:roundIcon="@mipmap/ic_launcher_round"
+          android:supportsRtl="true"
+          android:theme="@style/AppTheme">
+          ...
+      </application>
+  </manifest>
+  ```
+
+  - `<application>`标签的`android:icon`属性就是专门用于指定应用程序图标的，这里将图标指定成了`@mipmap/ic_launcher`，那么在Android 8.0及以上系统中，就会使用mipmap-anydpi-v26目录下的ic_launcher.xml文件来作为应用图标。7.0及以下系统就会使用mipmap相应分辨率目录下的ic_launcher.png图片来作为应用图标。
+  - `<application>`标签中还有一个`android:roundIcon`属性，这是一个只适用于Android 7.1系统的过渡版本，很快就被8.0系统的新图标适配方案所替代了，我们可以不必关心它。
+
+---
+
+<br>
+
+## 14.2	生成正式签名的 APK 文件
+
+
+
+---
+
+<br>
+
+# 15	Android SDK 开发（未完成）
+
+## 15.0	Android SDK 开发概述
+
+**SDK 开发和传统的应用程序开发的不同**
 
 - 首先，SDK 开发与 **界面** 相关的工作会相对比较少，许多库甚至是完全没有界面的，因为 **SDK 开发多数情况下是以实现功能逻辑为主的**。
 - 其次，**产品的形式不同**。应用程序开发的最终产品可能是一个可安装的 APK 文件，而 **SDK 开发的最终产品通常是一些库文件，甚至只有一个库的引用地址**。
@@ -5678,7 +5761,7 @@ LogUtil.w("TAG", "warn log")
 
 <br>
 
-## 14.1	[例	编写一个开源库来简化运行时权限API的用法][]
+## 15.1	[例	编写一个开源库来简化运行时权限API的用法][]
 
 
 
@@ -5686,7 +5769,7 @@ LogUtil.w("TAG", "warn log")
 
 <br>
 
-## 14.2	对开源库进行测试
+## 15.2	对开源库进行测试
 
 
 
@@ -5694,7 +5777,7 @@ LogUtil.w("TAG", "warn log")
 
 <br>
 
-## 14.3	将开源库发布到 jcenter 仓库
+## 15.3	将开源库发布到 jcenter 仓库
 
 
 
@@ -5704,19 +5787,19 @@ LogUtil.w("TAG", "warn log")
 
 # 附录
 
-**最后编辑时间**：
+**最后编辑时间**
 
-- 2021/2/24
+- 2021/2/25
 
-**适用版本**：
+**适用版本**
 
 - Android 10
 
-**参考资料**：
+**参考资料**
 
 - 《第一行代码——Android（第三版）》
 
-**脚注**：
+**脚注**
 
 [^1]: Android 系统会将过长的文本内容省略显示，所以需要通过 setStyle() 才能显示长文本
 
@@ -5728,17 +5811,17 @@ LogUtil.w("TAG", "warn log")
 [^6]: 
 [^7]: 
 
-**代码链接**：
+**代码链接**
 
 [1]: 
 
-**注意点**：
+**注意点**
 
 [^!1]: 需要补充
 
 [^!2]: 需要验证
 
-**疑问**：
+**疑问**
 
 [^?1]: 
 
