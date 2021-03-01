@@ -1528,7 +1528,7 @@ class MyService : Service() {
 **注意**
 
 - 可以在安卓系统的 Setting → System → Advanced → Develop options → Running services 中查看启动的Service（不同手机路径可能不同，甚至有可能无此选项）
-- 从 Android 8.0 开始，应用的后台功能被大幅削减。现在只有当应用保持在前台可见状态的请款下，Service 才能保证稳定运行，**一旦应用进入后台之后，Service 随时都有可能被系统回收**。
+- 从 Android 8.0 开始，应用的后台功能被大幅削减。现在只有当应用保持在前台可见状态的情况下，Service 才能保证稳定运行，**一旦应用进入后台之后，Service 随时都有可能被系统回收**。
 
 **例**
 
@@ -3685,8 +3685,6 @@ class MainActivity : AppCompatActivity() {
 
   ![图书封面](img/00323.jpeg)
 
-
-
 ---
 
 <br>
@@ -4152,7 +4150,7 @@ ViewModelProvider(<你的Activity或Fragment实例>).get(<你的ViewModel>::clas
 ```
 
 - 绝对不可以直接去创建 ViewModel 的实例，而是一定要通过 ViewModelProvider 来。
-- 之所以这么写，是**因为 ViewModel 有其独立的生命周期，并且其生命周期要长于 Activity**。如果我们在 onCreate() 方法中创建 ViewModel 的实例，那么每次 onCreate() 方法执行的时候，ViewModel 都会创建一个新的实例。
+- 之所以这么写，是 **因为 ViewModel 有其独立的生命周期，并且其生命周期要长于 Activity**。如果我们在 onCreate() 方法中创建 ViewModel 的实例，那么每次 onCreate() 方法执行的时候，ViewModel 都会创建一个新的实例。
 
 **例：ViewModel 实现计数器**
 
@@ -4195,7 +4193,7 @@ ViewModelProvider(<你的Activity或Fragment实例>).get(<你的ViewModel>::clas
            android:id="@+id/plusOneBtn"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:layout_gravity="center_horizontal"
+           android:layout_gravity=" center_horizontal"
            android:text="Plus One"/>
    
    </LinearLayout>
@@ -4536,7 +4534,7 @@ class MainActivity : AppCompatActivity() {
            counter.value = countReserved
        }
    
-       //给计数加1
+       //给计数加 1
        fun plusOne() {
            val count = counter.value ?: 0
            counter.value = count + 1
@@ -4630,7 +4628,7 @@ class MainActivity : AppCompatActivity() {
 
 **lifecycle-livedata-ktx**
 
-- 在 2019 年的 Google I/O 大会上，Android 团队官宣了 Kotlin First，并且承诺未来会在 Jetpack 中提供更多专门面向 Kotlin 语言的 API。其中，lifecycle-livedata-ktx 就是一个专门为Kotlin语言设计的库。**这个库在2.2.0版本中加入了对`observe()`方法的语法扩展。**
+- 在 2019 年的 Google I/O 大会上，Android 团队官宣了 Kotlin First，并且承诺未来会在 Jetpack 中提供更多专门面向 Kotlin 语言的 API。其中，lifecycle-livedata-ktx 就是一个专门为Kotlin语言设计的库。**这个库在2.2.0版本中加入了对 `observe()` 方法的语法扩展。**
 
 - 现在，我们只需要在 app/build.gradle 文件中添加如下依赖：
 
@@ -4660,7 +4658,7 @@ class MainActivity : AppCompatActivity() {
 **LiveData 为了能够应对各种不同的需求场景，提供了两种转换方法**
 
 - `map()`
-- ``switchMap()`
+- `switchMap()`
 
 **`map()`方法**
 
@@ -4734,7 +4732,7 @@ class MainActivity : AppCompatActivity() {
     }
     ```
 
-    在MainViewModel中也定义一个`getUser()`方法，并且让它调用`Repository`的`getUser()`方法来获取LiveData对象：
+    在MainViewModel中也定义一个`getUser()`方法，并且让它调用`Repository`的`getUser()`方法来获取 LiveData 对象：
 
     ```kotlin
     class MainViewModel(countReserved: Int) : ViewModel() {
@@ -4779,12 +4777,12 @@ class MainActivity : AppCompatActivity() {
 
   - **`switchMap()`的整体工作流程**
 
-    1. 首先，当外部调用 MainViewModel 的`getUser()`方法来获取用户数据时，并不会发起任何请求或者函数调用，只会将传入的 `userId` 值设置到 `userIdLiveData` 当中。
+    1. 首先，当外部调用 MainViewModel 的 `getUser()` 方法来获取用户数据时，并不会发起任何请求或者函数调用，只会将传入的 `userId` 值设置到 `userIdLiveData` 当中。
     2. 一旦 `userIdLiveData` 的数据发生变化，那么观察 `userIdLiveData` 的 `switchMap()` 方法就会执行，并且调用我们编写的转换函数。
     3. 然后在转换函数中调用 `Repository.getUser()` 方法获取真正的用户数据。
     4. 同时，`switchMap()` 方法会将 `Repository.getUser()` 方法返回的 LiveData 对象转换成一个可观察的 LiveData 对象，对于 Activity 而言，只要去观察这个LiveData对象就可以了。
 
-  - 上述代码中还存在问题：`ViewModel` 中某个获取数据的方法**有可能是没有参数的**。
+  - 上述代码中还存在问题：`ViewModel` 中某个获取数据的方法 **有可能是没有参数的**。
 
     在没有可观察数据的情况下，我们需要创建一个空的LiveData对象，示例写法如下：
 
@@ -4916,9 +4914,10 @@ dependencies {
    //新建一个AppDatabase.kt文件，代码如下所示：
    @Database(version = 1, entities = [User::class]) //使用了 @Database 注解，并在注解中声明了数据库的版本号以及包含哪些实体类，多个实体类之间用逗号隔开即可
    
-   //AppDatabase 类必须继承自 RoomDatabase 类，并且一定要使用 abstract 关键字将它声明成抽象类，然后提供相应的抽象方法，用于获取之前编写的 Dao的实例(我们只需要进行方法声明即可，具体的方法实现是由 Room 在底层自动完成的。)
+   //AppDatabase 类必须继承自 RoomDatabase 类，并且声明为抽象类
    abstract class AppDatabase : RoomDatabase() {
    
+       //提供接口相应的抽象方法，用于获取之前编写的Dao的实例
        abstract fun userDao(): UserDao
    
        //因为原则上全局应该只存在一份 AppDatabase 的实例，所以这里使用单例模式
@@ -4931,15 +4930,13 @@ dependencies {
                instance?.let {
                    return it
                }
-               //databaseBuilder() 方法接收 3 个参数
-               //	第一个参数一定要使用 applicationContext，而不能使用普通的 context，否则容易出现内存泄漏的情况
-               //	第二个参数是 AppDatabase 的 Class 类型
-               //	第三个参数是数据库名
-               return Room.databaseBuilder(context.applicationContext,
-                   AppDatabase::class.java, "app_database")
+               return Room.databaseBuilder(
+                   context.applicationContext,//使用 applicationContext，而不能使用普通的 context，否则容易出现内存泄漏的情况
+                   AppDatabase::class.java,//AppDatabase 的 Class 类型
+                   "app_database")//数据库名
                    .build().apply { //最后调用build()方法完成构建，并将创建出来的实例赋值给instance变量，然后返回当前实例即可。
-                   instance = this
-               }
+                       instance = this
+                   }
            }
        }
    
@@ -4948,7 +4945,7 @@ dependencies {
 
 ###### 📌Room 默认不允许在主线程中进行数据库操作
 
-- 由于数据库操作属于耗时操作，所以 **Room 默认是不允许在主线程中进行数据库操作**。不过为了方便测试，Room 还提供了一个更加简单的方法，如下所示：
+- 由于数据库操作属于耗时操作，所以 **Room 默认是不允许在主线程中进行数据库操作**。不过，为了方便测试，Room 还提供了一个更加简单的方法，如下所示：
 
   ```kotlin
   //在构建 AppDatabase 实例的时候，加入一个 allowMainThreadQueries() 方法，这样 Room 就允许在主线程中进行数据库操作了
@@ -4966,21 +4963,26 @@ dependencies {
 
 <br>
 
-### 12.4.2	Room 的数据库升级（未完成）
+### 12.4.2	Room 的数据库升级
 
 **在开发环境下通过 Room 升级数据库**
 
-- Room 在数据库升级方面设计得非常烦琐，基本上没有比使用原生的 SQLiteDatabase 简单到哪儿去，每一次升级都需要手动编写升级逻辑才行。
+- Room 的数据库升级非常烦琐，基本上没有比使用原生的 SQLiteDatabase 简单，每一次升级都需要手动编写升级逻辑。
 
-- 不过，如果你目前还只是在开发测试阶段，不想编写那么烦琐的数据库升级逻辑，Room倒也提供了一个简单粗暴的方法，如下所示：
+- 不过，如果在开发测试阶段，Room 提供了一个简单粗暴的方法用于升级数据库，如下所示：
 
   ```kotlin
-  //在构建AppDatabase实例的时候，加入一个fallbackToDestructiveMigration()方法。这样只要数据库进行了升级，Room就会将当前的数据库销毁，然后再重新创建
-  //但是副作用是之前数据库中的所有数据就全部丢失了。
   Room.databaseBuilder(context.applicationContext, AppDatabase::class.java,"app_database")
       .fallbackToDestructiveMigration()
       .build()
   ```
+  
+  - 在构建 AppDatabase 实例的时候，加入一个 fallbackToDestructiveMigration() 方法。这样只要数据库进行了升级，Room就会将当前的数据库销毁，然后再重新创建。
+  - 副作用是之前数据库中的所有数据将全部丢失。
+
+**在 Room 中升级数据库的正规写法**
+
+1. 
 
 ---
 
@@ -5305,6 +5307,14 @@ class MyApplication : Application() {
        </application>
    </manifest>
    ```
+
+###### 📌全局 Context 有其局限性
+
+- 全局 Context 不能用于判断深色模式方法
+- 不能通过 Context 启动 MainActivity（描述可能不正确，实现黑夜模式时，为了重启 App 切换到黑夜模式，需要将所有的 Activity 全部关闭，再重新打开 MainActivity ，此时出现问题）：Context中有一个startActivity方法，Activity继承自Context，重载了startActivity方法。如果使用Activity的startActivity方法，不会有任何限制，而如果使用Context的startActivity方法的話，就需要开启一个新的的task，遇到这个异常，是因为使用了Context的startActivity方法。解决办法是，加一个flag。
+  代码：
+  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+  这样就可以在新的task里面启动这个Activity了。
 
 ---
 
@@ -5661,7 +5671,16 @@ LogUtil.w("TAG", "warn log")
   }
   ```
 
-  另外，由于Kotlin取消了按位运算符的写法，改成了使用英文关键字，因此上述代码中的and关键字其实就对应了Java中的&运算符，而Kotlin中的or关键字对应了Java中的|运算符，xor关键字对应了Java中的^运算符，非常好理解。
+  - 另外，由于Kotlin取消了按位运算符的写法，改成了使用英文关键字，因此上述代码中的and关键字其实就对应了Java中的&运算符，而Kotlin中的or关键字对应了Java中的|运算符，xor关键字对应了Java中的^运算符，非常好理解。
+  - 注意：isDarkTheme 传入 context 不能是全局 Context！！！！！！！！
+
+---
+
+<br>
+
+## 13.7	版本判断
+
+
 
 ---
 
