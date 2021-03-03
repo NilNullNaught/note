@@ -14,6 +14,9 @@ dimension
 ellip
 Essential
 scratch
+The CGI search path will start at the web application root directory + File.separator + this prefix.
+Please configure PHP Interpreter to use built-in web server
+Traversable、
 
 📚A
 ╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
