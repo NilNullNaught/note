@@ -16,7 +16,9 @@ Essential
 scratch
 The CGI search path will start at the web application root directory + File.separator + this prefix.
 Please configure PHP Interpreter to use built-in web server
-Traversable、
+Traversable
+To download PuTTYgen the primary requisite is to acquire the copy of PuTTY installation package.
+
 
 📚A
 ╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗

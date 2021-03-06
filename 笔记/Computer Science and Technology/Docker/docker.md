@@ -86,16 +86,16 @@ docker images --no-trunc	#显示完整的镜像信息
 **从 Docker Hub 上查找镜像：**
 
 ```shell
-docker search 【镜像名】
+docker search [镜像名]
 ```
 
 **拉取镜像：**
 
 ```shell
-docker pull 【镜像名】
+docker pull [镜像名]
 
 //通过 tag 指定拉取镜像的版本，可以通过 last 指定为当前最新版本
-docker pull 【镜像名】:tag
+docker pull [镜像名]:tag
 ```
 
 **删除镜像：**
@@ -112,40 +112,116 @@ docker rmi -f hello-world nginx		从Docker中强制删除hello-world镜像和ngi
 
 ## 2.4	容器命令
 
+### 2.4.1	查看容器信息
+
 **查看运行中的容器：**
 
-```
+```shell
 docker ps
 ```
+
+查看所有容器信息，包括未运行的容器
+
+```shell
+docker ps -a
+```
+
+---
+
+<br>
+
+### 2.4.2	运行容器
 
 **运行容器：**
 
 ```
-docker run
+docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
 ```
 
-关闭容器：
+##### docker 参数列表
 
+| 参数 | 说明                                               |
+| ---- | -------------------------------------------------- |
+| `-i` | 以交互模式运行容器，通常与 -t 同时使用；           |
+| `-t` | 为容器重新分配一个伪输入终端，通常与 -i 同时使用； |
+| -p   | 指定端口映射，格式为：主机(宿主)端口:容器端口      |
+
+-a stdin: 指定标准输入输出内容类型，可选 STDIN/STDOUT/STDERR 三项；
+
+-d: 后台运行容器，并返回容器ID；
+
+-P: 随机端口映射，容器内部端口随机映射到主机的端口
+
+--name="nginx-lb": 为容器指定一个名称；
+
+--dns 8.8.8.8: 指定容器使用的DNS服务器，默认和宿主一致；
+
+--dns-search example.com: 指定容器DNS搜索域名，默认和宿主一致；
+
+-h "mars": 指定容器的hostname；
+
+-e username="ritchie": 设置环境变量；
+
+--env-file=[]: 从指定文件读入环境变量；
+
+--cpuset="0-2" or --cpuset="0,1,2": 绑定容器到指定CPU运行；
+
+-m :设置容器使用内存最大值；
+
+--net="bridge": 指定容器的网络连接类型，支持 bridge/host/none/container: 四种类型；
+
+--link=[]: 添加链接到另一个容器；
+
+--expose=[]: 开放一个端口或一组端口；
+
+--volume , -v: 绑定一个卷
+
+---
+
+<br>
+
+### 2.4.3	容器操作
+
+##### 关闭容器：
+
+```shell
+docker stop [容器ID/容器名]
 ```
 
+##### 强制关闭容器
+
+```shell
+docker kill [容器ID/容器名]
 ```
 
-重启容器：
+##### 启动容器
 
+```shell
+docker start [容器ID/容器名]
 ```
 
+- 建议使用容器ID，容器ID支持模糊查询而容器名称不支持
+
+##### 重启容器
+
+```shell
+docker restart [容器ID/容器名]
 ```
 
-设置容器开机自启动：
+##### 设置容器自动启动
 
-```
+- 对于未运行过的容器，可以在启动时添加参数 `--restart=always`。
 
-```
+- 对于已经运行过的容器，使用 docker update 命令：
 
-删除容器：
+  ```shell
+  docker update --restart=always [容器ID/容器名]
+  ```
 
-```
+##### 删除容器
 
+```shell
+docker rm [容器ID/容器名]
 ```
 
 ---
@@ -155,6 +231,40 @@ docker run
 # 3	具体操作
 
 ## 3.1	配置 Mysql 容器
+
+##### 基本命令
+
+```php
+docker run -itd --name [自定义的容器名称] -p 3306:3306 -e MYSQL_ROOT_PASSWORD=PASSWORDis1024 [镜像名称]
+```
+
+##### 使用 -v 参数配置 Mysql 容器
+
+- 通过映射本地目录到容器将 MySQL 数据存储在本地目录，例：
+
+  ```shell
+  $ docker run -d -e MYSQL_ROOT_PASSWORD=admin --name mysql -v /data/mysql/data:/var/lib/mysql -p 3306:3306 mysql 
+  ```
+
+- 指定 Mysql 配置文件，例：
+
+  ```shell
+  docker run -d -e MYSQL_ROOT_PASSWORD=admin --name mysql -v /data/mysql/my.cnf:/etc/mysql/my.cnf -v /data/mysql/data:/var/lib/mysql -p 3306:3306 mysql 
+  ```
+
+- 📌**注意**：
+
+  - -v 参数可以多次使用，每次映射一个目录
+
+##### 📌通用 Mysql 容器配置命令
+
+```shell
+docker run -itd \
+--name mysqlcontainer1	\ #设置容器名
+-p 3306:3306	\ #设置容器端口
+-e MYSQL_ROOT_PASSWORD=PASSWORDis1024	\ #设置 root 用户密码
+centos/mysql-57-centos7	\ #使用的镜像
+```
 
 
 
@@ -204,3 +314,42 @@ docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=<YourStrong@Passw0rd>" \
 ---
 
 <br>
+
+# 附录
+
+##### 最后编辑时间
+
+- 2021/03/06
+
+##### 环境
+
+- centOS 7.3
+- docker  20.10.3
+
+##### 参考
+
+- [docker 教材|菜鸟教程](https://www.runoob.com/docker/docker-tutorial.html)
+
+##### 相关资料
+
+- 
+
+##### 脚注
+
+[^xxx]: 
+
+##### 代码链接
+
+[1]:
+
+##### 锚点
+
+[](#1) 
+
+##### 质疑
+
+[^!1]: 
+
+##### 疑问
+
+[^?1]: 

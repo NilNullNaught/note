@@ -39,7 +39,7 @@
 
 ## 1.3	PHP Hello World
 
-**例**
+##### 例
 
 ```php+HTML
 <!DOCTYPE html>
@@ -250,6 +250,7 @@ echo "Hello World!";
 
 - 就象 `heredoc` 结构类似于双引号字符串，`Nowdoc` 结构是类似于单引号字符串的。
 - Nowdoc 结构很像 heredoc 结构，但是 **nowdoc 中不进行解析操作**。这种结构很适合用于嵌入 PHP 代码或其它大段文本而无需对其中的特殊字符进行转义。
+- 跟 heredocs 不同，nowdocs 可在任何静态数据上下文中使用，包括属性声明。
 
 ##### 📌拼接字符串
 
@@ -1295,11 +1296,601 @@ fn (argument_list) => expr
 
 # 8	类和对象
 
+## 8.1	基础
+
+##### 类的定义语法
+
+- 每个类的定义都以关键字 `class` 开头，后面跟着类名和一对花括号，花括号里面包含有类的属性与方法的定义。
+
+- **例**：
+
+  ```php
+  <?php
+  class SimpleClass{
+  	//声明属性  
+  	public $var = 'a default value';  
+      
+  	//声明方法
+  	public function displayVar() {    
+      	echo $this->var;  
+  	}
+  }
+  ?>
+  ```
+
+##### $this
+
+- 当一个方法在类定义内部被调用时，有一个可用的伪变量 `$this`。`$this` 是一个到当前对象的引用。
+
+##### 创建类的实例
+
+- 要创建一个类的实例，必须使用 `new` 关键字。如果在 `new` 之后跟着的是一个包含有类名的字符串 `string`，则该类的一个实例被创建。如果该类属于一个命名空间，则必须使用其完整名称。
+
+- 📌**注意**：
+
+  - 当创建新对象时该对象总是被赋值，除非该对象定义了构造函数并且会在出错时抛出了一个异常。
+  - 类应在被实例化之前定义（某些情况下则必须这样）。
+  - 如果没有参数要传递给类的构造函数，类名后的括号则可以省略掉。
+
+- **例**：
+
+  ```php
+  <?php
+      $instance = new SimpleClass();
+  	// 也可以这样做：
+  	$className = 'SimpleClass';
+  
+  	$instance = new $className(); 
+  	// new SimpleClass()
+  ?>
+  ```
+
+##### 在类的内部创建对象
+
+- 在类的内部，可以用 `new self` 和 `new parent` 创建新对象。
+
+##### 克隆对象
+
+- 当把一个对象已经创建的实例赋给一个新变量时，新变量会访问同一个实例，就和用该对象赋值一样。*（也和给函数传递入实例时一样）*
+
+- 而如果将一个对象变量赋给另一个变量，将会创建出一个新的实例，即克隆对象。*（与 Java 赋予应用给新的变量名不同，而是创建了一个内容相同的新对象赋予新的变量名）*
+
+- **例**：
+
+  ```php
+  <?php
+  class SimpleClass{}
+  $instance = new SimpleClass();
+  
+  //克隆对象
+  $assigned   =  $instance;
+  
+  //将对象已经创建的实例赋给新变量
+  $reference  = & $instance;
+  
+  $instance = null;
+  
+  var_dump($instance);//输出 "null"
+  var_dump($reference);//输出 ""null"
+  var_dump($assigned);//输出 "object(SimpleClass)#1 (1) { ["var"]=> NULL }"
+  ?>
+  ```
+
+##### 访问对象的成员
+
+```php
+<?php
+echo (new DateTime())->format('Y');//输出当前年份
+?>
+```
+
+##### 属性和方法
+
+- 类的属性和方法存在于不同的命名空间中，这意味着同一个类的属性和方法可以使用同样的名字。
+
+- 在类中访问属性和调用方法使用同样的操作符 `->`。
+
+- **例**：访问类属性与调用类方法
+
+  ```php
+  <?php
+  class Foo
+  {
+      public $bar = 'property';
+  
+      public function bar() {
+          return 'method';
+      }
+  }
+  
+  $obj = new Foo();
+  echo $obj->bar, PHP_EOL;//输出 "property"
+  echo$obj->bar(), PHP_EOL;//输出 "method"
+  ```
+
+##### 类常量
+
+- 可以把在类中始终保持不变的值定义为常量。在定义和使用常量的时候不需要使用 $ 符号。常量的值必须是一个定值，不能是变量，类属性，数学运算的结果或函数调用。
+
+- **例**：
+
+  ```php
+  <?php
+  class MyClass
+  {
+      const constant = 'constant value';
+  
+      function showConstant() {
+          echo  self::constant . "\n";
+      }
+  }
+  
+  echo MyClass::constant . "\n";
+  
+  $classname = "MyClass";
+  echo $classname::constant."\n"; // 自 5.3.0 起
+  
+  $class = new MyClass();
+  $class->showConstant();
+  
+  echo $class::constant."\n"; // 自 PHP 5.3.0 起
+  ?>
+  ```
+
+##### 通过关键词 `class` 解析类名
+
+- 关键词 `class` 也可用于类名的解析。使用 `ClassName::class` 你可以获取一个字符串，包含了类 `ClassName` 的 **完全限定名称**。这对使用了命名空间的类尤其有用。
+
+- **例**：
+
+  ```php
+  <?php
+  namespace NS {
+      class ClassName {  }
+  
+  echo ClassName::class;//输出 "NS\ClassName"
+      
+  }
+  ?>
+  ```
+
+---
+
+<br>
+
+## 8.2	继承
+
+##### 说明
+
+- 一个类可以在声明中用 `extends` 关键字继承另一个类的方法和属性。被继承的方法和属性可以通过用同样的名字重新声明被覆盖。但是如果父类定义方法时使用了 `final` 关键字，则该方法不可被覆盖。可以通过 parent:: 来访问被覆盖的方法或属性。
+- PHP 不支持多重继承，一个类只能继承一个基类。
+- 📌**注意**：
+  - 使用 `::class` 解析类名操作会在底层编译时进行。这意味着在执行该操作时，类还没有被加载。因此，即使要调用的类不存在，类名也会被展示。在此种场景下，并不会发生错误。*（此时会输出 ”Does\Not\Exist“）*
+  - 自 PHP 8.0.0 起，`::class` 关键字也可以对象上使用。与上述情况不同，此时解析将会在运行时进行。此操作的运行结果和 get_class() 函数一致。
+
+##### 类的定义顺序
+
+- 除非使用了自动加载，否则一个类必须在使用之前被定义。如果一个类继承了另一个类，则父类必须在子类之前被声明。此规则适用于类的继承与接口的实现。
+
+##### 例
+
+```php
+<?php
+class ExtendClass extends SimpleClass
+{
+    // 同样名称的方法，将会覆盖父类的方法
+    function displayVar()
+    {
+        echo "Extending class\n";
+        parent::displayVar();
+    }
+}
+
+$extended = new ExtendClass();
+$extended->displayVar();
+?>
+```
+
+---
+
+<br>
+
+## 8.3	类的自动加载
+
+##### 类自动加载解决的问题
+
+- 在编写面向对象（OOP） 程序时，很多开发者为每个类新建一个 PHP 文件。 这会带来一个烦恼：每个脚本的开头，都需要包含（include）一个长长的列表（每个类对应的文件）。
+- 在 PHP 5 中，已经不再需要这样了。
+
+##### spl_autoload_register() 函数
+
+ `spl_autoload_register()` 函数可以注册任意数量的自动加载器，当使用尚未被定义的类和接口时自动去加载。通过注册自动加载器，脚本引擎在 PHP 出错失败前有了最后一个机会加载所需的类。
+
+##### 例
+
+```php
+ <?php
+ spl_autoload_register(function ($class_name) {
+     require_once $class_name . '.php';
+ });
+ 
+ $obj  = new MyClass1();
+ $obj2 = new MyClass2();
+ ?>
+```
+
+---
+
+<br>
+
+## 8.4	构造函数和析构函数
+
+### 8.4.1	构造函数
+
+##### 语法
+
+```php
+__construct ($var1 , $var2 ... ,$varn ){
+    ...
+}
+```
+
+##### 继承中的构造函数
+
+- 如果子类中定义了构造函数，则不会隐式调用其父类的构造函数。要执行父类的构造函数，需要在子类的构造函数中调用 `parent::__construct()`。
+- 如果子类没有定义构造函数则会如同一个普通的类方法一样从父类继承（假如没有被定义为 private 的话）。
+
+##### 构造方法可以进行重载
+
+- 与其它方法不同，当 `__construct()` 被与父类 `__construct()` 具有不同参数的方法覆盖时，PHP 不会产生一个 **`E_STRICT`** 错误信息。
+
+##### PHP 构造函数与 Java 构造函数的不同点
+
+- 自 PHP 5.3.3 起，**在命名空间中，与类名同名的方法不再作为构造函数**。不使用命名空间中的类则不受影响。 
+- PHP 中的构造函数是一个普通的方法，在对应对象实例化时自动被调用。 因此可以定义任何数量的参数，可以是必选、可以有类型、可以有默认值。
+
+##### 使用 static 方法包装构造[^?1]
+
+- **在 PHP 中每个 `class` 只能有一个构造器**。 然而有些情况下，需要用不同的输入实现不同的方式构造对象。 这种情况下推荐使用 `static` 方法包装构造。
+
+- **例**：
+
+  ```php
+  <?php
+  class Product {
+  
+      private ?int $id;
+      private ?string $name;
+  
+      private function __construct(?int $id = null, ?string $name = null) {
+          $this->id = $id;
+          $this->name = $name;
+      }
+  
+      public static function fromBasicData(int $id, string $name): static {
+          $new = new static($id, $name);
+          return $new;
+      }
+  
+      public static function fromJson(string $json): static {
+          $data = json_decode($json);
+          return new static($data['id'], $data['name']);
+      }
+  
+      public static function fromXml(string $xml): static {
+          // 此处放置自己的代码逻辑
+          $data = convert_xml_to_array($xml);
+          $new = new static();
+          $new->id = $data['id'];
+          $new->name = $data['name'];
+          return $new;
+      }
+  }
+  
+  $p1 = Product::fromBasicData(5, 'Widget');
+  $p2 = Product::fromJson($some_json_string);
+  $p3 = Product::fromXml($some_xml_string);
+  ```
+
+  - `fromBasicData()` 把所需的全部参数传入构造器，创建对象并返回结果。
+  - `fromJson()` 接受 JSON 字符串，，预处理成构造器所需的格式，然后返回新的对象。
+  - `fromXml()` 接受 XML 字符串并解析，然后创建一个单纯的对象。 由于参数都是可选的，使得可以忽略所有参数去调用构造器。然后为对象的属性赋值后返回结果。
+  - 在以上三个例子中，static 关键词会被翻译成代码所在类的类名。 这个例子中是 Product。
+
+---
+
+<br>
+
+### 8.4.2	析构函数
+
+##### 说明
+
+- PHP 5 引入了析构函数的概念，这类似于其它面向对象的语言，如 C++。析构函数会在到某个对象的所有引用都被删除或者当对象被显式销毁时执行。
+
+##### 语法
+
+```php
+__destruct ( ) : void
+```
+
+##### 例
+
+```php
+<?php
+
+class MyDestructableClass 
+{
+    function __construct() {
+        print "In constructor\n";
+    }
+
+    function __destruct() {
+        print "Destroying " . __CLASS__ . "\n";
+    }
+}
+
+$obj = new MyDestructableClass();
+```
+
+##### 继承中的析构函数
+
+- 和构造函数一样，父类的析构函数不会被引擎暗中调用。要执行父类的析构函数，必须在子类的析构函数体中显式调用 `parent::__destruct()`。此外也和构造函数一样，子类如果自己没有定义析构函数则会继承父类的。
+
+##### exit() 与析构函数
+
+- 析构函数即使在使用 `exit()` 终止脚本运行时也会被调用。在析构函数中调用 `exit()` 将会中止其余关闭操作的运行。
+
+---
+
+<br>
+
+## 8.5	可见性（访问控制）
+
+### 8.5.1	属性的可见性
+
+##### 说明
+
+- 类属性的可见性有三种：
+  1. 公有 `public`
+  2. 受保护 `protect`
+  3. 私有 `private`。
+- 如果用 `var` 关键字定义，则被视为公有。
+
+---
+
+<br>
+
+### 8.5.2	方法的可见性
+
+##### 说明
+
+- 类方法的可见性有三种：
+  1. 公有 `public`
+  2. 受保护 `protect`
+  3. 私有 `private`。
+- 如果没有设置这些关键字，则该方法默认为公有。
+
+---
+
+<br>
+
+### 8.5.3	常量的可见性
+
+##### 说明
+
+- 类常量的可见性有三种：
+  1. 公有 `public`
+  2. 受保护 `protect`
+  3. 私有 `private`。
+- 如果没有设置这些关键字，则该方法默认为公有。
+
+---
+
+<br>
+
+### 8.5.4	同一个类的对象之间的访问控制
+
+##### 说明
+
+- 同一个类的对象即使不是同一个实例也可以互相访问对方的私有与受保护成员。这是由于在这些对象的内部具体实现的细节都是已知的。
+
+---
+
+<br>
+
+## 8.6	范围解析操作符 ::
+
+##### 说明
+
+- 范围解析操作符（也可称作 Paamayim Nekudotayim）或者更简单地说是一对冒号 `::`，可以用于访问静态成员，类常量，还可以用于覆盖类中的属性和方法（可以通过 :: 方法父类的方法）。
+
+---
+
+<br>
+
+## 8.7	trait （未完成）
+
+
+
+---
+
+<br>
+
+## 8.8	匿名类
+
+##### 说明
+
+- PHP 7 开始支持匿名类。 匿名类可以用于创建一次性的简单对象。
+
+##### 例
+
+```php
+<?php
+
+// PHP 7 之前的代码
+class Logger
+{
+    public function log($msg)
+    {
+        echo $msg;
+    }
+}
+
+$util->setLogger(new Logger());
+
+// 使用了 PHP 7+ 后的代码
+$util->setLogger(new class {
+    public function log($msg)
+    {
+        echo $msg;
+    }
+});
+```
+
+---
+
+<br>
+
+## 8.9	PHP 的重载（未完成）
+
+##### 说明
+
+- PHP所提供的重载（overloading）是指**动态地创建类属性和方法**。这是通过魔术方法（magic methods）来实现的。
+- 当调用当前环境下未定义或不可见的类属性或方法时，重载方法会被调用。
+
+##### 📌PHP 的重载与 Java 的反射
+
+- PHP 的重载和 Java 的反射概念很相似。
+
 ---
 
 <br>
 
 # 9	命名空间
+
+## 9.0	PHP 命名空间概述
+
+##### 什么是命名空间
+
+- 从广义上来说，命名空间是一种封装事物的方法。在很多地方都可以见到这种抽象概念。例如，在操作系统中目录用来将相关文件分组，对于目录中的文件来说，它就扮演了命名空间的角色。
+
+##### 命名空间的作用
+
+- 具例来说，文件 foo.txt 可以同时在目录 /home/greg 和 /home/other 中存在，但在同一个目录中不能存在两个 foo.txt 文件。另外，在目录 /home/greg 外访问 foo.txt 文件时，我们必须将目录名以及目录分隔符放在文件名之前得到 /home/greg/foo.txt。
+
+##### 命名空间在 PHP 中的作用
+
+- 在 PHP 中，命名空间用来解决在编写类库或应用程序时创建可重用的代码如类或函数时碰到的两类问题：
+  1. 用户编写的代码与PHP内部的类/函数/常量或第三方类/函数/常量之间的名字冲突。
+  2. 为很长的标识符名称(通常是为了缓解第一类问题而定义的)创建一个别名（或简短）的名称，提高源代码的可读性。
+
+##### 例——PHP命名空间语法
+
+```php
+<?php
+namespace my\name; // 参考 "定义命名空间" 小节
+
+class MyClass {}
+function myfunction() {}
+const MYCONST = 1;
+
+$a = new MyClass;
+$c = new \my\name\MyClass; // 参考 "全局空间" 小节
+
+$a = strlen('hi'); // 参考 "使用命名空间：后备全局函数/常量" 小节
+
+$d = namespace\MYCONST; // 参考 "namespace操作符和__NAMESPACE__常量” 小节
+
+$d = __NAMESPACE__ . '\MYCONST';
+echo constant($d); // 参考 "命名空间和动态语言特征" 小节
+?>
+```
+
+---
+
+<br>
+
+## 9.1	定义命名空间
+
+
+
+---
+
+<br>
+
+## 9.2	使用命名空间
+
+### 9.2.1	使用当前命名空间
+
+##### 说明
+
+- PHP支持两种抽象的访问当前命名空间内部元素的方法
+  1. `__NAMESPACE__` 魔术常量
+  2.  `namespace` 关键字。
+
+##### \_\_NAMESPACE\_\_ 魔术常量
+
+- 常量 `__NAMESPACE__` 的值是包含当前命名空间名称的字符串。在全局的，不包括在任何命名空间中的代码，它包含一个空的字符串。
+
+- **例**：
+
+  ```php
+  <?php
+  namespace MyProject;
+  
+  echo '"', __NAMESPACE__, '"'; // 输出 "MyProject"
+  ?>
+  ```
+
+  ```php
+  <?php
+  
+  echo '"', __NAMESPACE__, '"'; // 输出 ""
+  ?>
+  ```
+
+##### namespace 关键字
+
+- 关键字 `namespace` 可用来显式访问当前命名空间或子命名空间中的元素。它等价于类中的 `self` 操作符。
+
+---
+
+<br>
+
+### 9.2.2	命名空间的解析规则（未完成）
+
+##### PHP 中的三种命名空间名称定义
+
+1. **非限定名称 `Unqualified name`**：名称中不包含命名空间分隔符的标识符，例如 `Foo`。
+2. **限定名称 `Qualified name`**：名称中含有命名空间分隔符的标识符，例如 `Foo\Bar`。
+3. **完全限定名称 `Fully qualified name`**：名称中包含命名空间分隔符，并以命名空间分隔符开始的标识符，例如 `\Foo\Bar`。 `namespace\Foo` 也是一个完全限定名称。
+
+##### 名称解析遵循的规则
+
+- 对完全限定名称的函数，类和常量的调用在编译时解析。例如 `new \A\B` 解析为类 `A\B`。
+
+- 所有的非限定名称和限定名称（非完全限定名称）根据当前的导入规则在编译时进行转换。例如，如果命名空间 `A\B\C` 被导入为 `C`，那么对 `C\D\e()` 的调用就会被转换为 `A\B\C\D\e()`。
+
+- 在命名空间内部，所有的没有根据导入规则转换的限定名称均会在其前面加上当前的命名空间名称。例如，在命名空间 `A\B` 内部调用 `C\D\e()`，则 `C\D\e()` 会被转换为 `A\B\C\D\e()` 。
+
+- 非限定类名根据当前的导入规则在编译时转换（用全名代替短的导入名称）。例如，如果命名空间 `A\B\C` 导入为C，则 `new C()` 被转换为 `new A\B\C() `。
+
+- 在命名空间内部（例如A\B），对非限定名称的函数调用是在运行时解析的。例如对函数 `foo()` 的调用是这样解析的：
+
+  1. 在当前命名空间中查找名为 `A\B\foo()` 的函数
+  2. 尝试查找并调用 *全局(global)* 空间中的函数 `foo()`。
+
+- 在命名空间（例如`A\B`）内部对非限定名称或限定名称类（非完全限定名称）的调用是在运行时解析的。下面是调用 `new C()` 及 `new D\E()` 的解析过程： `new C()` 的解析:
+
+  1. 在当前命名空间中查找`A\B\C`类。
+  2. 尝试自动装载类`A\B\C`。
+
+  `new D\E()`的解析:
+
+  1. 在类名称前面加上当前命名空间名称变成：`A\B\D\E`，然后查找该类。
+  2. 尝试自动装载类 `A\B\D\E`。
+
+  为了引用全局命名空间中的全局类，必须使用完全限定名称 `new \C()`。
 
 ---
 
@@ -1307,11 +1898,89 @@ fn (argument_list) => expr
 
 # 10	 错误和异常
 
+## 10.1	错误
+
+##### PHP 错误处理机制
+
+- PHP 遇到一系列内部错误时，会报告出来作为应对。 它可以用来标示不同的情况，可以要求将错误显示出来或记录到日志中。
+
+  每个 PHP 产生的错误都包含了类型。可查看 PHP 错误类型清单，它附带了不同类型行为的简短描述和产生的原因。
+
+##### PHP 错误处理配置
+
+- 当未设置错误处理函数时，PHP 会根据配置处理所有出现的错误。 
+- **PHP 错误配置**：php.ini 中 `error_reporting` 的配置或者是运行时调用 `error_reporting()` 控制了哪些错误需要报告，哪些错误需要自动忽略。 *（由于有些错误会在运行用户脚本前就可能出现，所以强烈推荐用配置指令来设置）*
+- **开发环境下的错误配置**：在开发环境里为了发现并修复 PHP 产生的问题， 应该总是把 `error_reporting` 设置为 `E_ALL`。
+- **生产环境下的错误配置**：
+  - 在生产环境里，用户可能为了降低信息的详细程度， 将它设置为类似 E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED， 但很多情况下 E_ALL 也同样适用，这样可以更早地警告潜在问题。
+  - display_errors 控制了是否要将错位作为脚本输出的一部分显示。 在生产环境里应该禁用，因为可能包含类似数据库密码这样的敏感信息， 而在开发环境中应该启用，能确保立即报告问题。
+
+##### 错误日志
+
+- PHP 不仅能显示错误，还可以开启 log_errors 指令来记录错误日志。它能根据 error_log 的设置， 记录任意错误到文件或者 syslog。 特别适用于生产环境，用户可以记录发生的错误，并根据这些错误生成报告。
+
+---
+
+<br>
+
+## 10.2	错误处理
+
+### 10.2.1	自定义错误处理器
+
+##### 说明
+
+- 如果 PHP 默认错误处理器还不能满足要求，用户可以通过 `set_error_handler()` 设置自定义错误处理器，可处理很多类型的错误。 
+- 虽然有些类型的错误不能通过这种方式处理，但能处理的类型可以用脚本合适的方式处理。*（例如为用户显示自定义错误页面，同时以一种比日志更直接的方式上报错误，比如发送邮件）*
+
+---
+
+<br>
+
+### 10.2.2	PHP 7 错误处理
+
+##### 说明
+
+- PHP 7 改变了大多数错误的报告方式。不同于传统（PHP 5）的错误报告机制，现在大多数错误被作为 Error 异常抛出。
+- 这种 Error 异常可以像 Exception 异常一样被第一个匹配的 try / catch 块所捕获。如果没有匹配的 catch 块，则调用异常处理函数（事先通过 set_exception_handler() 注册）进行处理。 如果尚未注册异常处理函数，则按照传统方式处理：被报告为一个致命错误（Fatal Error）。
+
+##### 捕获 Error 异常
+
+- Error 类并非继承自 Exception 类，所以不能用 `catch (Exception $e) { ... }` 来捕获 Error。但是，可以用 `catch (Error $e) { ... }`，或者通过注册异常处理函数（ set_exception_handler()）来捕获 Error。
+
+---
+
+<br>
+
+## 10.3	异常抛出
+
+##### 说明
+
+- PHP 有一个和其他语言相似的异常模型。 在 PHP 里可以 throw 并 catch 异常。 为了捕获潜在的异常，可以将代码包含在 try 块里。 每个 try 都必须有一个相应的 catch 或 finally 代码块。
+
+##### 异常抛出
+
+- 如果抛出异常的函数范围内没有 catch 块，异常会沿调用栈“向上冒泡”， 直到找到匹配的 catch 块。 沿途会执行所有遇到的 finally 块。 在没有设置全局异常处理程序（exception handler）时， 如果调用栈向上都没有遇到匹配的 catch，程序会抛出 fatal 错误并终止执行。
+- 抛出的对象必须是 Exception 自身或 Exception的子类。 抛出其他对象会导致 PHP 报 Fatal 错误。
+
+##### catch
+
+- catch 定义了处理抛出异常的方式。 catch 块定义了它能处理的异常/错误的类型，并可以选择将异常赋值到变量中。 （在 PHP 8.0.0 之前的版本中必须要赋值到变量） 如果遇到抛出对象的类型匹配了首个 catch 块的异常或错误，将会处理该对象。
+- 可以有多个 catch 子句。
+- 从 PHP 7.1.0 起 catch 可以用竖线符（|） 指定多个异常。
+- PHP 8.0.0 起，throw 关键词现在开始是一个表达式，可用于任何表达式的场景。 在此之前，它是一个语句，必须独占一行。
+
+##### finally
+
+- finally 代码块可以放在 catch 之后，或者直接代替它。 无论是否抛出了异常，在 try 和 catch 之后、在执行后续代码之前， 放在 finally 里的代码总是会执行。
+- 值得注意的是 finally 和 return 语句之间存在相互影响。 如果在 try 或 catch 里遇到 return，仍然会执行 finally 里的代码。 而且，遇到 return 语句时，会先执行 finally 再返回结果。 此外，如果 finally 里也包含了 return 语句，将返回 finally 里的值。
+
 ---
 
 <br>
 
 # 11	注解
+
+
 
 ---
 
@@ -1328,7 +1997,7 @@ fn (argument_list) => expr
 - php-7.4.15-Win32-vc15-x64
 - PhpStorm 2020.3.2
 
-##### 参考资料
+##### 参考
 
 - [PHP 手册](https://www.php.net/manual/zh/index.php)
 
