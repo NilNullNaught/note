@@ -137,19 +137,45 @@
 
 <BR>
 
-# 2	常用标签
+# 2	常用组件
 
-## 2.1	文字标签
+## 2.1	文字 \<text>
 
-##### \<sapn>
+##### \<text>
 
-- 类似于 HTML 中的 \<span> 标签，属于行内标签。
+- 类似于 HTML 中的 `<span>` 标签，属于行内标签。
+
+- **特性**：
+
+  - `<text>` 中只能嵌套 `<text>`
+  - ⻓按可以复制 `<text>` 中的文字（只有 `<text>` 标签支持这个功能）
+  - 可以对空格、回车等字符进行解码。
+
+- **属性**：
+
+  | 属性名     | 默认值 | 说明               |
+  | ---------- | ------ | ------------------ |
+  | selectable | false  | 文本是否可选       |
+  | decode     | false  | 是否对字符进行解码 |
+
+##### 例
+
+```html
+<text selectable decode="true">
+    00000000&nbsp;&nbsp;&nbsp;&nbsp;11111111
+  	<text>01010101</text>
+</text>
+```
+
+- 输出：
+
+  ![image-20210311102702364](img/image-20210311102702364.png)
 
 ---
 
 <br>
 
-## 2.2	布局标签
+## 2.2	布局 \<view>
 
 ##### \<view>
 
@@ -159,7 +185,7 @@
 
 <br>
 
-## 2.3	block 标签
+## 2.3	占位 \<block>
 
 ##### 说明
 
@@ -179,6 +205,280 @@
     <block>{{"测试4"}}</block>
 </view>
 ```
+
+---
+
+<br>
+
+## 2.4	图片 \<image>
+
+##### 特性
+
+- image 组件默认宽度 320px、⾼度240px
+- image 支持懒加载
+
+##### 属性
+
+| 属性名    | 类型    | 默认值      | 说明              |
+| --------- | ------- | ----------- | ----------------- |
+| src       | String  |             | 图片资源地址      |
+| mode      | String  | scaleToFill | 图片剪裁/缩放模式 |
+| lazy-mode | Boolean | false       | 图片懒加载        |
+
+##### mode 的有效值
+
+| 值           | 说明                                                         | 最低版本                                                     |
+| :----------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
+| scaleToFill  | 缩放模式，不保持纵横比缩放图片，使图片的宽高完全拉伸至填满 image 元素 |                                                              |
+| aspectFit    | 缩放模式，保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来。 |                                                              |
+| aspectFill   | 缩放模式，保持纵横比缩放图片，只保证图片的短边能完全显示出来。也就是说，图片通常只在水平或垂直方向是完整的，另一个方向将会发生截取。 |                                                              |
+| widthFix     | 缩放模式，宽度不变，高度自动变化，保持原图宽高比不变         |                                                              |
+| heightFix    | 缩放模式，高度不变，宽度自动变化，保持原图宽高比不变         | [2.10.3](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+|              |                                                              |                                                              |
+| top          | 裁剪模式，不缩放图片，只显示图片的顶部区域                   |                                                              |
+| bottom       | 裁剪模式，不缩放图片，只显示图片的底部区域                   |                                                              |
+| center       | 裁剪模式，不缩放图片，只显示图片的中间区域                   |                                                              |
+| left         | 裁剪模式，不缩放图片，只显示图片的左边区域                   |                                                              |
+| right        | 裁剪模式，不缩放图片，只显示图片的右边区域                   |                                                              |
+| top left     | 裁剪模式，不缩放图片，只显示图片的左上边区域                 |                                                              |
+| top right    | 裁剪模式，不缩放图片，只显示图片的右上边区域                 |                                                              |
+| bottom left  | 裁剪模式，不缩放图片，只显示图片的左下边区域                 |                                                              |
+| bottom right | 裁剪模式，不缩放图片，只显示图片的右下边区域                 |                                                              |
+
+---
+
+<br>
+
+## 2.5	轮播图 \<swiper>
+
+##### 说明
+
+- 微信内置的轮播图组件，`<swiper>` 中只可放置 `<swiper-item>` 组件，否则会导致未定义的行为。
+
+##### 特点
+
+- 宽度固定为 100%，高度默认为 150px。
+- `<swiper>` 不会自适应内容大小，必须手动设置。
+
+##### \<swiper> 的常用属性
+
+| 属性                   | 类型    | 默认值            | 必填 | 说明                 |
+| :--------------------- | :------ | :---------------- | :--- | :------------------- |
+| indicator-dots         | boolean | false             | 否   | 是否显示面板指示点   |
+| indicator-color        | color   | rgba(0, 0, 0, .3) | 否   | 指示点颜色           |
+| indicator-active-color | color   | #000000           | 否   | 当前选中的指示点颜色 |
+| autoplay               | boolean | false             | 否   | 是否自动切换         |
+| current                | number  | 0                 | 否   | 当前所在滑块的 index |
+| interval               | number  | 5000              | 否   | 自动切换时间间隔     |
+| duration               | number  | 500               | 否   | 滑动动画时长         |
+| circular               | boolean | false             | 否   | 是否采用衔接滑动     |
+
+##### 例
+
+```css
+/* index.wxss*/
+swiper{
+    width:100%;
+    height:1392rpx;
+}
+```
+
+```html
+<swiper 
+        indicator-dots indicator-color="fff" 
+        indicator-active-color="000"
+        autoplay
+        interval="2"
+        duration="0.5"
+        circular
+        >
+	<swiper-item>
+        <img src="https://aecpm.alicdn.com/simba/img/TB183NQapLM8KJjSZFBSutJHVXa.jpg"/>
+    </swiper-item>
+    
+    <swiper-item>
+        <img src="https://aecpm.alicdn.com/simba/img/TB1XotJXQfb_uJkSnhJSuvdDVXa.jpg"/>
+    </swiper-item>
+    
+    <swiper-item>
+        <img src="https://aecpm.alicdn.com/simba/img/TB1JNHwKFXXXXafXVXXSutbFXXX.jpg"/>      
+    </swiper-item>
+    
+</swiper>
+```
+
+---
+
+<br>
+
+## 2.6	导航 \<navigator>
+
+##### 说明
+
+- 类似于 HTML 中的 `<a>` 标签，用于跳转页面。
+
+##### 特点
+
+- 默认为块标签，可以设置宽和高。
+
+##### 常用属性
+
+| 属性      | 类型   | 默认值   | 必填 | 说明                                 | 最低版本                                                     |
+| :-------- | :----- | :------- | :--- | :----------------------------------- | :----------------------------------------------------------- |
+| target    | string | self     | 否   | 在哪个目标上发生跳转，默认当前小程序 | [2.0.7](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| url       | string |          | 否   | 当前小程序内的跳转链接               | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| open-type | string | navigate | 否   | 跳转方式                             | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+
+##### open-type 属性的有效值
+
+| 值           | 说明                                                         | 最低版本                                                     |
+| :----------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
+| navigate     | 保留当前⻚⾯，跳转到应⽤内的某个⻚⾯，但是不能跳转到 tabbar 中包含的页面 |                                                              |
+| redirect     | 关闭当前⻚⾯，跳转到应⽤内的某个⻚⾯，但是不允许跳转到 tabbar 中包含的页面 |                                                              |
+| switchTab    | 跳转到 tabBar ⻚⾯（只可以跳转到 tabBar 页面），并关闭其他所有⾮ tabBar ⻚⾯ |                                                              |
+| reLaunch     | 关闭所有页面，打开到应⽤内的某个⻚⾯（可以打开 tabBar 页面和⾮ tabBar ⻚⾯） | [1.1.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| navigateBack | 关闭当前⻚⾯，返回上⼀⻚⾯或多级⻚⾯。可通过 getCurrentPages() 获取当 前的⻚⾯栈，决定需要返回⼏层 | [1.1.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| exit         | 退出小程序，`target="miniProgram"`时生效                     | [2.1.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+
+##### 使用技巧
+
+- **使用 reLaunch 和 navigateBack 切换页面**：在本页面中使用 reLaunch 属性的 `<navigator>` 标签进行跳转，在目标页面中使用 navigateBack 属性的 `<navigator>` 标签进行返回。
+
+---
+
+<br>
+
+## 2.7	富文本 \<rich-text> 
+
+##### 说明
+
+- 可以将字符串解析成对应的 HTML 标签，类似 vue 中 v-html 功能。
+
+##### 例
+
+```js
+//demo.js
+Page({
+  data: {
+    html:'<div style="color: blue;" ><p>Hello&nbsp;World!</p></div>',
+    nodes: [{
+      name: 'div',
+      attrs: {
+        class: 'div_class',
+        style: 'color: red;'
+     },
+      children: [{
+        type: 'text',
+        text: 'Hello&nbsp;World!'
+     }]
+   }]
+  }
+)}
+```
+
+```html
+<!-- demo.wxml -->
+<rich-text nodes="{{nodes}}" ></rich-text>
+
+<rich-text nodes="{{html}}" ></rich-text>
+
+<rich-text nodes='<div style="color: green;" ><p>Hello&nbsp;World!</p></div>' ></rich-text>
+```
+
+##### 📌rich-text 中可以使用的 HTML 标签与属性
+
+- `<rich-text>` 支持的 HTML 标签参见 [rich-text| 微信开放文档](https://developers.weixin.qq.com/miniprogram/dev/component/rich-text.html)。
+- `<rich-text>` 全局支持 class 和 style 属性，**不支持 id 属性**。
+
+---
+
+<br>
+
+## 2.8	按钮 \<button>
+
+##### 说明
+
+- 微信小程序框架提供的按钮，有一些特有的功能
+
+##### 常用属性
+
+| 属性      | 类型    | 默认值  | 必填 | 说明                                                         | 最低版本                                                     |
+| :-------- | :------ | :------ | :--- | :----------------------------------------------------------- | :----------------------------------------------------------- |
+| size      | string  | default | 否   | 按钮的大小                                                   | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| type      | string  | default | 否   | 按钮的样式类型                                               | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| plain     | boolean | false   | 否   | 按钮是否镂空，背景色透明                                     | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| disabled  | boolean | false   | 否   | 是否禁用                                                     | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| loading   | boolean | false   | 否   | 名称前是否带 loading 图标                                    | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| form-type | string  |         | 否   | 用于 [form](https://developers.weixin.qq.com/miniprogram/dev/component/form.html) 组件，点击分别会触发 [form](https://developers.weixin.qq.com/miniprogram/dev/component/form.html) 组件的 submit/reset 事件 | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| open-type | string  |         | 否   | 微信开放能力                                                 | [1.1.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+
+##### open-type 的合法值
+
+| 值             | 说明                                                         | 最低版本                                                     |
+| :------------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
+| contact        | 打开客服会话，如果用户在会话中点击消息卡片后返回小程序，可以从 bindcontact 回调中获得具体信息，[具体说明](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/customer-message/customer-message.html) （*小程序插件中不能使用*） | [1.1.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| share          | 触发用户转发，使用前建议先阅读[使用指引](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html#使用指引) | [1.2.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| getPhoneNumber | 获取用户手机号，可以从bindgetphonenumber回调中获取到用户信息，[具体说明](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getPhoneNumber.html) *（小程序插件中不能使用）* *（非企业小程序不可使用该功能）* *（需要结合事件使用）* | [1.2.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| getUserInfo    | 获取用户信息，可以从bindgetuserinfo回调中获取到用户信息 （*小程序插件中不能使用*） | [1.3.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| launchApp      | 打开APP，可以通过app-parameter属性设定向APP传的参数[具体说明](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/launchApp.html) | [1.9.5](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| openSetting    | 打开授权设置页                                               | [2.0.7](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| feedback       | 打开“意见反馈”页面，用户可提交反馈内容并上传[日志](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/wx.getLogManager.html)，开发者可以登录[小程序管理后台](https://mp.weixin.qq.com/)后进入左侧菜单“客服反馈”页面获取到反馈内容 | [2.1.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+
+---
+
+<br>
+
+## 2.9	图标 \<icon>
+
+##### 说明
+
+- 图标。组件属性的长度单位默认为 px，2.4.0 起支持传入单位(rpx/px)。
+
+##### 属性
+
+| 属性  | 类型          | 默认值 | 必填 | 说明                                                         | 最低版本                                                     |
+| :---- | :------------ | :----- | :--- | :----------------------------------------------------------- | :----------------------------------------------------------- |
+| type  | string        |        | 是   | icon的类型，有效值：success, success_no_circle, info, warn, waiting, cancel, download, search, clear | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| size  | number/string | 23     | 否   | icon的大小                                                   | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| color | string        |        | 否   | icon的颜色，同css的color                                     | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+
+---
+
+<br>
+
+## 2.10	单选框  \<radio>
+
+##### 说明
+
+- 单选，需要与 radio group 一起使用。
+
+##### 属性
+
+| 属性     | 类型    | 默认值  | 必填 | 说明                                                         | 最低版本                                                     |
+| :------- | :------ | :------ | :--- | :----------------------------------------------------------- | :----------------------------------------------------------- |
+| value    | string  |         | 否   | [radio](https://developers.weixin.qq.com/miniprogram/dev/component/radio.html) 标识。当该[radio](https://developers.weixin.qq.com/miniprogram/dev/component/radio.html) 选中时，[radio-group](https://developers.weixin.qq.com/miniprogram/dev/component/radio-group.html) 的 change 事件会携带[radio](https://developers.weixin.qq.com/miniprogram/dev/component/radio.html)的value | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| checked  | boolean | false   | 否   | 当前是否选中                                                 | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| disabled | boolean | false   | 否   | 是否禁用                                                     | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| color    | string  | #09BB07 | 否   | radio的颜色，同css的color                                    | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+
+---
+
+<br>
+
+## 2.11	复选框 \<checkbox>
+
+##### 说明
+
+- 复选框。可以搭配 checkbox-group ⼀起使⽤
+
+属性
+
+| 属性     | 类型    | 默认值  | 必填 | 说明                                                         | 最低版本                                                     |
+| :------- | :------ | :------ | :--- | :----------------------------------------------------------- | :----------------------------------------------------------- |
+| value    | string  |         | 否   | [checkbox](https://developers.weixin.qq.com/miniprogram/dev/component/checkbox.html)标识，选中时触发[checkbox-group](https://developers.weixin.qq.com/miniprogram/dev/component/checkbox-group.html)的 change 事件，并携带 [checkbox](https://developers.weixin.qq.com/miniprogram/dev/component/checkbox.html) 的 value | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| disabled | boolean | false   | 否   | 是否禁用                                                     | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| checked  | boolean | false   | 否   | 当前是否选中，可用来设置默认选中                             | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| color    | string  | #09BB07 | 否   | checkbox的颜色，同css的color                                 | [1.0.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
 
 ---
 
@@ -222,6 +522,14 @@
   ```html
   <checkbox checked = "{{false}}"></checkbox>
   ```
+
+---
+
+<br>
+
+## 2.4	
+
+
 
 ---
 
@@ -572,15 +880,161 @@ Page({
 
 <br>
 
-## 5.3	选择器
+## 5.3	选择器（未完成）
 
+##### 📌小程序不支持通配符 *
 
+- 由于微信小程序框架不支持 `*`，所以下列代码无效：
+
+  ```css
+  *{
+  	margin:0;
+      padding:0;
+      box-sizing:border-box:
+  }
+  ```
+
+##### 目前小程序支持的选择器
+
+|      |      |      |
+| ---- | ---- | ---- |
+|      |      |      |
+|      |      |      |
+|      |      |      |
 
 ---
 
  <br>
 
-## 5.4	less
+## 5.4	less（未完成）
+
+
+
+---
+
+<br>
+
+# 6	自定义组件
+
+## 6.1	基础
+
+##### 创建自定义组件
+
+1. 在微信小程序的根目录下 创建文件夹 components
+2. 在 components 文件夹下新建文件夹，该文件夹与自定义组件同名
+3. 在上述文件夹中创建与自定义组件同名的 wxss、wxml、json、js 文件，可以通过微信开发者工具进行一键创建。
+
+![image-20210311200533787](img/image-20210311200533787.png)
+
+##### 使用自定义组件
+
+1. 在页面的 json 文件中引入自定义组件
+
+   ```js
+   //.json
+   {
+    // 引用声明
+    "usingComponents": {
+     // 要使用的组件的名称     // 组件的路径
+        "Tabs":"/components/Tabs/Tabs"
+     }
+   }
+   ```
+
+2. 在 wxml 中使用自定义组件标签
+
+   ```html
+   <tabs/>
+   ```
+
+---
+
+<br>
+
+## 6.2	父组件向子组件传递数据
+
+---
+
+<br>
+
+## 6.3	子组件向父组件传递数据
+
+---
+
+<br>
+
+## 6.4	slot
+
+---
+
+<br>
+
+## 6.5	自定义组件的其他属性
+
+---
+
+<br>
+
+## 6.5	[例][]
+
+---
+
+<br>
+
+# 7	生命周期
+
+## 7.1	应用生命周期
+
+##### 说明
+
+- 应用程序生命周期函数在 app.js 文件中定义。
+
+##### onLaunch()
+
+- **触发时机**：小程序初次启动时触发。
+- **用途**：可以用于在小程序初次启动的时，获取用户个人信息 。
+
+##### onShow()
+
+- **触发时机**：小程序界面加载完毕后。
+- **用途**：可以用于重置页面数据或动画效果。
+
+##### onHide()
+
+- **触发时机**：用户离开小程序界面。
+- **用途**：
+  1. 可以用于暂停计时器
+  2. 可以用于保存页面状态
+
+#####  onError(err)
+
+- **触发时机**：小程序出现错误时。
+- **用途**：可以用于收集错误信息，通过异步请求将错误信息发送至后台。
+
+##### onPageNotFound()
+
+- **触发时机**：小程序启动时，如果找不到入口页面将触发。
+
+- **用途**：如果入口页面不存在，可以在该函数中通过 js 的方式来重新跳转页面。
+
+- **例**：
+
+  ```js
+  App({
+  	onPageNotFound(){
+  		//跳转到demo页面
+  		wx.navigateTo({
+      	  url: '/pages/demo/demo' 
+      	});
+      }
+  })
+  ```
+
+---
+
+<br>
+
+## 7.2	页面生命周期
 
 
 
@@ -600,7 +1054,8 @@ Page({
 
 ##### 参考
 
-- 
+- [微信开放文档](https://developers.weixin.qq.com/miniprogram/dev/framework/)
+- [黑马程序员Web前端教程_零基础玩转微信小程序](https://www.bilibili.com/video/BV1nE41117BQ)
 
 ##### 相关资料
 
