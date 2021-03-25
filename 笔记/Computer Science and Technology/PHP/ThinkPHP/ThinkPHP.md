@@ -2669,9 +2669,1457 @@ class Test
 
 <div style="page-break-after: always;"></div>
 
-# 5	数据库
+# 5	数据库连接与模型
+
+## 5.0	概述
+
+##### ThinkPHP 连接数据库
+
+- ThinkPHP 采用内置的抽象层将不同的数据库操作进行封装处理，数据抽象层基于 PDO 模式[^PDO 模式]，无须针对不同的数据库编写相应的代码。
+
+##### 📌[本章节中使用的数据库文件][1]
+
+---
+
+<div style="page-break-after: always;"></div>
+
+## 5.1	连接数据库
+
+##### 步骤
+
+1. 在 `config/database.php` 中可以设置生产环境下数据库连接信息，在根目录的 `.env` 文件中可以设置开发环境下的数据库连接信息。
+
+2. 创建一个用于测试数据库连接的 Controller：
+
+   ```php
+   <?php
+   namespace app\controller;
+   
+   
+   use think\facade\Db;
+   
+   class DatabaseConnectionTest
+   {
+       public function index(){
+           $person = Db::table('person')->select();
+           return json($person);
+       }
+   }
+   ```
+
+##### 📌数据表前缀省略配置（待补充）
+
+- 
+
+##### 📌配置与使用多套数据连接信息
+
+1. 可以在 config/database.php 中对 connecttions 进行配置，以数组的形式定义多套数据连接信息：
+
+   ```php
+   <?php
+   
+   return [
+   	
+   	...
+   	
+       // 数据库连接配置信息
+       'connections'     => [
+           'mysql' => [
+           	...
+           ],
+           'anothermysql' => [
+           	...
+           ],
+           // 更多的数据库配置信息
+       ],
+   ];
+   ```
+
+2. 使用特定的数据库配置：
+
+   ```php
+   //使用名为 mysql 的配置信息（默认配置信息）
+   Db::connect('mysql')->table('person')->select();
+   
+   //使用名为 anothermysql
+   Db::connect('anothermysql')->table('person')->select();
+   ```
+
+##### 📌config/database.php 配置信息
+
+```php
+<?php
+
+return [
+    // 默认使用的数据库连接配置
+    'default'         => env('database.driver', 'mysql'),
+
+    // 自定义时间查询规则
+    'time_query_rule' => [],
+
+    // 自动写入时间戳字段
+    // true为自动识别类型 false关闭
+    // 字符串则明确指定时间字段类型 支持 int timestamp datetime date
+    'auto_timestamp'  => true,
+
+    // 时间字段取出后的默认时间格式
+    'datetime_format' => 'Y-m-d H:i:s',
+
+    // 数据库连接配置信息
+    'connections'     => [
+        'mysql' => [
+            // 数据库类型
+            'type'            => env('database.type', 'mysql'),
+            // 服务器地址
+            'hostname'        => env('database.hostname', '127.0.0.1'),
+            // 数据库名
+            'database'        => env('database.database', ''),
+            // 用户名
+            'username'        => env('database.username', 'root'),
+            // 密码
+            'password'        => env('database.password', ''),
+            // 端口
+            'hostport'        => env('database.hostport', '3306'),
+            // 数据库连接参数
+            'params'          => [],
+            // 数据库编码默认采用utf8
+            'charset'         => env('database.charset', 'utf8'),
+            // 数据库表前缀
+            'prefix'          => env('database.prefix', ''),
+
+            // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
+            'deploy'          => 0,
+            // 数据库读写是否分离 主从式有效
+            'rw_separate'     => false,
+            // 读写分离后 主服务器数量
+            'master_num'      => 1,
+            // 指定从服务器序号
+            'slave_no'        => '',
+            // 是否严格检查字段是否存在
+            'fields_strict'   => true,
+            // 是否需要断线重连
+            'break_reconnect' => false,
+            // 监听SQL
+            'trigger_sql'     => env('app_debug', true),
+            // 开启字段缓存
+            'fields_cache'    => false,
+        ],
+
+        // 更多的数据库配置信息
+    ],
+];
+
+```
+
+##### 📌 `.env` 文件与数据库配置相关的配置信息
+
+```
+[DATABASE]
+TYPE = mysql
+HOSTNAME = 127.0.0.1
+DATABASE = test
+USERNAME = username
+PASSWORD = password
+HOSTPORT = 3306
+CHARSET = utf8
+DEBUG = true
+```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+## 5.2	通过模型访问数据库
+
+##### 说明
+
+- 
+
+##### 步骤——使用简单的模型访问数据库
+
+1. 在 app 目录下创建 model 目录。
+
+2. 在 model 目录下创建数据库表对应的类，并继承 model 类：
+
+   ```php
+   <?php
+   namespace app\model;
+   use think\Model;
+   
+   class person extends Model{
+       //该类不需要任何内容
+   }
+   ```
+
+3. 在 controller 中调用 person 类：
+
+   ```php
+   public function index(){
+       return json(Person::select());
+   }
+   ```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+## 5.3	数据库查询基础
+
+### 5.3.1	单数据查询
+
+##### 说明
+
+- 通过 `Db::table()` 指定数据表后，可以结合 `where()` 对单条数据进行查询，在 ThinkPHP 中可以使用三种方法进行单数据查询：
+
+  1. find()
+  2. findOrFail()
+  3. findOrEmpty
+
+  这三种方式在查询数据不存在时会返回不同的结果。
+
+##### find()
+
+- **说明**：如果希望只查询一条数据，可以使用 `find()` 方法。
+
+- **查询数据不存在时的返回值**： `null`。
+
+- ##### 例——查询 person 表中 id 为 3 的数据
+
+  ```php
+  Db::table('person')->where('id',3)->find();
+  ```
+
+##### find0rFail()
+
+- **说明**：如果希望只查询一条数据，可以使用 `find()` 方法。
+
+- **查询数据不存在时的返回值**： `null`。
+
+- ##### 例——查询 person 表中 id 为 3 的数据
+
+  ```php
+  Db::table('person')->where('id',3)->find0rFail();
+  ```
+
+##### findOrEmpty()
+
+- **说明**：如果希望只查询一条数据，可以使用 `find()` 方法。
+
+- **查询数据不存在时的返回值**： `null`。
+
+- ##### 例——查询 person 表中 id 为 3 的数据
+
+  ```php
+  Db::table('person')->where('id',3)->findOrEmpty();
+  ```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.3.2	数据集查询
+
+##### 说明
+
+- 想要获取多列数据，可以使用 `select()` 方法;
+
+##### select() 与 selectOrFail()
+
+- **说明**：select() 与 selectOrFail() 都用于多列数据查询，区别在于`select()` 在查询不到任何数据时返回空数组，`selectOrFail()`则抛出异常。
+
+- **例——使用 select() 与 selectOrFail() 查询数据**
+
+  ```php
+  Db::table('tp_user')->select();
+  
+  Db::table('tp_user')->where('id', -1)->select0rFail();//查询结果为空，将抛出异常
+  ```
+
+##### 将数据集对象转化为数组
+
+- **说明**：在 select() 方法后使用 toArry() 方法，可以将数据集对象转换为数组
+
+- **例——使用 toArray() 将返回的数据集转换为数组**
+
+  ```php
+  $person = Db::table('person')->select()->toArray();
+  dump($person);//dump 为 ThinkPHP 提供的方法，可以用更清晰的方式展示数组
+  ```
+
+##### 忽略数据表前缀
+
+- **说明**：如果在配置文件中设置了忽略前缀，可以使用 name() 方法忽略数据表的前缀。
+
+- ##### 例——忽略 tb_person 的前缀
+
+  ```php
+  $person = Db::name('person')->select()->toArray();
+  
+  dump($person);//dump 为 ThinkPHP 提供的方法，可以用更清晰的方式展示数组
+  ```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.3.3	时间查询
+
+##### 使用查询表达式
+
+- **例——使用 `>` 、`<`、`>=`、`<=`、`<>` 筛选时间**
+
+  ```php
+  Db::table('person')->where('create_time', '>', '2012-12-21')->select();
+  echo Db::getLastSql()."<br>";
+  
+  Db::table('person')->where('create_time', '>', '2012-12-21')->select();
+  echo Db::getLastSql()."<br>";
+  
+  Db::table('person')->where('create_time', '<>', '2012-12-21')->select();
+  echo Db::getLastSql()."<br>";
+  ```
+
+- **例——使用 between 设置时间的区间**
+
+  ```php
+  Db::name('user')->where('create_time', 'between', ['2012-12-21','2012-12-31'])->select();
+  ```
+
+##### 使用快捷方式查询时间
+
+- **说明**：时间查询的快捷方式为 `whereTime()`，可以使用查询表达式。除此之外还有 `whereBetweenTime()` 和 `whereNotBetweenTime()`。
+
+- **默认的 whereTime()**：如果在 `whereTime()`  中使用不使用任何查询表达式，则默认使用了 `>`。
+
+- **例——使用 whereTime() 进行查询**
+
+  ```php
+  Db::table('person')->whereTime('create_time', '>','2012-12-21')->select();
+  
+  Db::table('person')->whereTime('create_time', 'Between', ['2012-12-21','2012-12-31'])->select();
+  
+  Db::table('person')->whereTime('create_time', '2012-12-21')->select();
+  
+  Db::table('person')->whereBetweenTime('create_time','2018-1-1','2019-12-31')->select();
+  ```
+
+##### 固定查询
+
+- **说明**：使用固定查询可以查询指定时间段的数据。
+
+- **例——使用 whereYear 查询今年的数据、去年的数据和某一年的数据**
+
+  ```php
+  Db::table('person')->whereYear('create_time')->select();
+  Db::table('person')->whereYear('create_time', 'last year')->select();
+  Db::table('person')->whereYear('create_time', '2016')->select();
+  ```
+
+- **例——使用 whereMonth 查询当月的数据、上月的数据和某个月的数据**
+
+  ```php
+  Db::table('person')->whereMonth('create_time')->select();
+  Db::table('person')->whereMonth('create_time', 'last month')->select();
+  Db::table('person')->whereMonth('create_time', '2016-6')->select();
+  ```
+
+- **例——使用 whereDay 查询今天的数据、昨天的数据和某一天的数据**
+
+  ```php
+  Db::table('person')->whereDay('create_time')->select();
+  Db::table('person')->whereDay('create_time', 'last day')->select();
+  Db::table('person')->whereDay('create_time', '2016-6-27')->select();
+  ```
+
+##### 其他查询
+
+- **例——查询指定时间的数据，比如两小时内的数据**
+
+  ```php
+  Db::table('person')->whereTime('create_time', '-2 hours')->select();
+  ```
+
+- **例——将当前时间与两个时间字段进行比较<font size=1>（可以用于查询有效期）</font>**
+
+  ```php
+  // 查询有效期内的活动
+  Db::name('event')
+  	->whereBetweenTimeField('start_time', 'end_time')
+      ->select();
+  上面的查询相当于
+  
+  // 查询有效期内的活动
+  Db::name('event')
+  	->whereTime('start_time', '<=', time())
+      ->whereTime('end_time', '>=', time())
+      ->select();
+  ```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.3.4	其他查询
+
+##### Db::getLastSql()
+
+- **说明**：返回最近执行的一条 SQL 语句，可以用于测试。
+
+##### value()
+
+- **说明**：查询指定字段的值<font size=1>（单条数据）</font>。
+
+- **例——查询 id 为 3 的数据 的 name 字段** 
+
+  ```php
+  Db::table('person')->when('id',3)->value('name');
+  ```
+
+##### column()
+
+- **说明**：查询指定列的数据<font size=1>（多条数据）</font>。
+
+- **例——查询表中 name 列的值**
+
+  ```php
+  Db::table('person')->column('name');
+  ```
+
+- 📌**column() 可以指定另一列作为索引**
+
+  ```php
+  Db::table('person')->column('name','id');
+  Db::table('person')->column('name','age');
+  ```
+
+  - 在浏览器上输出：
+
+    ![image-20210324175101694](img/image-20210324175101694.png)
+
+  - 由于 php 数组的特性，如果多个列的项的索引相同，会导致只保留其中的一项，所以最好不要将 id 字段以外的列作为索引。
+
+##### chunk()
+
+- **说明**：如果处理的数据量巨大，一次性读取有可能会导致内存开销过大，此时可以使用 `chunk()` 方法分批处理数据。
+
+- **例——每次处理 3 条数据**
+
+  ```php
+  Db::table('person')->chunk(3,function($person){
+      foreach ($person as $person){
+          dump($person);
+      }
+      echo "<hr>";//每次处理结束后打印分隔符
+  });
+  ```
+
+##### cursor()
+
+- **说明**：游标查询，可以大幅度减少海量数据的内存开销。
+
+- **原理**：利用 PHP 生成器特性。每次查询只读取一行，再此查询时，自动定位到下一行继续读取。
+
+- **例——使用游标查询**
+
+  ```php
+  $cursor = Db::table('person')->cursor();
+  foreach($cursor as $person){
+      dump($person);
+  }
+  ```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.3.5	链式操作
+
+##### 说明
+
+- `Db::table(`) 与 `Db::name()` 会返回 **数据库查询对象（query）**，而数据库查询对象可以连缀数据库对应的方法。每次执行一个数据库查询方法<font size=1>（比如 `where()`）</font>时，仍然会返回数据库查询对象，只要返回的还是数据库查询对象，就可以一直使用指向符号 `->` 进行链式操作。
+
+##### 结果查询方法
+
+- `find()`、 `select()` 等方法返回数组（Array）或数据集对象（Collection），属于结果查询方法，不能继续使用链式操作。
+
+##### 📌增删改方法也可以使用链式操作
+
+- 除了查询方法可以使用链式连贯操作，增删改方法也可以使用链式操作。
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.3.6	保留查询对象[^?2]
+
+##### 说明
+
+- 如果多次使用数据库查询，那么每次静态创建都会创建查询对象，造成浪费。我们可以把对象保存下来，进行反复调用。
+
+##### 步骤——保留查询对象
+
+1. 保留对象：
+
+   ```php
+   $personQuery = Db::name('person');
+   ```
+
+2. 使用保存的对象
+
+   ```php
+   $dataFind = $personQuery->where('id',21)->find();
+   
+   $dataSelect = $personQuery->select();
+   
+   $dataOrder = $personQuery->order('id','desc')->select();
+   ```
+
+##### 📌清除上一次查询保留的查询结果
+
+- 如果已经使用了一次保留的对象，那么查询结果会保留在对象中，需要进行清除：
+
+  ```php
+  $personQuery = Db::name('person');
+  
+  //对 $personQuery 进行排序
+  $data1 = $personQuery->order('id','desc')->select();
+  
+  //此时仍将得到排序后的结果
+  $data2 = $personQuery->select();
+  
+  //清除上一次查询保留的值
+  $userQuery ->removeOption('order')-> select();
+  ```
 
 
+---
+
+<div style="page-break-after: always;"></div>
+
+## 5.4	数据增删改
+
+### 5.4.1	单数据新增
+
+##### 说明
+
+- 使用 `insert()` 方法可以向数据表添加一条数据。如果插入成功，将会返回 1。
+
+##### 例——使用 insert() 增加一条数据
+
+```php
+$person = [ 'name'=>'Tom',
+            'age'=>11];
+
+//插入数据
+$flag = Db::table('person')->insert($person);
+
+//新增成功则返回 1
+echo $flag;
+
+//查看插入的结果
+dump(Db::table('person')->select());
+```
+
+##### insert() 异常
+
+1. 如果增加一个不存的字段数据，将抛出异常。
+2. 如果字段有默认值，且 insert() 在插入时没有对该字段赋值，会为该字段赋予默认值。但是，如果该字段没有默认值且不可为空，将会报错。
+
+##### 使用 strick(false) 强行新增包含不存在字段的数据
+
+```php
+$person = [ 'name'=>'Jack',
+            'age'=>20,
+            'height'=>195];//height 字段在表中不存在
+
+//插入数据
+Db::table('person')->strick(false)->insert($person);
+
+//查看插入的结果
+dump(Db::table('person')->select());
+```
+
+##### insertGetid()
+
+- **说明**：insertGetid() 方法可以在新增成功后返回新增数据的主键值（ID。）
+
+- **例——使用 insertGetid() 新增数据**
+
+  ```php
+  $person = [ 'name'=>"Trump",
+              'age'=>74];
+  
+  //插入数据
+  $flag = Db::table('person')->insertGetId($person);
+  echo $flag;
+  //查看插入的结果
+  dump(Db::table('person')->select());
+  ```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.4.2	批量数据新增
+
+##### 说明
+
+- 使用 insertAll()方法，可以批量新增数据，前提是保持数组结构一致。
+
+##### 例——一次新增多条数据
+
+```php
+$persons = [ 
+	[ 'name' => '甲','age' => '22'],
+	[ 'name' => '乙','age' => '21'],
+	[ 'name' => '丙','age' => '23'],
+	[ 'name' => '丁','age' => '23']
+];
+
+//插入数据
+Db::table('person')->insertAll($persons);
+//查看插入的结果
+dump(Db::table('person')->select());
+```
+
+##### 📌replace()
+
+- 批量新增也支持 `replace()` 方法。
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.4.3	replace()  方法与使用 save() 新增
+
+##### 📌使用 replace() 写入
+
+- **说明**：如果我们采用的数据库是 mysql，可以支持 `replace()` 写入。如果表中存在主键相同的一条数据，直接使用 `insert()` 插入会报错，而如果使用了 `replace()` 会对这条数据进行修改。
+
+- **使用**：`replace()` 必须与 `insert()` 、`insertAll()` 或 `insertGetId()` 一起使用。
+
+- **例——使用 replace() 插入和删除数据**
+
+  ```php
+  $person = [ 'name'=>"Rose",
+              'age'=>17];
+  
+  //插入数据
+  Db::table('person')->replace()->insert($person);
+  
+  $person['age'] = 101;
+  //修改的插入数据
+  Db::table('person')->replace()->insert($person);
+  
+  //查看插入的结果
+  dump(Db::table('person')->select());
+  ```
+
+##### save()[^?3]
+
+- **说明**：`save()` 是一个 **通用方法**<font size=1>（不管是MySQL 还是其他数据库都可以使用）</font>，可以自行判断是新增还是修改（更新）数据。
+
+- **原理**：`save()` 判断新增和修改的依据是 **插入数据是否存在主键**，如果对应主键的数据不存在，则修改失败。
+
+- **例——使用 save() 插入和修改数据**
+
+  ```php
+  $person1 = ['name'=>"Rose",
+              'age'=>17];
+  
+  //$person1 中没有 id 字段，插入数据
+  Db::table('person')->save($person);
+  
+  $person['age'] = 101;
+  
+  $person2 = ['id'=>12,
+      		'name'=>"Rose",
+              'age'=>17];
+  //$person2 中存在 id 字段，修改数据（如果对应 id 的数据不存在，则修改失败）
+  Db::table('person')->save($person);
+  
+  //查看插入的结果
+  dump(Db::table('person')->select());
+  ```
+
+---
+
+<br>
+
+### 5.4.4	数据修改
+
+##### 说明
+
+- 使用 `update()` 来修改数据，修改成功返回操作影响的行数，没有修改则返回 0。如果修改数据包含了主键信息<font size=1>（比如 id）</font>，那么可以省略掉 `where` 条件。
+
+##### 例——使用 update 修改数据
+
+```php
+$person1 = ['gender' => 2];
+echo(Db::table('person')->where('id', 1)->update($person1));//修改成功输出1
+
+$person2 = ['id' => 2, 'gender' => 1];
+echo(Db::table('person')->update($person2));//修改成功输出1
+```
+
+##### 使用 exp() 执行 SQL 函数操作
+
+- **说明**：如果想在修改时执行 SQL 函数操作，可以使用 exp() 实现。
+
+- **例——通过 exp() 使用 SQL UPPER 函数**
+
+  ```php
+  Db::table('person')->where('id',5)->exp('name', 'UPPER(name)')->update();
+  ```
+
+##### 使用 inc()/dec() 对字段进行自增/自减
+
+- **说明**： 如果要自增/自减某个字段，可以使用 inc/dec 方法，`inc()`/`dec()` 支持自定义步长。
+
+- **例——使用 inc()/dec() 修改字段**
+
+  ```php
+  Db::table('person')->where('id',5)
+     ->inc('age',10)
+     ->dec('gender')
+     ->update([
+         'name' => Db::row('LOWER(name)'),
+         'age'  => Db::row('age+10'),
+         'gender'  => Db::row('gender+1');
+     ]);
+  ```
+
+##### 使用 raw() 简化 SQL 函数操作
+
+- **说明**：raw() 可以简化 exp() 和 inc()/dec() 的使用。
+
+- **例——使用 raw()**
+
+  ```php
+  Db::table('person')->where('id',5)
+          ->update([
+              'name'      => Db::raw('UPPER(name)'),
+              'age'       => Db::raw('age+10'),
+              'gender'    => Db::raw('gender+1')
+      	]);
+  ```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.4.5	数据删除
+
+##### 说明
+
+- 使用 `delete()` 删除数据。
+
+##### 根据主键删除数据
+
+```php
+//删除 id 为 10 的数据
+Db:table('person')->delete(10);
+
+//删除 id 为 11、12、13 的数据
+Db::table('person')->delete([11,12,13]);
+```
+
+##### 使用 where() 根据条件删除数据
+
+```php
+Db:table('person')->where('id',16)->delete();
+```
+
+##### 删除数据表中的所有数据
+
+```php
+Db:table('person')->delete(true);
+```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+## 5.5	数据库查询表达式
+
+### 5.5.0	概述
+
+##### where()
+
+- 在对查询数据进行筛选时，采用 where() ，where() 中可以使用查询表达式来对查询结果进行更细致的筛选。
+
+##### 查询表达式
+
+- 查询表达式支持大部分常用的 SQL 语句，语法格式如下：
+
+  ```
+  where('字段名','查询表达式','查询条件')
+  ```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.5.1	比较查询
+
+##### 说明
+
+- 使用 `<>`（不等于）、`>`、`<`、`>=`、`<=` 可以筛选出符合条件得数据集。
+
+##### 例——筛选出指定 id 范围内的数据
+
+```php
+$c1 = Db::table('person')->where('id','<>',1)->select();
+dump($c1);
+
+$c2 = Db::table('person')->where('id','>',3)->select();
+dump($c2);
+
+$c3 = Db::table('person')->where('id','>=',5)->select();
+dump($c3);   
+```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.5.2	like
+
+##### 说明
+
+- 使用 like 表达式进行模糊查询。
+
+##### 多条件模糊查询
+
+- 可以通过数组进行多条件的模糊查询，使用数组进行多条件查询时，默认以 `AND` 连接，如果需要以 `OR` 连接可以为 `where()` 添加字符串参数 `'or'`。
+
+##### notlike
+
+- 使用 `notlike` 对 `like` 的查询结果反选。
+
+##### 例——使用 like 进行模糊查询
+
+```php
+$c1 = Db::table('person')->where('name','like','张%')->select();
+echo Db::getLastSql()."<br>";
+
+$c2 = Db::table('person')->where('name','like','%张%')->select();
+echo Db::getLastSql()."<br>";
+
+$c3 = Db::table('person')->where('name','notlike','%张%')->select();
+echo Db::getLastSql()."<br>";
+
+$c4 = Db::table('person')->where('name','like',['张%','李%','王%'])->select();
+echo Db::getLastSql()."<br>";
+
+$c5 = Db::table('person')->where('name','like',['张%','李%','王%'],'or')->select();
+echo Db::getLastSql()."<br>";
+```
+
+- 上述操作执行的 SQL 语句：
+
+  ```sql
+  SELECT * FROM `person` WHERE `name` LIKE '张%'
+  SELECT * FROM `person` WHERE `name` LIKE '%张%'
+  SELECT * FROM `person` WHERE `name` NOT LIKE '%张%'
+  SELECT * FROM `person` WHERE (`name` LIKE '张%' AND `name` LIKE '李%' AND `name` LIKE '王%')
+  SELECT * FROM `person` WHERE (`name` LIKE '张%' OR `name` LIKE '李%' OR `name` LIKE '王%')
+  ```
+
+##### like 快捷方式
+
+- like 表达式具有两个快捷方式 `whereLike()` 和 `whereNotLike()`，除了省略了  `where()` 中的表达式部分之外，与 `where()` 的用法相同。
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.5.3	between
+
+##### 说明
+
+- 使用 `between` 获取一定范围内的数据集。
+
+##### notbetween
+
+- 使用 `notbetween` 对 `between` 的查询结果进行反选。
+
+##### 例——between 简单使用示例
+
+```php
+Db::table('person')->where('id','between','19,25')->select();
+echo Db::getLastSql()."<br>";
+
+Db::table('person')->where('id','between',[19, 25])->select();
+echo Db::getLastSql()."<br>";
+
+Db::table('person')->whereBetween('id','19,25')->select();
+echo Db::getLastSql()."<br>";
+
+Db::table('person')->whereNotBetween('id','19,25')->select();
+echo Db::getLastSql()."<br>";
+```
+
+- 上述操作执行的 SQL 语句：
+
+  ```sql
+  SELECT * FROM `person` WHERE `id` BETWEEN 19 AND 25
+  SELECT * FROM `person` WHERE `id` BETWEEN 19 AND 25
+  SELECT * FROM `person` WHERE `id` BETWEEN 19 AND 25
+  SELECT * FROM `person` WHERE `id` NOT BETWEEN 19 AND 25
+  ```
+
+##### between 快捷方式
+
+- between 表达式具有两个快捷方式 `whereBetween()` 和 `whereNotBetween()`，除了省略了  `where()` 中的表达式部分之外，与 `where()` 的用法相同。
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.5.4	in
+
+##### 说明
+
+- 使用 `in` 获取指定的多个条件中的数据集。
+
+##### notin
+
+- 使用 `notin` 对 `in` 的查询结果进行反选。
+
+##### 例——between 简单使用示例
+
+```php
+Db::table('person')->where('id','in', '19,21,29')->select();
+echo Db::getLastSql()."<br>";
+
+Db::table('person')->where('id','in', [19, 21, 29])->select();
+echo Db::getLastSql()."<br>";
+
+Db::table('person')->whereIn('id','19,21,29')->select();
+echo Db::getLastSql()."<br>";
+
+Db::table('person')->whereNotIn('id','19,21,29')->select();
+echo Db::getLastSql()."<br>";
+```
+
+- 上述操作执行的 SQL 语句：
+
+  ```sql
+  SELECT * FROM `person` WHERE `id` IN (19,21,29)
+  SELECT * FROM `person` WHERE `id` IN (19,21,29)
+  SELECT * FROM `person` WHERE `id` IN (19,21,29)
+  SELECT * FROM `person` WHERE `id` NOT IN (19,21,29)
+  ```
+
+##### in 快捷方式
+
+- in 表达式具有两个快捷方式 `whereIn()` 和 `whereNotIn()`，除了省略了  `where()` 中的表达式部分之外，与 `where()` 的用法相同。
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.5.5	null 与 not null
+
+##### 说明
+
+- 使用 `null` 获取指定字段为空的数据集。
+
+##### notin
+
+- 使用 `notnull` 对 `null` 的查询结果进行反选。
+
+##### 例——between 简单使用示例
+
+```php
+Db::table('person')->where('gender','null')->select();
+echo Db::getLastSql()."<br>";
+
+Db::table('person')->where('gender','not null')->select();
+echo Db::getLastSql()."<br>";
+
+Db::table('person')->whereNull('gender')->select();
+echo Db::getLastSql()."<br>";
+
+Db::table('person')->whereNotNull('gender')->select();
+echo Db::getLastSql()."<br>";
+```
+
+- 上述操作执行的 SQL 语句：
+
+  ```sql
+  SELECT * FROM `person` WHERE `gender` IS NULL
+  SELECT * FROM `person` WHERE `gender` IS NOT NULL
+  SELECT * FROM `person` WHERE `gender` IS NULL
+  SELECT * FROM `person` WHERE `gender` IS NOT NULL
+  ```
+
+##### null 快捷方式
+
+- null 表达式具有两个快捷方式 `whereNull()` 和 `whereNotNull()`，除了省略了  `where()` 中的表达式部分之外，与 `where()` 的用法相同。
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.5.6	自定义查询表达式拼接 Exp
+
+##### 说明
+
+- 使用 `Exp` 可以自定义 `ThinkPHP` 执行的 `SQL` 语句的 `where` 字段后拼接的其他内容。
+
+##### 例——Exp 简单使用
+
+```php
+Db::table('person')->where('id')->select();
+echo Db::getLastSql()."<br>";
+
+Db::table('person')->where('id','exp','IN (19,21,25)')->select();
+echo Db::getLastSql()."<br>";
+
+Db::table('person')->whereExp('id','IN (19,21,25)')->select();
+echo Db::getLastSql()."<br>";
+```
+
+- 上述操作执行的 SQL 语句：
+
+  ```sql
+  SELECT * FROM `person` WHERE `id` IS NULL
+  SELECT * FROM `person` WHERE ( `id` IN (19,21,25) )
+  SELECT * FROM `person` WHERE ( `id` IN (19,21,25) )
+  ```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+## 5.6	高级查询
+
+### 5.6.1	聚合查询
+
+##### 说明
+
+- 在应用中，我们经常会用到一些统计数据，例如当前所有（或者满足某些条件）的用户数、所有用户的最大积分、用户的平均成绩等等。这些数据的共同点是 **由多条数据进行计算得出，但是只返回单个结果**。ThinkPHP 为这种类型的统计操作提供了一系列的内置方法。
+
+##### 聚合查询方法
+
+| 方法    | 说明                                     |
+| :------ | :--------------------------------------- |
+| count() | 统计数量，参数是要统计的字段名（可选）   |
+| max()   | 获取最大值，参数是要统计的字段名（必须） |
+| min()   | 获取最小值，参数是要统计的字段名（必须） |
+| avg()   | 获取平均值，参数是要统计的字段名（必须） |
+| sum()   | 获取总分，参数是要统计的字段名（必须）   |
+
+##### 📌max()/min() 的额外参数 field
+
+- 如果你要获取的最大值/最小值不是一个数值<font size=1>（可能是时间或者字符）</font>，可以使用第二个参数关闭强制类型转换，该操作只对 max()/min() 有效。
+
+##### 例——聚合查询简单使用
+
+```php
+Db::table('person')->count();
+echo Db::getLastSql()."<br>";
+
+Db::table('person')->count('id');
+echo Db::getLastSql()."<br>";
+
+Db::table('person')->max('id');
+echo Db::getLastSql()."<br>";
+
+Db::table('person')->max('id', false);
+echo Db::getLastSql()."<br>";
+
+Db::table('person')->min('id');
+echo Db::getLastSql()."<br>";
+
+Db::table('person')->avg('id');
+echo Db::getLastSql()."<br>";
+
+Db::table('person')->sum('id');
+echo Db::getLastSql()."<br>";
+```
+
+- 上述操作执行的 SQL 语句：
+
+  ```sql
+  SELECT COUNT(*) AS think_count FROM `person`
+  SELECT COUNT(`id`) AS think_count FROM `person`
+  SELECT MAX(`id`) AS think_max FROM `person`
+  SELECT MAX(`id`) AS think_max FROM `person`
+  SELECT MIN(`id`) AS think_min FROM `person`
+  SELECT AVG(`id`) AS think_avg FROM `person`
+  SELECT SUM(`id`) AS think_sum FROM `person`
+  ```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.6.2	子查询
+
+##### 说明
+
+- 很多时候可能需要根据 SQL 语句查询的结果进行查询，即子查询。ThinkPHP 提供了 `fetchSql()` 与 **buildSql()**，用于构造子查询 SQL 语句。除此之外，还可以使用闭包方式实现子查询。
+
+##### fetchSql()
+
+- **说明**：用于返回 Sql 语句。
+
+- **例——使用 fetchSql() 返回 SQL 语句**
+
+  ```php
+  echo Db::table('person')->fetchSql(true)->select();
+  ```
+
+  - `fetchSql()` 的参数如果是 `false`，将会执行 SQL 语句。
+
+  - 输出：
+
+    ```
+    SELECT * FROM `person`
+    ```
+
+##### buildSql()
+
+- **说明**：也是返回 SQL 语句，不需要再执行 select()，且得到的 SQL 语句会被括号包裹。
+
+- **例——使用 buildSql() 返回 SQL 语句**
+
+  ```
+  echo Db::table('person')->buildSql(true);
+  ```
+
+  - 输出：
+
+    ```
+    ( SELECT * FROM `person` )
+    ```
+
+##### 例——使用 buildSql() 实现子查询
+
+```php
+$subQuery = Db::table('table_two')->field('uid')->where('gender','男')->buildSql(true);
+echo $subQuery 
+
+$result = Db::name('table_one')->where('id','exp','IN '.$subQuery)->select();
+echo Db::getLastSql()."<br>";
+```
+
+##### 使用闭包方式执行子查询
+
+```php
+$result = Db::name('one')->where('id', 'in', function ($query) {
+	$query->name('two')->where('gender', '男')->field('uid');
+})->select();
+```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.6.3	原生查询
+
+##### query()
+
+- **说明**：通过 query() 使用原生的 SQL 语句进行 **查询操作**。
+
+- **例——query() 简单使用示例**
+
+  ```
+  Db::query('select * from person');
+  ```
+
+##### execute()
+
+- **说明**：通过 query() 使用原生的 SQL 语句进行 **增删改操作**。
+
+- **例——execute() 简单使用示例**
+
+  ```php
+  Db::execute('update person set name="孙悟空",age="2400" );
+  ```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+## 5.7	链式查询	
+
+### 5.7.1	where()
+
+##### 说明
+
+- **where()** 用于限定查询语句的条件，除了之前使用的 where() 查询形式<font size=1>（即表达式查询）</font>，还有很多不同的写法。
+
+##### 表达式查询
+
+- **说明**：where() 基础查询方式。
+
+- **例——简单的表达式查询**
+
+  ```php
+  Db::table('person')->where('id', '>', 70)->select();
+  ```
+
+##### 关联数组查询
+
+- **说明**：通过数组键值对匹配的方式进行查询。
+
+- **例——简单的关联数组查询**
+
+  ```php
+  $user = Db::table('person')->where([
+  	'gender' => '男',
+      'price' => [60,70,80]
+  ])->select();
+  ```
+
+##### 索引数组查询
+
+- **说明**：通过拼接二维数组中的一维数组进行查询。
+
+- **例——简单的索引数组查询**
+
+  ```php
+  $user = Db::name('user')->where([
+  	['gender', '=', '男'],
+  	['price', '=', '100']
+  ])->select();
+  ```
+
+- **例——将复杂的数组组装后通过变量传递**
+
+  ```php
+  $map[] = ['gender', '=', '男'];
+  $map[] = ['price', 'in', [60, 70, 80]];
+  $user = Db::name('user')->where($map)->select();
+  ```
+
+##### 使用字符串形式传递查询条件 whereRaw()
+
+- **说明**：通过字符串形式传递查询条件，whereRaw() 支持复杂字符串格式。如果 SQL 采用了预处理模式[^SQL 预处理模式]，也可以使用 `whereRaw()` 
+
+- **例——简单使用**
+
+  ```
+  Db::name('user')->whereRaw('gender="男" AND price IN (60, 70, 80)')->select();
+  ```
+
+- **例——SQL 查询使用预处理模式时使用 whereRaw()**
+
+  ```php
+  Db::name('user')->whereRaw('id=:id', ['id'=>19])->select();
+  ```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.7.2	field()
+
+##### 说明
+
+- 使用 field() 方法，可以指定对字段进行操作<font size=1>（如指定要查询的字段或者给指定的字段设置别名等）</font>。
+
+##### 例——使用 field() 指定要查询的字段
+
+```php
+Db::table('person')->field('id, name')->select();
+
+Db::table('person')->field(['id', 'name', 'age'])->select();
+```
+
+##### 例——使用 field() 为指定的字段设置别名
+
+```php
+Db::table('person')->field('id, username, email')->select();
+
+Db::table('person')->field(['id', 'username', 'email'])->select();
+```
+
+##### 📌fieldRow()
+
+- **说明**：可以使用 fieldRaw() 为字段设置 Mysql 函数。
+
+- **例——fieldRaw() 简单使用 **
+
+  ```php
+  Db::table('person')->fieldRaw('id')->select();//返回所有的 id 字段
+      
+  Db::table('person')->fieldRaw('SUM(age)')->select();//返回所有 age 字段的和
+  
+  Db::table('person')->fieldRaw('id,SUM(age)')->select();//该语句无法正常执行
+  ```
+
+  - `fieldRaw('id,SUM(age)')` 执行出现异常[^!2]。
+
+##### 📌field(true)
+
+- **说明**：使用 field(true)，可以显示的获取所有字段，而不是使用 * 获取所有的字段。
+
+- **例——使用 field(true) 查询所有字段**
+
+  ```php
+  Db::table('person')->field(true)->select();
+  ```
+
+##### withoutField()
+
+- **说明**：使用 withoutField() 时，查询结果会排除 withoutField() 中的字段。
+
+- **例——withoutField() 简单使用**
+
+  ```php
+  Db::table('person')->withoutField('gender')->select();
+  ```
+
+##### 📌验证字段的合法性
+
+- **说明**：在新增时使用 field()  ,可以验证字段的合法性<font size=1>（字段的值是否与数据库中该字段的数据类型相匹配）</font>。
+
+- **例——使用 field 检验字段的合法性**
+
+  ```php
+  Db::table('person')->field('username, email, details')->insert($data)
+  ```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.7.3	alias()
+
+##### 说明
+
+-  可以通过 `alias()` 给数据表起一个别名。
+
+##### 例——为 person 表赋予别名 a
+
+```php
+Db::table('person')->alias('a')->select();
+echo Db::getLastSql();
+```
+
+- 输出的 sql 语句为：
+
+  ```sql
+  SELECT * FROM `person` `a`
+  ```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.7.4	limit() 与 page()
+
+##### limit()
+
+- **说明**：`limit()` 可以用于限制获取输出数据的个数，还可以进行分页查询。
+
+- **例——使用 limit() 限制获取 5 条数据**
+
+  ```php
+  Db::table('person')->limit(5)-select();
+  ```
+
+- **例——使用 limit() 进行分页**
+
+  ```php
+  //从第 3 条数据开始，显示共 5 条数据
+  Db::table('person')->limit(2,3)-select();
+  
+  //实现分页
+  //第一页
+  Db::name('user')->limit(0, 5)->select();
+  //第二页
+  Db::name('user')->limit(5, 5)->select();
+  ```
+
+##### page()
+
+- **说明**：使用 `limit()` 进行分页，需要进行复杂的计算，而 `page()` 简化了 `limit()` 的使用。
+
+- **例——使用 page() 进行分页**
+
+  ```php
+  //第一页
+  Db::name('user')->page(1, 5)->select();
+  //第二页
+  Db::name('user')->page(2, 5)->select();
+  ```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.7.5	order()
+
+##### 说明
+
+- `order()` 可以对查询结果进行排序。默认为顺序排序，可以通过参数指定排序方式。
+
+##### 例——order() 基本使用
+
+```php
+Db::table('person')->order('id', 'desc')->select();
+```
+
+##### 例——使用数组方式对多个字段进行排序
+
+```php
+Db::table('person')->order(['id'=>'desc', 'age'=>'asc'])->select();
+```
+
+##### 📌orderRaw()
+
+- **说明**：orderRaw() 可以在排序时指定 SQL 函数。
+
+- **例——orderRaw() 基本使用**
+
+  ```php
+  //按住 name 进行字段进行降序排序，但是让王二位于顶端。
+  Db::table('person')->orderRaw('FIELD(name,"王二") DESC')->select();
+  ```
+
+---
+
+<div style="page-break-after: always;"></div>
+
+### 5.7.6	group() 与 having()
+
+##### group()
+
+- **说明**：使用 group() 可以对查询结果进行分组。
+
+- **例——使用 group() 对性别不同的人的 age字段的总和进行统计**
+
+  ```php
+  Db::table('person')->fieldRaw('gender, SUM(age)')->group('gender')->select();
+  ```
+
+- **例——使用 group() 对性别不同的人进行多字段的分组统计**
+
+  ```php
+  echo Db::table('person')->fieldRaw('gender, SUM(age)')->group('gender,name')->select();
+  ```
+
+  - 结果：返回两段结果，分别按照性别与姓名进行的分组。
+
+##### having()
+
+- **说明**：使用 group() 分组后，需要使用 having() 才能对分组结果进行筛选。
+
+- **例——使用 having 对 group() 进行筛选**
+
+  ```php
+  Db::table('p'r')
+  	->fieldRaw('gender, SUM(price)')
+  	->group('gender')
+  	->having('SUM(price)>50')
+  	->select();
+  ```
 
 ---
 
@@ -2681,15 +4129,15 @@ class Test
 
 ##### 最后编辑时间
 
-- 2021/03/24
+- 2021/03/25
 
 ##### 环境
 
 - Apache 2.4.46 Win64
 - php-7.4.15-Win32-vc15-x64
 - PhpStorm 2020.3.2
-
 - ThinkPHP v6.0.7
+- MySQL 5.7
 
 ##### 参考资料
 
@@ -2701,7 +4149,7 @@ class Test
 
 ##### 代码链接
 
-[1]:
+[1]: sql\test	"本章节中使用的数据库文件"
 
 ##### 锚点
 
@@ -2715,6 +4163,13 @@ class Test
 
 [^?1]: 什么是扩展
 
+[^?2]: Db::Table 的原理是什么，推测应该是根据调用的方法构造数据库查询语句，如果这是对的，那么视频中的表达就是错误的。
+[^?3]: 所谓的存在主键是否指的是
+
 ##### 脚注
 
 [^Composer]: Composer 是 PHP 的一个依赖管理工具。它允许你申明项目所依赖的代码库，它会在你的项目中为你安装他们。
+[^PDO 模式]: PDO 即 PHP 数据对象，PDO 提供了一个数据访问抽象层，这意味着，不管使用哪种数据库，都可以用相同的函数（方法）来查询和获取数据。
+
+[^SQL 预处理模式]: 一种编译过的要执行的 SQL 语句模板，可以使用不同的变量参数对其进行定制。
+
