@@ -6,11 +6,13 @@
 
 - ThinkPHP是一个免开源的、快速简单的、面向对象的 **轻量级PHP开发框架**，是为了敏捷 WEB 应用开发和简化企业应用开发而生。ThinkPHP从诞生以来一直秉承简洁实用的设计原则，在保持出色的性能和至简代码的同时，更注重易用性。
 
+<br>
 
 ##### ThinkPHP 的开源协议
 
 - ThinkPHP 遵循 `Apache2` 开源许可协议发布，意味着你可以免费使用 ThinkPHP，甚至允许把你基于 ThinkPHP 开发的应用开源或商业产品发布/销售。
 
+<br>
 
 ##### ThinkPHP 6.0 主要新特性
 
@@ -31,8 +33,9 @@
 15. 对 IDE 更加友好。
 16. 统一和精简大量用法。
 
+<br>
 
----
+-------
 
 <div STYLE="page-break-after: always;"></div>
 
@@ -54,11 +57,15 @@
 3. 开启调试模式。由于应用默认是部署模式，在开发阶段，可以修改环境变量 `APP_DEBUG` 开启调试模式，上线部署后切换到部署模式。
 
 
+<br>
+
 ##### .env 文件
 
 - **说明**：环境变量文件。本地开发时可以在应用根目录下面定义 `.env` 文件。
 - **.example.env 文件**：通过 Composrer 的 `create-project` 命令安装 ThinkPHP 后，在根目录会自带一个 `.example.env` 文件（环境变量示例文件），你可以直接更名为 `.env` 文件并根据你的要求进行修改。*（该示例文件已经开启调试模式）*
 
+
+<br>
 
 ---
 
@@ -83,6 +90,8 @@
 3. 进入欢迎页面。
 
 
+<br>
+
 ---
 
 <div STYLE="page-break-after: always;"></div>
@@ -98,6 +107,8 @@
 - 类名*（包括接口和 Trait）*和文件名保持一致，统一采用驼峰法命名（首字母大写）；
 
 
+<br>
+
 ##### 函数和类、属性命名
 
 - 类的命名采用驼峰法*（首字母大写）*，例如 `User`、`UserType`；
@@ -107,6 +118,8 @@
 - 特例：以双下划线`__`打头的函数或方法作为魔术方法，例如 `__call` 和 `__autoload`；
 
 
+<br>
+
 ##### 常量和配置
 
 - 常量以大写字母和下划线命名，例如 `APP_PATH`；
@@ -114,10 +127,14 @@
 - 环境变量定义使用大写字母和下划线命名，例如 `APP_DEBUG`；
 
 
+<br>
+
 ##### 数据表和字段
 
 - 数据表和字段采用小写加下划线方式命名，并注意字段名不要以下划线开头，例如 `think_user` 表和 `user_name`字段，不建议使用驼峰和中文作为数据表及字段命名。
 
+
+<br>
 
 ---
 
@@ -132,22 +149,28 @@
 - ThinkPHP 6.0 支持多应用模式部署，实际的目录结构取决于采用的是单应用还是多应用模式。
 
 
+<br>
+
 ##### 📌ThinkPHP 部署注意事项
 
 1. 在实际的部署中，请确保只有public目录可以对外访问。
 2. 在 mac 或者 linux 环境下面，注意需要设置 runtime 目录权限为 777。
 
 
+<br>
+
 ---
 
 <div STYLE="page-break-after: always;"></div>
 
-### 1.4.1	单应用模式
+### 1.4.1	单应用模
 
 ##### 说明
 
 - 默认安装后的目录结构就是一个单应用模式。
 
+
+<br>
 
 ##### 应用结构
 
@@ -197,6 +220,8 @@ www  WEB部署目录（或者子目录）
 ```
 
 
+<br>
+
 ---
 
 <div STYLE="page-break-after: always;"></div>
@@ -207,6 +232,8 @@ www  WEB部署目录（或者子目录）
 
 - 如果你需要一个多应用的项目架构，目录结构可以参考下面的结构进行调整（关于配置文件的详细结构参考后面章节）。
 
+
+<br>
 
 ##### 项目结构
 
@@ -256,10 +283,14 @@ www  WEB部署目录（或者子目录）
 ```
 
 
+<br>
+
 ##### 📌多应用部署的注意点
 
 - 多应用模式部署后，需要删除 app 目录下的 controller 目录*（系统根据该目录作为判断是否单应用的依据）*。
 
+
+<br>
 
 ---
 
@@ -284,16 +315,22 @@ www  WEB部署目录（或者子目录）
   ```
 
 
+<br>
+
 ##### 📌默认配置文件使用注意点
 
 1. `BaseController.php`、`Request.php` 和`ExceptionHandle.php`三个文件是系统默认提供的基础文件，位置你可以随意移动，但注意要同步调整类的命名空间。
 2. 如果不需要使用`Request.php` 和`ExceptionHandle.php`文件，或者要调整类名，必须同步调整`provider.php`文件中的容器对象绑定。
 
 
+<br>
+
 ##### 📌provider.php
 
 - `provider.php`服务提供定义文件只能全局定义，不支持在应用下单独定义。
 
+
+<br>
 
 ---
 
@@ -309,6 +346,8 @@ www  WEB部署目录（或者子目录）
   1. **.env 文件**：. env 环境变量用于本地开发测试，部署后会被忽略
   2. **根目录下的 config**：有很多类型的配置，适用于部署;
 
+<br>
+
 ---
 
 <div STYLE="page-break-after: always;"></div>
@@ -320,6 +359,8 @@ www  WEB部署目录（或者子目录）
 - **第一种方法**：直接将根目录下的 `.example.env` 文件修改为 `.env` 文件，该文件中默认开启了调试模式。
 - 第二种方法：在 `.env` 文件中修改 `APP_DEBUG` 属性为 `true` 。
 
+<br>
+
 ##### 开启调试模式后的好处
 
 1. 记录系统运行流程的执行过程;
@@ -328,10 +369,14 @@ www  WEB部署目录（或者子目录）
 4. 启动右下角的Trace调试功能，更加强大;
 5. 发生异常时，也会显示异常信息。
 
+<br>
+
 ##### 📌关闭调试模式时，显示简要的错误提示信息
 
 1. 首先，关闭调试模式 `APP_ DEBUG = false`;
 2. 然后，根目录下 `config` 的 `app. php` 最后一项设置为: `show_ error_ msg => true`
+
+<br>
 
 ---
 
@@ -359,6 +404,8 @@ class test
 }
 ```
 
+<br>
+
 ##### 例——获取 config 文件中的值
 
 ```php
@@ -378,6 +425,8 @@ class test
     }
 }
 ```
+
+<br>
 
 ---
 
@@ -432,6 +481,8 @@ class test
   40. 写入当前请求的日志信息
 
 
+<br>
+
 ---
 
 <div STYLE="page-break-after: always;"></div>
@@ -444,10 +495,14 @@ class test
 - **多应用多入口**：`6.0` 支持多应用多入口，你可以给每个应用增加入口文件，例如给后台应用单独设置的一个入口文件 `admin.php`。但是，如果开启自动多应用的话，一般只需要一个入口文件`index.php`。
 
 
+<br>
+
 ##### 多应用
 
 - `6.0` 版本提供了对多应用的良好支持，每个应用是一个 `app` 目录的子目录*（或者指定的 `composer` 库）*，每个应用具有独立的路由、配置，以及 MVC 相关文件，这些应用可以公用框架核心以及扩展。而且可以支持 `composer` 应用加载。
 
+
+<br>
 
 ##### 容器
 
@@ -455,11 +510,15 @@ class test
 - **容器的实现原理**：容器类的工作由 `think\Container` 类完成，但大多数情况下我们都是通过应用类（`think\App`类）或是`app`助手函数来完成容器操作，容器中所有的对象实例都可以通过容器标识单例调用，你可以给容器中的对象实例绑定一个对象标识，如果没有绑定则使用类名作为容器标识。
 
 
+<br>
+
 ##### 系统服务
 
 - **说明**：系统服务指 **在执行框架的某些组件或者功能的时候需要依赖的一些基础服务**。服务类通常可以继承系统的 `think\Service` 类，但并不强制。
 - **利用系统服务完成相关依赖的注入**：你可以在系统服务中注册一个对象到容器，或者对某些对象进行相关的依赖注入。由于系统服务的执行优先级问题，可以确保相关组件在执行的时候已经完成相关依赖注入。
 
+
+<br>
 
 ##### 路由
 
@@ -467,6 +526,8 @@ class test
 - **在 ThinkPHP 中使用路由**：ThinkPHP 并非强制使用路由，如果没有定义路由，则可以直接使用“控制器/操作”的方式访问，如果定义了路由，则该路由对应的路由地址就被不能直接访问了。一旦开启强制路由参数，则必须为每个请求定义路由（包括首页）。
 - **使用路由的优点**：使用路由有一定的性能损失，但随之也更加安全，因为每个路由都有自己的生效条件，如果不满足条件的请求是被过滤的。远比在控制器的操作中进行各种判断要实用的多。路由的作用不只有规范 URL，还可以实现验证、权限、参数绑定及响应设置等功能。
 
+
+<br>
 
 ##### 控制器
 
@@ -493,6 +554,8 @@ class test
   }
   ```
 
+
+<br>
 
 ##### 操作
 
@@ -522,6 +585,8 @@ class test
 - **操作方法的参数**：操作方法可以不使用任何参数，如果定义了一个非可选参数，并且不是对象类型，则该参数必须通过用户请求传入，如果是URL请求，则通常是通过当前的请求传入，操作方法的参数支持依赖注入。
 
 
+<br>
+
 ##### 模型
 
 - **说明**：模型类通常完成实际的业务逻辑和数据封装，并返回和格式无关的数据。*（模型类并不一定要访问数据库，而且在 ThinkPHP 的架构设计中，只有进行实际的数据库查询操作的时候，才会进行数据库的连接，是真正的惰性连接。）*
@@ -542,11 +607,15 @@ class test
   ```
 
 
+<br>
+
 ##### 视图
 
 - **视图的作用**：控制器调用模型类后，返回的数据通过视图组装成不同格式的输出。视图根据不同的需求，来决定<u>直接输出</u>还是<u>调用模板引擎进行内容解析后输出</u>。
 - **视图与模板**：视图通常会有一系列的模板文件对应不同的控制器和操作方法，并且支持动态设置模板目录。
 
+
+<br>
 
 ##### 模板引擎
 
@@ -554,26 +623,36 @@ class test
 - **ThinkPHP 新版本不再内置模板引擎**：新版不再内置 `think-template` 模板引擎，如果需要使用 ThinkPHP 官方模板引擎，需要单独安装 `think-view` 模板引擎驱动扩展。
 
 
+<br>
+
 ##### 驱动
 
 - **驱动的作用**：系统很多的组件都采用驱动式设计，从而可以更灵活的扩展，驱动类的位置默认是放入核心类库目录下面，也可以重新定义驱动类库的命名空间而改变驱动的文件位置。
 - **ThinkPHP 6.0 的驱动**：`6.0` 版本的驱动采用 `Composer` 的方式安装和管理。
 
 
+<br>
+
 ##### 中间件
 
 - 中间件主要用于拦截或过滤应用的 `HTTP` 请求，并进行必要的业务处理。*（新版部分核心功能使用中间件处理，你可以灵活关闭。包括Session功能、请求缓存和多语言功能。）*
 
+
+<br>
 
 ##### 事件
 
 - `6.0` 已经使用事件机制替代原来的行为和 Hook 机制，可以在应用中使用事件机制的特性来扩展功能。此外数据库操作和模型操作在完成数据操作的回调机制，也使用了事件机制。
 
 
+<br>
+
 ##### 助手函数
 
 - 系统为一些常用的操作提供了助手函数支持。使用助手函数和性能并无直接影响，只是某些时候无法享受IDE自动提醒的便利，但是否使用助手函数看项目自身规范，在应用的公共函数文件中也可以对系统提供的助手函数进行重写。
 
+
+<br>
 
 ---
 
@@ -585,6 +664,8 @@ class test
 
 - ThinkPHP 6.0 采用单一入口模式进行项目部署和访问，一个应用都有一个统一（但不一定是唯一）的入口。如果采用自动多应用部署的话，一个入口文件还可以自动对应多个应用。
 
+
+<br>
 
 ##### 入口文件定义
 
@@ -611,6 +692,8 @@ class test
   2. 入口文件位置的设计是为了让应用部署更安全，请尽量遵循 public 目录为唯一的 web 可访问目录，其他的文件都可以放到非 WEB 访问目录下面。
 
 
+<br>
+
 ##### 控制台入口文件
 
 - **说明**：除了应用入口文件外，系统还提供了一个控制台入口文件，即位于项目根目录的 `think`（注意该文件没有任何的后缀）。
@@ -632,6 +715,8 @@ class test
 - **控制台入口文件的作用**：控制台入口文件用于执行控制台指令（如 `php think version`）。系统内置了一些常用的控制台指令，如果你安装了额外的扩展，也会增加相应的控制台指令，都是通过该入口文件执行的。
 
 
+<br>
+
 ---
 
 <div STYLE="page-break-after: always;"></div>
@@ -642,6 +727,8 @@ class test
 
 - 单应用模式的优势是简单灵活，URL地址完全通过路由可控。配合路由分组功能可以实现类似多应用的灵活机制。
 
+
+<br>
 
 ##### 使用多应用模式
 
@@ -680,6 +767,8 @@ class test
    ```
 
 
+<br>
+
 ##### 自动多应用部署
 
 - **自动多应用部署的触发条件**：ThinkPHP 6.0 支持在同一个入口文件中访问多个应用，并且支持应用的映射关系以及自定义。如果你通过 `index.php` 入口文件访问的话，并且没有设置应用 `name`，系统自动采用自动多应用模式。
@@ -707,6 +796,8 @@ class test
   - 自动多应用模式下，每个应用的路由是独立的，所以你没法省略URL里面的应用参数。但可以使用域名绑定解决。
 
 
+<br>
+
 ##### 多应用自动识别
 
 - **多应用自动识别机制**：如果在没有绑定入口或者域名的情况下，URL 里面的应用不存在，此时系统会自动切换到单应用模式；如果定义了全局的路由，则会进行路由匹配检查。
@@ -720,6 +811,8 @@ class test
   'default_app'    =>    'home',
   ```
 
+
+<br>
 
 ##### 增加应用入口
 
@@ -756,6 +849,8 @@ class test
   ```
 
 
+<br>
+
 ##### 获取当前应用
 
 - 如果需要获取当前的应用名，可以使用：
@@ -764,7 +859,9 @@ class test
   app('http')->getName();
   ```
 
-##### 📌ThinkPHP 6.0 种的重要系统路径
+<br>
+
+##### 📌ThinkPHP 6.0 中的重要系统路径
 
 - 单应用和多应用模式会影响一些系统路径的值，为了更好的理解 ThinkPHP 6.0，你可能需要理解下面几个系统路径所表示的位置：
 
@@ -776,6 +873,7 @@ class test
   | 配置目录   | 根目录下的`config`目录                                       | `config_path()`      |
   | 运行时目录 | 框架运行时的目录，单应用模式就是根目录的`runtime`目录，多应用模式为`runtime`/应用子目录 | `runtime_path()`     |
 
+<br>
 
 ##### 应用目录获取
 
@@ -798,6 +896,8 @@ class test
 
   - 由于应用支持使用`composer`包，此时目录可能是 `composer` 包的类库所在目录。
 
+
+<br>
 
 ##### 应用映射
 
@@ -839,6 +939,8 @@ class test
   ```
 
 
+<br>
+
 ##### 域名绑定应用
 
 - 如果你的多应用使用多个子域名或者独立域名访问，你可以在 `config/app.php` 配置文件中定义域名和应用的绑定。
@@ -852,6 +954,8 @@ class test
   ```
 
 
+<br>
+
 ##### 禁止应用访问
 
 - 你如果不希望某个应用通过URL访问，例如，你增加了一个`common`子目录用于放置一些公共类库，你可以设置
@@ -861,10 +965,14 @@ class test
   ```
 
 
+<br>
+
 ##### 自定义多应用模式
 
 - 多应用模式并非核心内置模式，官方提供的多应用扩展更多是抛砖引玉，你完全可以通过中间件来扩展适合自己的多应用模式。
 
+
+<br>
 
 ---
 
@@ -877,10 +985,14 @@ class test
 - ThinkPHP 使用容器来更方便的管理类依赖及运行依赖注入，新版的容器支持 PSR-11 规范。
 
 
+<br>
+
 ##### 容器操作
 
 - 容器类的工作由 `think\Container` 类完成，但大多数情况我们只需要通过 `app` 助手函数或者 `think\App` 类即可容器操作，如果在服务类中可以直接调用 `this->app` 进行容器操作。
 
+
+<br>
 
 ##### 依赖注入的本质
 
@@ -915,6 +1027,8 @@ class test
   - 依赖注入的对象参数支持多个，并且和顺序无关。
 
 
+<br>
+
 ##### 支持使用依赖注入的场景包括（但不限于）
 
 - 控制器架构方法；
@@ -923,6 +1037,8 @@ class test
 - 事件类的执行方法；
 - 中间件的执行方法；
 
+
+<br>
 
 ##### 依赖注入自定义的类以及方法
 
@@ -972,6 +1088,8 @@ class test
   });
   ```
 
+
+<br>
 
 ##### 绑定
 
@@ -1044,7 +1162,7 @@ class test
 - **系统内置绑定的核心常用类库**：对于系统已经内置绑定的核心常用类库，无需重复绑定。系统内置绑定到容器中的类库包括：
 
   | 系统类库         | 容器绑定标识 |
-  | :--------------- | :----------- |
+  | :-------------- | :----------- |
   | think\App        | app          |
   | think\Cache      | cache        |
   | think\Config     | config       |
@@ -1066,6 +1184,8 @@ class test
   | think\Validate   | validate     |
   | think\View       | view         |
 
+
+<br>
 
 ##### 解析
 
@@ -1089,6 +1209,8 @@ class test
   ```
 
 
+<br>
+
 ##### 对象化调用
 
 - **使用 `app` 助手函数获取容器中的对象实例（支持依赖注入）**
@@ -1106,6 +1228,8 @@ class test
   ```
 
 
+<br>
+
 ##### 📌推荐使用依赖注入
 
 - 也就是说，你可以在任何地方使用 `app()` 方法调用容器中的任何类，但大多数情况下，我们更建议使用依赖注入。
@@ -1117,6 +1241,8 @@ class test
   app()->session->get('user_name');
   ```
 
+
+<br>
 
 ##### 自动注入
 
@@ -1149,6 +1275,8 @@ class test
   ```
 
 
+<br>
+
 ##### 自定义实例化
 
 - **说明**：容器中的对象实例化支持自定义，可以在你需要依赖注入的对象中增加 __make 方法进行自定义。
@@ -1172,6 +1300,8 @@ class test
   ```
 
 
+<br>
+
 ##### 容器对象回调机制
 
 - **说明**：容器中的对象实例化之后，支持回调机制，利用该机制可以实现诸如注解功能等相关功能。
@@ -1194,7 +1324,7 @@ class test
   });
   ```
 
-
+<br>
 
 ---
 
@@ -1208,6 +1338,8 @@ class test
 - **系统服务的应用**
   - 你可以在系统服务中注册一个对象到容器，或者对某些对象进行相关的依赖注入。由于系统服务的执行优先级问题，可以确保相关组件在执行的时候已经完成相关依赖注入。
 
+
+<br>
 
 ##### 服务定义
 
@@ -1264,6 +1396,8 @@ class test
      ```
 
 
+<br>
+
 ##### 服务注册
 
 - **说明**：定义好系统服务后，你还需要注册服务到你的应用实例中。
@@ -1292,10 +1426,14 @@ class test
 - **安装扩展后系统服务会自动注册**：在安装扩展后会系统会自动执行 `service:discover` 指令用于生成服务列表，并在系统初始化过程中自动注册。
 
 
+<br>
+
 ##### 内置服务
 
 - 为了更好的完成核心组件的单元测试，框架内置了一些系统服务类，主要都是用于核心类的依赖注入，包括 `ModelService`、`PaginatorService` 和 `ValidateService` 类。这些服务不需要注册，并且也不能卸载。
 
+
+<br>
 
 ---
 
@@ -1308,10 +1446,14 @@ class test
 - 门面为容器中的类（动态类）提供了一个静态调用接口，相比于传统的静态方法调用， 带来了更好的可测试性和扩展性，你可以为任何的非静态类库定义一个`facade`类。
 
 
+<br>
+
 ##### Facade 的作用
 
 - Facade 功能可以让类无需实例化而直接进行静态方式调用。
 
+
+<br>
 
 ##### 例
 
@@ -1353,6 +1495,8 @@ echo \app\facade\Test::hello('thinkphp');//输出 hello，thinkphp
 ```
 
 
+<br>
+
 ##### 核心 Facade 类库
 
 - **说明**：系统已经为大部分核心类库定义了 Facade，所以你可以通过 Facade 来访问这些系统类。
@@ -1380,6 +1524,8 @@ echo \app\facade\Test::hello('thinkphp');//输出 hello，thinkphp
   | think\View       | think\facade\View       |
 
 
+<br>
+
 ##### 例——调用系统类库
 
 ```php
@@ -1388,6 +1534,8 @@ use think\facade\Cache;
 Cache::set('name','value');
 echo Cache::get('name');
 ```
+
+<br>
 
 ##### 📌在进行依赖注入的时候，不要使用 `Facade` 类作为类型约束
 
@@ -1465,6 +1613,8 @@ echo Cache::get('name');
   - **两种方式之间的区别**：一定要注意两种方式的 `use` 引入类库的区别。
 
 
+<br>
+
 ---
 
 <div STYLE="page-break-after: always;"></div>
@@ -1477,6 +1627,8 @@ echo Cache::get('name');
 
 - 中间件主要用于拦截或过滤应用的 `HTTP` 请求，并进行必要的业务处理。*（新版部分核心功能使用中间件处理，你可以灵活关闭。包括Session功能、请求缓存和多语言功能。）*
 
+
+<br>
 
 ---
 
@@ -1492,6 +1644,8 @@ php think make:middleware Check
 
 - 这个指令会 `app/middleware` 目录下面生成一个 `Check` 中间件。
 
+
+<br>
 
 ##### 使用上述命令后指令生成的 Check 中间件
 
@@ -1515,6 +1669,8 @@ class Check
 
 - 在这个中间件中我们判断当前请求的 `name` 参数等于`think`的时候进行重定向处理。否则，请求将进一步传递到应用中。要让请求继续传递到应用程序中，只需使用 `$request` 作为参数去调用回调函数 `$next` 。
 
+
+<br>
 
 ##### 中间件的入口执行方法
 
@@ -1541,6 +1697,8 @@ class Check
   ```
 
 
+<br>
+
 ##### 结束调度
 
 - **说明**：中间件支持定义请求结束前的回调机制，你只需要在中间件类中添加`end`方法。
@@ -1559,79 +1717,83 @@ class Check
   - 在`end`方法里面不能有任何的响应输出。因为回调触发的时候请求响应输出已经完成了。
 
 
+<br>
+
 ##### 前置/后置中间件
 
 - **说明**：中间件是在请求具体的操作之前还是之后执行，完全取决于中间件的定义本身。
 
-- ##### 例——前置中间件
+- **例——前置中间件**
 
+  ```php
+    <?php
+    
+    namespace app\middleware;
+    
+    class Before
+    {
+        public function handle($request, \Closure $next)
+        {
+            // 添加中间件执行代码
+    
+            return $next($request);
+        }
+    }
   ```
-  <?php
   
+- **例——后置中间件**
+
+  ```php
+    <?php
+    
+    namespace app\middleware;
+    
+    class After
+    {
+        public function handle($request, \Closure $next)
+        {
+    		$response = $next($request);
+    
+            // 添加中间件执行代码
+    
+            return $response;
+        }
+    }
+  ```
+
+- **例——中间件方法使用依赖注入（判断当前浏览器环境）**
+
+  ```php
   namespace app\middleware;
   
-  class Before
+  /**
+   * 访问环境检查，判断当前浏览器环境是微信还是支付宝等
+   */
+  class InAppCheck
   {
       public function handle($request, \Closure $next)
       {
-          // 添加中间件执行代码
-  
+          if (preg_match('~micromessenger~i', $request->header('user-agent'))) {
+              $request->InApp = 'WeChat';
+          } else if (preg_match('~alipay~i', $request->header('user-agent'))) {
+              $request->InApp = 'Alipay';
+          }
           return $next($request);
       }
   }
   ```
 
-- ##### 例——后置中间件
-
-  ```
-  <?php
-  
-  namespace app\middleware;
-  
-  class After
-  {
-      public function handle($request, \Closure $next)
-      {
-  		$response = $next($request);
-  
-          // 添加中间件执行代码
-  
-          return $response;
-      }
-  }
+  ```php
+  //在移动版的应用里添加一个 middleware.php 文件，例如 /path/app/mobile/middleware.php`
+  return [
+      app\middleware\InAppCheck::class,
+  ];
   ```
 
-##### 例——中间件方法使用依赖注入（判断当前浏览器环境）
+  - 然后在你的 `controller` 中可以通过 `request()->InApp` 获取相关的值
 
-```
-namespace app\middleware;
 
-/**
- * 访问环境检查，判断当前浏览器环境是微信还是支付宝等
- */
-class InAppCheck
-{
-    public function handle($request, \Closure $next)
-    {
-        if (preg_match('~micromessenger~i', $request->header('user-agent'))) {
-            $request->InApp = 'WeChat';
-        } else if (preg_match('~alipay~i', $request->header('user-agent'))) {
-            $request->InApp = 'Alipay';
-        }
-        return $next($request);
-    }
-}
-```
-
-```
-//在移动版的应用里添加一个 middleware.php 文件，例如 /path/app/mobile/middleware.php`
-return [
-    app\middleware\InAppCheck::class,
-];
-```
-
-- 然后在你的 `controller` 中可以通过 `request()->InApp` 获取相关的值
-
+<br>
 
 ##### 定义中间件别名
 
@@ -1660,6 +1822,8 @@ return [
   ```
 
 
+<br>
+
 ---
 
 <div STYLE="page-break-after: always;"></div>
@@ -1673,6 +1837,8 @@ return [
 - 📌**注意**
   - 中间件的注册应该使用完整的类名，如果已经定义了中间件别名（或者分组）则可以直接使用。
 
+
+<br>
 
 ##### 全局中间件
 
@@ -1703,10 +1869,14 @@ return [
   - 上面的定义表示 给`Auth`中间件传入`admin`参数，给`Hello`中间件传入`thinkphp`参数。
 
 
+<br>
+
 ##### 应用中间件
 
 - **说明**：如果你使用了多应用模式，则支持应用中间件定义，你可以直接在应用目录下面增加`middleware.php`文件，定义方式和全局中间件定义一样，只是只会在该应用下面生效。
 
+
+<br>
 
 ##### 路由中间件
 
@@ -1790,6 +1960,8 @@ return [
   - 这样，所有该应用下的请求都会执行`Auth`和`Check`中间件。
 
 
+<br>
+
 ##### 使用闭包定义中间件
 
 - **说明**：你不一定要使用中间件类，在某些简单的场合你可以使用闭包定义中间件，但闭包函数必须返回`Response`对象实例。
@@ -1808,6 +1980,8 @@ return [
   });
   ```
 
+
+<br>
 
 ##### 控制器中间件
 
@@ -1864,6 +2038,8 @@ return [
   ```
 
 
+<br>
+
 ##### 中间件向控制器传参
 
 - **说明**：可以通过给请求对象赋值的方式传参给控制器（或者其它地方）。
@@ -1895,6 +2071,8 @@ return [
   ```
 
 
+<br>
+
 ##### 内置中间件
 
 - 新版内置了几个系统中间件，包括：
@@ -1909,6 +2087,8 @@ return [
 
   - 这些内置中间件默认都没有定义，你可以在应用的`middleware.php`文件中、路由或者控制器中定义这些中间件，如果不需要使用的话，取消定义即可。
 
+
+<br>
 
 ---
 
@@ -1937,6 +2117,8 @@ return [
   ```
 
 
+<br>
+
 ---
 
 <div STYLE="page-break-after: always;"></div>
@@ -1950,20 +2132,28 @@ return [
 - 新版的事件系统可以看成是 `5.1` 版本行为系统的升级版，事件系统相比行为系统强大的地方在于事件本身可以是一个类，并且可以更好的支持事件订阅者。
 
 
+<br>
+
 ##### 事件相比中间件的优势
 
 - 事件相比较中间件的优势是事件比中间件更加精准定位（或者说粒度更细），并且更适合一些业务场景的扩展。例如，我们通常会遇到用户注册或者登录后需要做一系列操作，通过事件系统可以做到不侵入原有代码完成登录的操作扩展，降低系统的耦合性的同时，也降低了BUG的可能性。
 
+
+<br>
 
 ##### 事件的实现原理
 
 - 事件系统的所有操作都通过`think\facade\Event`类进行静态调用
 
 
+<br>
+
 ##### 事件不能关闭
 
 - `V6.0.3+`版本开始，事件机制不能关闭
 
+
+<br>
 
 ---
 
@@ -2005,6 +2195,8 @@ return [
   ```
 
 
+<br>
+
 ##### 生成事件类
 
 - **说明**：事件类可以通过命令行快速生成。一般事件类无需继承任何其它类。
@@ -2036,6 +2228,8 @@ return [
   ```
 
 
+<br>
+
 ##### 事件标识
 
 - **说明**：你可以给事件类绑定一个事件标识，一般建议直接在应用的 `event.php` 事件定义文件中批量绑定。
@@ -2060,6 +2254,8 @@ return [
   ```
 
 
+<br>
+
 ---
 
 <div STYLE="page-break-after: always;"></div>
@@ -2073,6 +2269,8 @@ return [
   2. 使用监听类执行监听
 
 
+<br>
+
 ##### 手动注册事件监听
 
 ```
@@ -2081,6 +2279,8 @@ Event::listen('UserLogin', function($user) {
 });
 ```
 
+
+<br>
 
 ##### 使用监听类来执行监听
 
@@ -2131,6 +2331,8 @@ Event::listen('UserLogin', function($user) {
    ```
 
 
+<br>
+
 ---
 
 <div STYLE="page-break-after: always;"></div>
@@ -2141,6 +2343,8 @@ Event::listen('UserLogin', function($user) {
 
 - 通过事件订阅机制，可以在一个监听器中监听多个事件。
 
+
+<br>
 
 ##### 生成事件订阅类
 
@@ -2173,6 +2377,8 @@ Event::listen('UserLogin', function($user) {
    ```
 
 
+<br>
+
 ##### 📌监听事件的方法命名规范
 
 - **说明**：监听事件的方法命名规范是`on`+事件标识（驼峰命名），如果希望统一添加事件前缀标识，可以定义 `eventPrefix` 属性。
@@ -2199,6 +2405,8 @@ Event::listen('UserLogin', function($user) {
   }
   ```
 
+
+<br>
 
 ##### 自定义订阅方式
 
@@ -2258,6 +2466,8 @@ Event::listen('UserLogin', function($user) {
   ```
 
 
+<br>
+
 ---
 
 <div STYLE="page-break-after: always;"></div>
@@ -2279,12 +2489,14 @@ Event::listen('UserLogin', function($user) {
 - 原来`5.1`的一些行为标签已经废弃，所有取消的标签都可以使用中间件更好的替代。可以把中间件看成处理请求以及响应输出相关的特殊事件。事实上，中间件的 `handler` 方法只是具有特殊的参数以及返回值而已。
 
 
+<br>
+
 ##### 数据库操作回调
 
 - **说明**：数据库操作的回调也称为查询事件，是针对数据库的CURD操作而设计的回调方法，主要包括：
 
   | 事件          | 描述                   |
-  | :------------ | :--------------------- |
+  | :--- | :--- |
   | before_select | `select`查询前回调     |
   | before_find   | `find`查询前回调       |
   | after_insert  | `insert`操作成功后回调 |
@@ -2294,10 +2506,12 @@ Event::listen('UserLogin', function($user) {
   - 查询事件的参数就是当前的查询对象实例。
 
 
+<br>
+
 ##### 模型事件包含
 
 | 钩子          | 对应操作 |
-| :------------ | :------- |
+| :--- | :----- |
 | after_read    | 查询后   |
 | before_insert | 新增前   |
 | after_insert  | 新增后   |
@@ -2308,8 +2522,9 @@ Event::listen('UserLogin', function($user) {
 | before_delete | 删除前   |
 | after_delete  | 删除后   |
 
-- `before_write`和`after_write`事件无论是新增还是更新都会执行。
+- `before_write` 和 `after_write` 事件无论是新增还是更新都会执行。
 
+<br>
 
 ---
 
@@ -2322,6 +2537,8 @@ Event::listen('UserLogin', function($user) {
 ##### PHP 中的 URL
 
 - ThinkPHP 框架中的很多操作都是通过 URL 来实现的。ThinkPHP 6.0 中的 URL 访问受路由影响，如果没有开启强制路由模式，并且没有定义或匹配路由，则使用 **默认的 URL 形式**。
+
+<br>
 
 ---
 
@@ -2340,6 +2557,8 @@ http://serverName/index.php（或者其它入口文件）/控制器/操作/参�
 - **控制器**：app/controller 目录下的 .php 文件。
 - **操作**：操作即控制器类里面的方法<font size=1>（比如 `index()` 或 `hello()`）</font>。
 - **参数与值**：如果操作拥有参数，那么通过 **参数名/具体值** 的形式进行传参
+
+<br>
 
 ##### 例——访问简单的 URL
 
@@ -2368,17 +2587,23 @@ class test
 
 ![image-20210323182347936](img/image-20210323182347936.png)
 
+<br>
+
 ##### 自动多应用模式下的默认 URL格式
 
 ```
 http://serverName/index.php/应用/控制器/操作/参数/值...
 ```
 
+<br>
+
 ##### 📌对于不支持 PATHINFO 的服务器可以使用兼容模式的 URL
 
 ```
 http://serverName/index.php?s=/控制器/操作/[参数名/参数值...]
 ```
+
+<br>
 
 ---
 
@@ -2389,6 +2614,8 @@ http://serverName/index.php?s=/控制器/操作/[参数名/参数值...]
 ##### 作用
 
 - URL 重写可以隐藏 URL 中的应用入口文件部分 `index.php`<font size=1>（虽然也可以是其它的入口文件，但 URL 重写通常只能设置一个入口文件）</font>。
+
+<br>
 
 ##### Apache 服务器的 URL 重写
 
@@ -2410,6 +2637,8 @@ http://serverName/index.php?s=/控制器/操作/[参数名/参数值...]
    ```
 
 4. 重启服务器，完成修改。
+
+<br>
 
 ##### IIS 服务器的 URL 重写
 
@@ -2437,6 +2666,8 @@ http://serverName/index.php?s=/控制器/操作/[参数名/参数值...]
    </rewrite>
   ```
 
+<br>
+
 ##### Nginx 服务器下的 URL 重写
 
 - 在 Nginx 低版本中，是不支持 PATHINFO 的，但是可以通过在 `Nginx.conf` 中配置转发规则实现：
@@ -2451,6 +2682,8 @@ http://serverName/index.php?s=/控制器/操作/[参数名/参数值...]
 
   - 其实内部是转发到了 ThinkPHP 提供的兼容 URL，利用这种方式，可以解决其他不支持 PATHINFO 的 WEB 服务器环境。
 
+<br>
+
 ---
 
 <div style="page-break-after: always;"></div>
@@ -2463,15 +2696,14 @@ http://serverName/index.php?s=/控制器/操作/[参数名/参数值...]
 
 - 控制器，即 controller，控制器文件存放在 controller 目录下;
 
+<br>
+
 ##### 修改默认的控制器文件目录
 
 - 如果想改变系统默认的控制器文件目录，可以在 config/route . php 中进行配置。
 
 ```php
 <?php
-// +----------------------------------------------------------------------
-// | 路由设置
-// +----------------------------------------------------------------------
 
 return [
     ...
@@ -2480,6 +2712,8 @@ return [
     ...
 ];
 ```
+
+<br>
 
 ---
 
@@ -2508,6 +2742,8 @@ return [
 
 - **默认操作**：直接访问该控制器时调用的操作（方法），该操作（方法）的名称为 index。
 
+<br>
+
 ##### 📌控制器名由多个单词组成时，访问控制器的 URL
 
 - **访问名为 HelloWorld 的控制器**：
@@ -2530,25 +2766,25 @@ return [
   http://localhost:8000/hello_world
   ```
 
+<br>
+
 ##### 📌避免同类名冲突
 
 - 如果你想避免引入同类名时的冲突，可以在 config/route.php 中设置：
 
   ```php
   <?php
-  // +----------------------------------------------------------------------
-  // | 路由设置
-  // +----------------------------------------------------------------------
-  
-  return [
-      ...
-      // 是否使用控制器后缀
-      'controller_suffix'     => false,
-      ...
-  ];
+    return [
+        ...
+        // 是否使用控制器后缀
+        'controller_suffix'     => false,
+        ...
+    ];
   ```
 
   - 此时，Test.php 文件就必须更名为 TestController.php，并且类名也需要增加后缀。
+
+<br>
 
 ---
 
@@ -2559,6 +2795,8 @@ return [
 ##### 说明
 
 - 控制器使用 return 返回结果，但是对于对象、数组等数据结构无法直接返回<font size=1>（会报错）</font>。
+
+<br>
 
 ##### 使用 JSON 函数输出
 
@@ -2574,6 +2812,8 @@ return [
   }
   ```
 
+<br>
+
 ---
 
 <div style="page-break-after: always;"></div>
@@ -2583,6 +2823,8 @@ return [
 ##### 说明
 
 - 一般来说，创建控制器后，推荐继承基础控制器来获得更多的方法。基础控制器仅仅提供了控制器验证功能，并注入了 think\App 对象和 think\Request 对象。
+
+<br>
 
 ##### 例——使用基础控制器
 
@@ -2607,6 +2849,8 @@ class Test extends BaseController
 }
 ```
 
+<br>
+
 ---
 
 <div style="page-break-after: always;"></div>
@@ -2616,6 +2860,8 @@ class Test extends BaseController
 ##### 说明
 
 - 在单应用模式下，我们可以给项目定义一个 Error 控制器类，用于提醒错误。
+
+<br>
 
 ##### 例——定义 Error 控制器
 
@@ -2630,9 +2876,13 @@ class Error{
 }
 ```
 
+<br>
+
 ##### 📌Error 控制器会覆盖调试模式的错误信息
 
 - 开启 Erro 控制器后，不管是生成环境还是开发环境下，都会显示 Error 控制器中的错误信息，DEBUG 模式将会被覆盖。
+
+<br>
 
 ---
 
@@ -2643,6 +2893,8 @@ class Error{
 ##### 说明
 
 - 在 controller 目录下创建子目录，子目录中创建的 Controller 就是多级控制器。
+
+<br>
 
 ##### 语法——定义多级控制器
 
@@ -2665,11 +2917,13 @@ class Test
 
 - **访问多级控制器**：多级控制器的目录名与类名之间采用 `.`进行连接。 访问该多级控制器使用的 URL 为 `http://localhost:8000/group.test`，访问该控制器下的 `hello()` 操作的 URL 为 `http://localhost:8000/group.test/hello`。
 
+<br>
+
 ---
 
 <div style="page-break-after: always;"></div>
 
-# 5	数据库连接与模型
+# 5	数据库访问与模型
 
 ## 5.0	概述
 
@@ -2677,7 +2931,11 @@ class Test
 
 - ThinkPHP 采用内置的抽象层将不同的数据库操作进行封装处理，数据抽象层基于 PDO 模式[^PDO 模式]，无须针对不同的数据库编写相应的代码。
 
+<br>
+
 ##### 📌[本章节中使用的数据库文件][1]
+
+<br>
 
 ---
 
@@ -2707,9 +2965,13 @@ class Test
    }
    ```
 
-##### 📌数据表前缀省略配置（待补充）
+<br>
+
+##### 📌数据表前缀省略配置（❗待补充）
 
 - 
+
+<br>
 
 ##### 📌配置与使用多套数据连接信息
 
@@ -2744,6 +3006,8 @@ class Test
    //使用名为 anothermysql
    Db::connect('anothermysql')->table('person')->select();
    ```
+
+<br>
 
 ##### 📌config/database.php 配置信息
 
@@ -2811,6 +3075,8 @@ return [
 
 ```
 
+<br>
+
 ##### 📌 `.env` 文件与数据库配置相关的配置信息
 
 ```
@@ -2825,6 +3091,8 @@ CHARSET = utf8
 DEBUG = true
 ```
 
+<br>
+
 ---
 
 <div style="page-break-after: always;"></div>
@@ -2834,6 +3102,8 @@ DEBUG = true
 ##### 说明
 
 - 
+
+<br>
 
 ##### 步骤——使用简单的模型访问数据库
 
@@ -2859,6 +3129,8 @@ DEBUG = true
    }
    ```
 
+<br>
+
 ---
 
 <div style="page-break-after: always;"></div>
@@ -2877,17 +3149,23 @@ DEBUG = true
 
   这三种方式在查询数据不存在时会返回不同的结果。
 
+<br>
+
 ##### find()
 
 - **说明**：如果希望只查询一条数据，可以使用 `find()` 方法。
 
 - **查询数据不存在时的返回值**： `null`。
 
-- ##### 例——查询 person 表中 id 为 3 的数据
+- <br>
+
+##### 例——查询 person 表中 id 为 3 的数据
 
   ```php
   Db::table('person')->where('id',3)->find();
   ```
+
+<br>
 
 ##### find0rFail()
 
@@ -2895,11 +3173,15 @@ DEBUG = true
 
 - **查询数据不存在时的返回值**： `null`。
 
-- ##### 例——查询 person 表中 id 为 3 的数据
+- <br>
+
+##### 例——查询 person 表中 id 为 3 的数据
 
   ```php
   Db::table('person')->where('id',3)->find0rFail();
   ```
+
+<br>
 
 ##### findOrEmpty()
 
@@ -2907,11 +3189,15 @@ DEBUG = true
 
 - **查询数据不存在时的返回值**： `null`。
 
-- ##### 例——查询 person 表中 id 为 3 的数据
+- <br>
+
+##### 例——查询 person 表中 id 为 3 的数据
 
   ```php
   Db::table('person')->where('id',3)->findOrEmpty();
   ```
+
+<br>
 
 ---
 
@@ -2922,6 +3208,8 @@ DEBUG = true
 ##### 说明
 
 - 想要获取多列数据，可以使用 `select()` 方法;
+
+<br>
 
 ##### select() 与 selectOrFail()
 
@@ -2935,6 +3223,8 @@ DEBUG = true
   Db::table('tp_user')->where('id', -1)->select0rFail();//查询结果为空，将抛出异常
   ```
 
+<br>
+
 ##### 将数据集对象转化为数组
 
 - **说明**：在 select() 方法后使用 toArry() 方法，可以将数据集对象转换为数组
@@ -2946,17 +3236,23 @@ DEBUG = true
   dump($person);//dump 为 ThinkPHP 提供的方法，可以用更清晰的方式展示数组
   ```
 
+<br>
+
 ##### 忽略数据表前缀
 
 - **说明**：如果在配置文件中设置了忽略前缀，可以使用 name() 方法忽略数据表的前缀。
 
-- ##### 例——忽略 tb_person 的前缀
+- <br>
+
+##### 例——忽略 tb_person 的前缀
 
   ```php
   $person = Db::name('person')->select()->toArray();
   
   dump($person);//dump 为 ThinkPHP 提供的方法，可以用更清晰的方式展示数组
   ```
+
+<br>
 
 ---
 
@@ -2985,6 +3281,8 @@ DEBUG = true
   Db::name('user')->where('create_time', 'between', ['2012-12-21','2012-12-31'])->select();
   ```
 
+<br>
+
 ##### 使用快捷方式查询时间
 
 - **说明**：时间查询的快捷方式为 `whereTime()`，可以使用查询表达式。除此之外还有 `whereBetweenTime()` 和 `whereNotBetweenTime()`。
@@ -3002,6 +3300,8 @@ DEBUG = true
   
   Db::table('person')->whereBetweenTime('create_time','2018-1-1','2019-12-31')->select();
   ```
+
+<br>
 
 ##### 固定查询
 
@@ -3031,6 +3331,8 @@ DEBUG = true
   Db::table('person')->whereDay('create_time', '2016-6-27')->select();
   ```
 
+<br>
+
 ##### 其他查询
 
 - **例——查询指定时间的数据，比如两小时内的数据**
@@ -3055,6 +3357,8 @@ DEBUG = true
       ->select();
   ```
 
+<br>
+
 ---
 
 <div style="page-break-after: always;"></div>
@@ -3065,6 +3369,8 @@ DEBUG = true
 
 - **说明**：返回最近执行的一条 SQL 语句，可以用于测试。
 
+<br>
+
 ##### value()
 
 - **说明**：查询指定字段的值<font size=1>（单条数据）</font>。
@@ -3074,6 +3380,8 @@ DEBUG = true
   ```php
   Db::table('person')->when('id',3)->value('name');
   ```
+
+<br>
 
 ##### column()
 
@@ -3098,6 +3406,8 @@ DEBUG = true
 
   - 由于 php 数组的特性，如果多个列的项的索引相同，会导致只保留其中的一项，所以最好不要将 id 字段以外的列作为索引。
 
+<br>
+
 ##### chunk()
 
 - **说明**：如果处理的数据量巨大，一次性读取有可能会导致内存开销过大，此时可以使用 `chunk()` 方法分批处理数据。
@@ -3112,6 +3422,8 @@ DEBUG = true
       echo "<hr>";//每次处理结束后打印分隔符
   });
   ```
+
+<br>
 
 ##### cursor()
 
@@ -3128,6 +3440,8 @@ DEBUG = true
   }
   ```
 
+<br>
+
 ---
 
 <div style="page-break-after: always;"></div>
@@ -3138,13 +3452,19 @@ DEBUG = true
 
 - `Db::table(`) 与 `Db::name()` 会返回 **数据库查询对象（query）**，而数据库查询对象可以连缀数据库对应的方法。每次执行一个数据库查询方法<font size=1>（比如 `where()`）</font>时，仍然会返回数据库查询对象，只要返回的还是数据库查询对象，就可以一直使用指向符号 `->` 进行链式操作。
 
+<br>
+
 ##### 结果查询方法
 
 - `find()`、 `select()` 等方法返回数组（Array）或数据集对象（Collection），属于结果查询方法，不能继续使用链式操作。
 
+<br>
+
 ##### 📌增删改方法也可以使用链式操作
 
 - 除了查询方法可以使用链式连贯操作，增删改方法也可以使用链式操作。
+
+<br>
 
 ---
 
@@ -3155,6 +3475,8 @@ DEBUG = true
 ##### 说明
 
 - 如果多次使用数据库查询，那么每次静态创建都会创建查询对象，造成浪费。我们可以把对象保存下来，进行反复调用。
+
+<br>
 
 ##### 步骤——保留查询对象
 
@@ -3174,6 +3496,8 @@ DEBUG = true
    $dataOrder = $personQuery->order('id','desc')->select();
    ```
 
+<br>
+
 ##### 📌清除上一次查询保留的查询结果
 
 - 如果已经使用了一次保留的对象，那么查询结果会保留在对象中，需要进行清除：
@@ -3192,6 +3516,8 @@ DEBUG = true
   ```
 
 
+<br>
+
 ---
 
 <div style="page-break-after: always;"></div>
@@ -3203,6 +3529,8 @@ DEBUG = true
 ##### 说明
 
 - 使用 `insert()` 方法可以向数据表添加一条数据。如果插入成功，将会返回 1。
+
+<br>
 
 ##### 例——使用 insert() 增加一条数据
 
@@ -3220,10 +3548,14 @@ echo $flag;
 dump(Db::table('person')->select());
 ```
 
+<br>
+
 ##### insert() 异常
 
 1. 如果增加一个不存的字段数据，将抛出异常。
 2. 如果字段有默认值，且 insert() 在插入时没有对该字段赋值，会为该字段赋予默认值。但是，如果该字段没有默认值且不可为空，将会报错。
+
+<br>
 
 ##### 使用 strick(false) 强行新增包含不存在字段的数据
 
@@ -3238,6 +3570,8 @@ Db::table('person')->strick(false)->insert($person);
 //查看插入的结果
 dump(Db::table('person')->select());
 ```
+
+<br>
 
 ##### insertGetid()
 
@@ -3256,6 +3590,8 @@ dump(Db::table('person')->select());
   dump(Db::table('person')->select());
   ```
 
+<br>
+
 ---
 
 <div style="page-break-after: always;"></div>
@@ -3265,6 +3601,8 @@ dump(Db::table('person')->select());
 ##### 说明
 
 - 使用 insertAll()方法，可以批量新增数据，前提是保持数组结构一致。
+
+<br>
 
 ##### 例——一次新增多条数据
 
@@ -3282,9 +3620,13 @@ Db::table('person')->insertAll($persons);
 dump(Db::table('person')->select());
 ```
 
+<br>
+
 ##### 📌replace()
 
 - 批量新增也支持 `replace()` 方法。
+
+<br>
 
 ---
 
@@ -3315,6 +3657,8 @@ dump(Db::table('person')->select());
   dump(Db::table('person')->select());
   ```
 
+<br>
+
 ##### save()[^?3]
 
 - **说明**：`save()` 是一个 **通用方法**<font size=1>（不管是MySQL 还是其他数据库都可以使用）</font>，可以自行判断是新增还是修改（更新）数据。
@@ -3342,6 +3686,8 @@ dump(Db::table('person')->select());
   dump(Db::table('person')->select());
   ```
 
+<br>
+
 ---
 
 <br>
@@ -3351,6 +3697,8 @@ dump(Db::table('person')->select());
 ##### 说明
 
 - 使用 `update()` 来修改数据，修改成功返回操作影响的行数，没有修改则返回 0。如果修改数据包含了主键信息<font size=1>（比如 id）</font>，那么可以省略掉 `where` 条件。
+
+<br>
 
 ##### 例——使用 update 修改数据
 
@@ -3362,6 +3710,8 @@ $person2 = ['id' => 2, 'gender' => 1];
 echo(Db::table('person')->update($person2));//修改成功输出1
 ```
 
+<br>
+
 ##### 使用 exp() 执行 SQL 函数操作
 
 - **说明**：如果想在修改时执行 SQL 函数操作，可以使用 exp() 实现。
@@ -3371,6 +3721,8 @@ echo(Db::table('person')->update($person2));//修改成功输出1
   ```php
   Db::table('person')->where('id',5)->exp('name', 'UPPER(name)')->update();
   ```
+
+<br>
 
 ##### 使用 inc()/dec() 对字段进行自增/自减
 
@@ -3389,6 +3741,8 @@ echo(Db::table('person')->update($person2));//修改成功输出1
      ]);
   ```
 
+<br>
+
 ##### 使用 raw() 简化 SQL 函数操作
 
 - **说明**：raw() 可以简化 exp() 和 inc()/dec() 的使用。
@@ -3404,6 +3758,8 @@ echo(Db::table('person')->update($person2));//修改成功输出1
       	]);
   ```
 
+<br>
+
 ---
 
 <div style="page-break-after: always;"></div>
@@ -3413,6 +3769,8 @@ echo(Db::table('person')->update($person2));//修改成功输出1
 ##### 说明
 
 - 使用 `delete()` 删除数据。
+
+<br>
 
 ##### 根据主键删除数据
 
@@ -3424,17 +3782,23 @@ Db:table('person')->delete(10);
 Db::table('person')->delete([11,12,13]);
 ```
 
+<br>
+
 ##### 使用 where() 根据条件删除数据
 
 ```php
 Db:table('person')->where('id',16)->delete();
 ```
 
+<br>
+
 ##### 删除数据表中的所有数据
 
 ```php
 Db:table('person')->delete(true);
 ```
+
+<br>
 
 ---
 
@@ -3448,6 +3812,8 @@ Db:table('person')->delete(true);
 
 - 在对查询数据进行筛选时，采用 where() ，where() 中可以使用查询表达式来对查询结果进行更细致的筛选。
 
+<br>
+
 ##### 查询表达式
 
 - 查询表达式支持大部分常用的 SQL 语句，语法格式如下：
@@ -3455,6 +3821,8 @@ Db:table('person')->delete(true);
   ```
   where('字段名','查询表达式','查询条件')
   ```
+
+<br>
 
 ---
 
@@ -3465,6 +3833,8 @@ Db:table('person')->delete(true);
 ##### 说明
 
 - 使用 `<>`（不等于）、`>`、`<`、`>=`、`<=` 可以筛选出符合条件得数据集。
+
+<br>
 
 ##### 例——筛选出指定 id 范围内的数据
 
@@ -3479,6 +3849,8 @@ $c3 = Db::table('person')->where('id','>=',5)->select();
 dump($c3);   
 ```
 
+<br>
+
 ---
 
 <div style="page-break-after: always;"></div>
@@ -3489,13 +3861,19 @@ dump($c3);
 
 - 使用 like 表达式进行模糊查询。
 
+<br>
+
 ##### 多条件模糊查询
 
 - 可以通过数组进行多条件的模糊查询，使用数组进行多条件查询时，默认以 `AND` 连接，如果需要以 `OR` 连接可以为 `where()` 添加字符串参数 `'or'`。
 
+<br>
+
 ##### notlike
 
 - 使用 `notlike` 对 `like` 的查询结果反选。
+
+<br>
 
 ##### 例——使用 like 进行模糊查询
 
@@ -3526,9 +3904,13 @@ echo Db::getLastSql()."<br>";
   SELECT * FROM `person` WHERE (`name` LIKE '张%' OR `name` LIKE '李%' OR `name` LIKE '王%')
   ```
 
+<br>
+
 ##### like 快捷方式
 
 - like 表达式具有两个快捷方式 `whereLike()` 和 `whereNotLike()`，除了省略了  `where()` 中的表达式部分之外，与 `where()` 的用法相同。
+
+<br>
 
 ---
 
@@ -3540,9 +3922,13 @@ echo Db::getLastSql()."<br>";
 
 - 使用 `between` 获取一定范围内的数据集。
 
+<br>
+
 ##### notbetween
 
 - 使用 `notbetween` 对 `between` 的查询结果进行反选。
+
+<br>
 
 ##### 例——between 简单使用示例
 
@@ -3569,9 +3955,13 @@ echo Db::getLastSql()."<br>";
   SELECT * FROM `person` WHERE `id` NOT BETWEEN 19 AND 25
   ```
 
+<br>
+
 ##### between 快捷方式
 
 - between 表达式具有两个快捷方式 `whereBetween()` 和 `whereNotBetween()`，除了省略了  `where()` 中的表达式部分之外，与 `where()` 的用法相同。
+
+<br>
 
 ---
 
@@ -3583,9 +3973,13 @@ echo Db::getLastSql()."<br>";
 
 - 使用 `in` 获取指定的多个条件中的数据集。
 
+<br>
+
 ##### notin
 
 - 使用 `notin` 对 `in` 的查询结果进行反选。
+
+<br>
 
 ##### 例——between 简单使用示例
 
@@ -3612,9 +4006,13 @@ echo Db::getLastSql()."<br>";
   SELECT * FROM `person` WHERE `id` NOT IN (19,21,29)
   ```
 
+<br>
+
 ##### in 快捷方式
 
 - in 表达式具有两个快捷方式 `whereIn()` 和 `whereNotIn()`，除了省略了  `where()` 中的表达式部分之外，与 `where()` 的用法相同。
+
+<br>
 
 ---
 
@@ -3626,9 +4024,13 @@ echo Db::getLastSql()."<br>";
 
 - 使用 `null` 获取指定字段为空的数据集。
 
+<br>
+
 ##### notin
 
 - 使用 `notnull` 对 `null` 的查询结果进行反选。
+
+<br>
 
 ##### 例——between 简单使用示例
 
@@ -3655,9 +4057,13 @@ echo Db::getLastSql()."<br>";
   SELECT * FROM `person` WHERE `gender` IS NOT NULL
   ```
 
+<br>
+
 ##### null 快捷方式
 
 - null 表达式具有两个快捷方式 `whereNull()` 和 `whereNotNull()`，除了省略了  `where()` 中的表达式部分之外，与 `where()` 的用法相同。
+
+<br>
 
 ---
 
@@ -3668,6 +4074,8 @@ echo Db::getLastSql()."<br>";
 ##### 说明
 
 - 使用 `Exp` 可以自定义 `ThinkPHP` 执行的 `SQL` 语句的 `where` 字段后拼接的其他内容。
+
+<br>
 
 ##### 例——Exp 简单使用
 
@@ -3690,11 +4098,13 @@ echo Db::getLastSql()."<br>";
   SELECT * FROM `person` WHERE ( `id` IN (19,21,25) )
   ```
 
+<br>
+
 ---
 
 <div style="page-break-after: always;"></div>
 
-## 5.6	高级查询
+## 5.6	特殊查询方法
 
 ### 5.6.1	聚合查询
 
@@ -3702,19 +4112,25 @@ echo Db::getLastSql()."<br>";
 
 - 在应用中，我们经常会用到一些统计数据，例如当前所有（或者满足某些条件）的用户数、所有用户的最大积分、用户的平均成绩等等。这些数据的共同点是 **由多条数据进行计算得出，但是只返回单个结果**。ThinkPHP 为这种类型的统计操作提供了一系列的内置方法。
 
+<br>
+
 ##### 聚合查询方法
 
 | 方法    | 说明                                     |
-| :------ | :--------------------------------------- |
+| :--- | :--- |
 | count() | 统计数量，参数是要统计的字段名（可选）   |
 | max()   | 获取最大值，参数是要统计的字段名（必须） |
 | min()   | 获取最小值，参数是要统计的字段名（必须） |
 | avg()   | 获取平均值，参数是要统计的字段名（必须） |
 | sum()   | 获取总分，参数是要统计的字段名（必须）   |
 
+<br>
+
 ##### 📌max()/min() 的额外参数 field
 
 - 如果你要获取的最大值/最小值不是一个数值<font size=1>（可能是时间或者字符）</font>，可以使用第二个参数关闭强制类型转换，该操作只对 max()/min() 有效。
+
+<br>
 
 ##### 例——聚合查询简单使用
 
@@ -3753,6 +4169,8 @@ echo Db::getLastSql()."<br>";
   SELECT SUM(`id`) AS think_sum FROM `person`
   ```
 
+<br>
+
 ---
 
 <div style="page-break-after: always;"></div>
@@ -3762,6 +4180,8 @@ echo Db::getLastSql()."<br>";
 ##### 说明
 
 - 很多时候可能需要根据 SQL 语句查询的结果进行查询，即子查询。ThinkPHP 提供了 `fetchSql()` 与 **buildSql()**，用于构造子查询 SQL 语句。除此之外，还可以使用闭包方式实现子查询。
+
+<br>
 
 ##### fetchSql()
 
@@ -3781,6 +4201,8 @@ echo Db::getLastSql()."<br>";
     SELECT * FROM `person`
     ```
 
+<br>
+
 ##### buildSql()
 
 - **说明**：也是返回 SQL 语句，不需要再执行 select()，且得到的 SQL 语句会被括号包裹。
@@ -3797,6 +4219,8 @@ echo Db::getLastSql()."<br>";
     ( SELECT * FROM `person` )
     ```
 
+<br>
+
 ##### 例——使用 buildSql() 实现子查询
 
 ```php
@@ -3807,6 +4231,8 @@ $result = Db::name('table_one')->where('id','exp','IN '.$subQuery)->select();
 echo Db::getLastSql()."<br>";
 ```
 
+<br>
+
 ##### 使用闭包方式执行子查询
 
 ```php
@@ -3814,6 +4240,8 @@ $result = Db::name('one')->where('id', 'in', function ($query) {
 	$query->name('two')->where('gender', '男')->field('uid');
 })->select();
 ```
+
+<br>
 
 ---
 
@@ -3831,6 +4259,8 @@ $result = Db::name('one')->where('id', 'in', function ($query) {
   Db::query('select * from person');
   ```
 
+<br>
+
 ##### execute()
 
 - **说明**：通过 query() 使用原生的 SQL 语句进行 **增删改操作**。
@@ -3840,6 +4270,8 @@ $result = Db::name('one')->where('id', 'in', function ($query) {
   ```php
   Db::execute('update person set name="孙悟空",age="2400" );
   ```
+
+<br>
 
 ---
 
@@ -3851,30 +4283,66 @@ $result = Db::name('one')->where('id', 'in', function ($query) {
 
 ##### 说明
 
-- **where()** 用于限定查询语句的条件，除了之前使用的 where() 查询形式<font size=1>（即表达式查询）</font>，还有很多不同的写法。
+- **where()** 用于限定查询语句的条件，除了之前使用的 `where()` 查询形式<font size=1>（即表达式查询）</font>，还有很多不同的写法。
+
+<br>
 
 ##### 表达式查询
 
-- **说明**：where() 基础查询方式。
+- **说明**：where() 最基本的查询方式，支持通过连缀和  `|` 与 `&`  构造复杂的查询条件。
 
-- **例——简单的表达式查询**
+- **例——基本使用示例**
 
   ```php
   Db::table('person')->where('id', '>', 70)->select();
   ```
+  
+- **例——复杂 where() 查询**
+
+  ```php
+  Db::table('person')
+  	->where('name|gender', 'like', '%Tom%')
+  	->where('price&uid', '>', 0)
+  	->select();
+  ```
+
+  - 生成 SQL 语句：
+
+    ```php
+    SELECT * FROM `person` 
+    	WHERE ( `name` LIKE '%Tom%' OR `gender` LIKE '%Tom%' ) 
+    	AND ( `id` > 0 AND `age` > 0 )
+    ```
+
+<br>
 
 ##### 关联数组查询
 
 - **说明**：通过数组键值对匹配的方式进行查询。
 
-- **例——简单的关联数组查询**
+- **例——基本使用示例**
 
   ```php
-  $user = Db::table('person')->where([
+  Db::table('person')->where([
   	'gender' => '男',
       'price' => [60,70,80]
   ])->select();
+  
+  Db::table('person')->where([
+  	['id', '>', 0],
+      ['name', 'like', '%xxx%'],
+  	['age', '>=', 80],
+      ['gender', '=', 1],
+  ])->select();
+  
+  Db::table('person')->where([
+  	['gender', '=', 1],
+  	['age', 'exp', Db::raw('>80')]
+  ])->select();
+  
   ```
+
+<br>
 
 ##### 索引数组查询
 
@@ -3896,6 +4364,29 @@ $result = Db::name('one')->where('id', 'in', function ($query) {
   $map[] = ['price', 'in', [60, 70, 80]];
   $user = Db::name('user')->where($map)->select();
   ```
+  
+- **提高查询条件的优先级**：如果数组中的条件需要先进行判断，可以为数组加上 `[]`。
+
+- **例——使用 [] 提升查询的优先级**
+
+  ```php
+  $map = [
+      ['gender', '=', 1],
+      ['age', 'exp', Db::raw('>80')]
+  ];
+  
+  Db::table('person')
+      ->where([$map])
+  	->where('name', '=', '%xxx%')->select();
+  ```
+
+  - **生成的 SQL 语句**：
+
+    ```php
+    SELECT * FROM `person` WHERE ( `gender` = 1 AND ( `age` >80 ) ) AND `name` = '%xxx%'
+    ```
+
+<br>
 
 ##### 使用字符串形式传递查询条件 whereRaw()
 
@@ -3912,6 +4403,63 @@ $result = Db::name('one')->where('id', 'in', function ($query) {
   ```php
   Db::name('user')->whereRaw('id=:id', ['id'=>19])->select();
   ```
+  
+- **whereRaw() 支持参数绑定**：
+
+  ```php
+  Db::name('user')
+  ->whereRaw('(username LIKE :username AND email LIKE :email) OR (price > :price)',
+  ['username'=>'%小%', 'email'=>'%163%', 'price'=>80])
+  ->select()
+  ```
+
+<br>
+
+##### whereOr()
+
+- **说明**：如果条件中多次出现同一个字段，并且需要 OR 来左右筛选时可以使用。
+
+- **例——**
+
+  ```php
+  $map1 = [
+  ['name', 'like', '%小%'],
+  ['age', 'like', '%163%']
+  ];
+  $map2 = [
+  ['name', 'like', '%孙%'],
+  ['age', 'like', '%.com%']
+  ];
+  $user = Db::table('person')
+  ->whereOr([$map1, $map2])->select();
+  ```
+
+  - 生成的 SQL：
+
+    ```sql
+    SELECT * FROM `person` 
+    WHERE ( `name` LIKE '%小%' AND `age` LIKE '%163%' )
+    OR ( `name` LIKE '%孙%' AND `age` LIKE '%.com%' )
+    ```
+
+
+<br>
+
+##### 闭包查询
+
+- **说明**： 闭包查询可以连缀，连缀时会自动加上括号，如果条件是 OR，在连缀时使用 whereOR() 即可。
+
+- **例——**
+
+  ```php
+  $user = Db::name('user')->where(function ($query) {
+  $query->where('id', '>', 10);
+  })->whereOr(function ($query) {
+  $query->where('username', 'like', '%小%');
+  })->select();
+  ```
+
+<br>
 
 ---
 
@@ -3923,6 +4471,8 @@ $result = Db::name('one')->where('id', 'in', function ($query) {
 
 - 使用 field() 方法，可以指定对字段进行操作<font size=1>（如指定要查询的字段或者给指定的字段设置别名等）</font>。
 
+<br>
+
 ##### 例——使用 field() 指定要查询的字段
 
 ```php
@@ -3931,6 +4481,8 @@ Db::table('person')->field('id, name')->select();
 Db::table('person')->field(['id', 'name', 'age'])->select();
 ```
 
+<br>
+
 ##### 例——使用 field() 为指定的字段设置别名
 
 ```php
@@ -3938,6 +4490,8 @@ Db::table('person')->field('id, username, email')->select();
 
 Db::table('person')->field(['id', 'username', 'email'])->select();
 ```
+
+<br>
 
 ##### 📌fieldRow()
 
@@ -3955,6 +4509,8 @@ Db::table('person')->field(['id', 'username', 'email'])->select();
 
   - `fieldRaw('id,SUM(age)')` 执行出现异常[^!2]。
 
+<br>
+
 ##### 📌field(true)
 
 - **说明**：使用 field(true)，可以显示的获取所有字段，而不是使用 * 获取所有的字段。
@@ -3964,6 +4520,8 @@ Db::table('person')->field(['id', 'username', 'email'])->select();
   ```php
   Db::table('person')->field(true)->select();
   ```
+
+<br>
 
 ##### withoutField()
 
@@ -3975,6 +4533,8 @@ Db::table('person')->field(['id', 'username', 'email'])->select();
   Db::table('person')->withoutField('gender')->select();
   ```
 
+<br>
+
 ##### 📌验证字段的合法性
 
 - **说明**：在新增时使用 field()  ,可以验证字段的合法性<font size=1>（字段的值是否与数据库中该字段的数据类型相匹配）</font>。
@@ -3985,6 +4545,8 @@ Db::table('person')->field(['id', 'username', 'email'])->select();
   Db::table('person')->field('username, email, details')->insert($data)
   ```
 
+<br>
+
 ---
 
 <div style="page-break-after: always;"></div>
@@ -3994,6 +4556,8 @@ Db::table('person')->field(['id', 'username', 'email'])->select();
 ##### 说明
 
 -  可以通过 `alias()` 给数据表起一个别名。
+
+<br>
 
 ##### 例——为 person 表赋予别名 a
 
@@ -4007,6 +4571,8 @@ echo Db::getLastSql();
   ```sql
   SELECT * FROM `person` `a`
   ```
+
+<br>
 
 ---
 
@@ -4037,6 +4603,8 @@ echo Db::getLastSql();
   Db::name('user')->limit(5, 5)->select();
   ```
 
+<br>
+
 ##### page()
 
 - **说明**：使用 `limit()` 进行分页，需要进行复杂的计算，而 `page()` 简化了 `limit()` 的使用。
@@ -4050,6 +4618,8 @@ echo Db::getLastSql();
   Db::name('user')->page(2, 5)->select();
   ```
 
+<br>
+
 ---
 
 <div style="page-break-after: always;"></div>
@@ -4060,17 +4630,23 @@ echo Db::getLastSql();
 
 - `order()` 可以对查询结果进行排序。默认为顺序排序，可以通过参数指定排序方式。
 
+<br>
+
 ##### 例——order() 基本使用
 
 ```php
 Db::table('person')->order('id', 'desc')->select();
 ```
 
+<br>
+
 ##### 例——使用数组方式对多个字段进行排序
 
 ```php
 Db::table('person')->order(['id'=>'desc', 'age'=>'asc'])->select();
 ```
+
+<br>
 
 ##### 📌orderRaw()
 
@@ -4082,6 +4658,8 @@ Db::table('person')->order(['id'=>'desc', 'age'=>'asc'])->select();
   //按住 name 进行字段进行降序排序，但是让王二位于顶端。
   Db::table('person')->orderRaw('FIELD(name,"王二") DESC')->select();
   ```
+
+<br>
 
 ---
 
@@ -4107,6 +4685,8 @@ Db::table('person')->order(['id'=>'desc', 'age'=>'asc'])->select();
 
   - 结果：返回两段结果，分别按照性别与姓名进行的分组。
 
+<br>
+
 ##### having()
 
 - **说明**：使用 group() 分组后，需要使用 having() 才能对分组结果进行筛选。
@@ -4121,9 +4701,89 @@ Db::table('person')->order(['id'=>'desc', 'age'=>'asc'])->select();
   	->select();
   ```
 
+<br>
+
 ---
 
 <div style="page-break-after: always;"></div>
+
+## 5.8	快捷查询方法
+
+##### 说明
+
+- ThinkPHP 对于部分常用查询提供了快捷查询方法，方便使用。
+
+##### ThinkPHP 6.0 全部快捷查询方法
+
+![image-20210326111751371](img/image-20210326111751371.png)
+
+##### 📌whereColumn()
+
+- **说明**：`whereColumn()` 比较两个字段的值，并筛选出符合条件的结果。
+
+- **例——基本使用**
+
+  ```php
+  Db::table("person")
+  	->whereColumn('age', '>=', 'id')
+  	->select();
+  
+  //相等可以简化，只需要两边的字段
+  whereColumn('update_time', 'create_time')
+  ```
+
+  - 生成的 SQL 语句：
+
+    ```sql
+    //查询所有 age 字段大于 id 字段的数据
+    SELECT * FROM `person` WHERE ( `age` >= `id` )
+    ```
+
+<br>
+
+##### 📌针对字段查询提供的快捷查询
+
+- **说明**：ThinkPHP 提供了针对字段的快捷查询。
+- **ThinkPHP 提供的针对字段的快捷查询**：
+  1. whereFieldName()：根据字段查询，注意 FileName 是字段名。如果字段由多个单词组成，使用驼峰式写法（例如 create_time 的快捷查询查询写成 whereCreateTime() ）
+  2. getByFieldName()：根据字段查询，注意只能查询一条，和 whereFieldName() 相比不需要连缀 find()；
+  3. getFieldByFieldName()：根据字段查询 **单个字段的值**。
+
+- **例——基本使用示例**
+
+  ```php
+  Db::name('user')->whereEmail('xiaoxin@163.com')->find();
+  Db::name('user')->whereUsername('蜡笔小新')->find();
+  
+  Db::name('user')->getByFieldName('蜡笔小新');
+  
+  Db::name('user')->getFieldByEmail('xiaoxin@163.com', 'username');
+  ```
+
+<br>
+
+##### 📌when()
+
+- **说明**：**when()** 可以通过条件判断，执行闭包里的分支查询。
+
+- **例——基本使用示例**
+
+  ```php
+  Db::name('user')->when(false, 
+  	function ($query) {
+  		$query->where('id', '>', 0);
+  	}, 
+  	function ($query) {
+  		$query->where('username', 'like', '%小%');
+  	}
+  )->select();
+  ```
+
+<br>
+
+---
+
+<div STYLE="page-break-after: always;"></div>
 
 # 附录
 
