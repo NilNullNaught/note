@@ -4785,6 +4785,1158 @@ Db::table('person')->order(['id'=>'desc', 'age'=>'asc'])->select();
 
 <div STYLE="page-break-after: always;"></div>
 
+## 5.9	数据库事务
+
+##### 使用数据库事务的前提条件
+
+- 数据库的表引擎必须是 **InnoDB**。
+
+<br>
+
+##### ThinkPHP 事务处理
+
+- ThinkPHP 提供了两种事务处理方式：
+  1. 自动处理，出错自动回滚；
+  2. 手动处理，基本和原生处理类似，可以自行输出错误信息。
+
+<br>
+
+##### 例——自动事务处理
+
+```php
+Db::transaction(function () {
+	Db::name('user')->where('id', 19)->save(['price'=>Db::raw('price - 3')]);
+	Db::name('user1')->where('id', 20)->save(['price'=>Db::raw('price + 3')]);
+});
+```
+
+<br>
+
+##### 例——手动事务处理
+
+```php
+//启动事务
+Db::startTrans();
+try {
+	Db::name('user')->where('id', 19)->save(['price'=>Db::raw('price - 3')]);
+	Db::name('user1')->where('id', 20)->save(['price'=>Db::raw('price + 3')]);
+	//提交事务
+	Db::commit();
+} catch (\Exception $e) {
+	echo '执行 SQL 失败！';
+	//回滚
+	Db::rollback();
+}
+```
+
+<br>
+
+---
+
+<div STYLE="page-break-after: always;"></div>
+
+## 5.10	获取器与数据集处理
+
+##### 获取器
+
+- ###### 说明
+
+  获取器将数据的字段进行转换处理再进行操作。
+
+- ###### 例——使用获取器将获得得到所有字段转换为大写
+
+  ```php
+  $user = Db::name('user')->withAttr('email', function ($value, $data) {
+  	return strtoupper($value);
+  })->select();
+  	return json($user);
+  ```
+
+<br>
+
+##### 数据集（❗待补充）
+
+- ###### 什么是数据集
+
+  数据集是从数据库中查询返回的结果集合，类型为 `think\Collection`。
+
+- ###### 数据集方法
+
+  数据集提供了很多额外的方法，用于对数据集中的数据进行处理（其中部分类似于数据库方法，注意不要混淆）。
+
+- ###### ThinkPHP 数据集方法一览表
+
+  |      |      |      |
+  | ---- | ---- | ---- |
+  |      |      |      |
+  |      |      |      |
+  |      |      |      |
+
+---
+
+<div STYLE="page-break-after: always;"></div>
+
+## 5.11	模型基础
+
+##### 定义模型
+
+- ###### 语法
+
+  ```php
+  class [模型类名] extends Model{
+  }
+  ```
+
+- ###### 说明
+
+  1. 模型会自动对应数据表，并且有一套自己的命名规则；
+
+2. 模型类名需要去除表前缀<font size=1>（如 tp_ 等）</font>，并采用驼峰式命名，首字母大写；
+
+- ###### 例 
+
+  ```php
+  class User extends Model{
+  }
+  ```
+
+- ###### 开启应用类后缀避免模型类名与 PHP 关键字冲突
+
+  ```php
+  class UserModel extends Model{
+      //必须设置 $name 属性为指定表名(这里使 user)
+  	protected $name = 'user';
+  }
+  ```
+
+- ###### 设置表前缀
+
+  由于模型类名中不能包含表前缀，所以需要在配置文件中对数据表的前缀进行配置。
+
+<br>
+
+##### 使用模型
+
+- ###### 语法
+
+  可以直接使用 `[模型类名]::` 的形式调用查询方法。
+
+- ###### 例
+
+  ```php
+  class DataModel{
+  	public function index(){
+  		return json(User::select());
+  	}
+  }
+  ```
+
+<br>
+
+##### 模型设置
+
+- ###### 设置主键
+
+  默认主键为 `id`，你可以设置其它主键。
+
+  ```php
+  //将 uid 设置为主键
+  protected $pk = 'uid';
+  ```
+
+- ###### 设置模型别名
+
+  控制器端调用模型操作，如果和控制器类名重复，可以设置别名。
+
+  ```php
+  use app\model\User as UserModel;
+  ```
+
+- ###### 设置其他的数据表
+
+  在模型定义中，可以设置其它的数据表。
+
+  ```php
+  protected $table = 'tp_one';
+  ```
+
+- ###### 模型初始化
+
+  模型和控制器一样，也有初始化，在这里必须设置 static 静态方法；
+
+  ```php
+  //模型初始化
+  protected static function init()
+  {
+  	//第一次实例化的时候执行 init
+  	echo '初始化';
+  }       
+  ```
+
+---
+
+<div STYLE="page-break-after: always;"></div>
+
+## 5.12	使用模型进行增加、修改以及删除
+
+### 5.12.1	增加
+
+##### 使用模型新增数据
+
+- ###### 使用实例化的方式增加一条数据
+
+  ```php
+  //方式一
+  $user = new UserModel();
+  
+  //方式二
+  $user = new \app\model\User();
+  ```
+
+<br>
+
+##### 使用 save() 写入具体的数据
+
+- ###### save() 
+
+  模型的 save() 用于通将数据写入的数据库中，返回一个布尔值。
+
+- ###### 例——使用 save() 写入数据
+
+  ```php
+  $user->username = '李白';
+  $user->password = '123';
+  $user->gender = '男';
+  $user->email = 'libai@163.com';
+  $user->price = 100;
+  $user->details = '123';
+  $user->uid = 1011;
+  $user->save();
+  ```
+
+- ###### 例——通过向 save() 传递数据数组新增数据
+
+  ```php
+  $user = new UserModel();
+  $user->save([
+  'username' => '李白',
+  'password' => '123',
+  'gender' => '男',
+  'email' => 'libai@163.com',
+  'price' => 100,
+  'details' => '123',
+  'uid' => 1011
+  ]);
+  ```
+
+<br>
+
+##### 使用 allowField() 限制写入的数据字段
+
+- ###### 说明
+
+  通过向 allowField() 中传入允许写入字段的字段名数组，可以让其他的字段无法被写入
+
+- ###### 例
+
+  ```php
+  $user->allowField(['username','email', 'password','details'])->save(...)
+  ```
+
+<br>
+
+##### 使用 replace() 实现 REPLACE into 新增
+
+- ###### 例
+
+  ```
+  $user->replace()->save();
+  ```
+
+<br>
+
+##### 获得 id
+
+- ###### 说明
+
+  新增成功后，可以通过 `$模型对象->id` 获得 **自增 id**<font size=1>（主键需是 id）</font>。
+
+- 例
+
+  ```php
+  $user->id;
+  ```
+
+<br>
+
+##### 使用 saveAll() 批量新增
+
+- ###### saveAll()
+
+  saveAll() 可以批量新增数据，该方法会返回批量新增数据的数组。
+
+- ###### 例
+
+  ```php
+  $dataAll = [
+  [
+  	'username' => '李白 1',
+  	'password' => '123',
+  	'gender' => '男',
+  	'email' => 'libai@163.com',
+  	'price' => 100,
+  	'details' => '123',
+  	'uid' => 1011
+  ],
+  [
+  	'username' => '李白 2',
+  	'password' => '123',
+  	'gender' => '男',
+  	'email' => 'libai@163.com',
+  	'price' => 100,
+  	'details' => '123',
+  	'uid' => 1011
+  ]
+  ];
+  $user = new UserModel();
+  dump($user->saveAll($dataAll));
+  ```
+
+<br>
+
+##### 使用静态方法 ::creat() 创建需要新增的数据
+
+- ###### ::create()
+
+  1. `::create()` 可以用于简化新增数据。
+  2. `::create()` 的参数 1 是新增数据数组，必选；参数 2 是允许写入的字段，可选；参数 3 为是否 replace 写入，默认 false 为 Insert 。
+
+- ###### 例
+
+  ```php
+  $user = UserModel::create([
+  'username' => '李白',
+  'password' => '123',
+  'gender' => '男',
+  'email' => 'libai@163.com',
+  'price' => 100,
+  'details' => '123',
+  'uid' => 1011
+  ], ['username', 'password', 'details'], false);
+  ```
+
+---
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.12.2	修改
+
+##### 通过 save() 修改数据
+
+- ###### 说明
+
+  1. 模型的新增和修改都是 `save()` 进行执行的，它采用了自动识别体系来完成；
+  2. 实例化模型后调用 `save()` 方法表示新增，查询数据后调用 `save()` 表示修改<font size=1>（使用 find() 获取数据，然后通过 save() 保存修改。）</font>；如果在 save()传入更新修改条件后也表示修改。
+
+- ###### 例
+
+  ```php
+  $user = UserModel::find(118);
+  $user->username = '李黑';
+  $user->email = 'lihei@163.com';
+  $user->save();
+  ```
+
+- ###### 例——使用 where() 与 find() 进行条件查询
+
+  ```php
+  $user = UserModel::where('username', '李黑')->find();
+  $user->username = '李白';
+  $user->email = 'libai@163.com';
+  $user->save();
+  ```
+
+- ###### 使用 save() 新增数据与修改数据的不同
+
+  使用 `save()` 新增数据通过 Model 的实例调用 `save()`，而修改数据不需要创建 Model 的实例，而是通过 `::find()` 从数据库中获取。
+
+- ###### 强制数据更新
+
+  save() 只会更新变化的数据，如果提交的数据没有变化，则不更新。但如果你想强制更新数据，即使数据一样，那么可以使用 `force()`方法；
+
+  ```php
+  $user->force()->save();
+  ```
+
+<br>
+
+##### 使用 Db::raw 进行更新数据
+
+- ###### 例
+
+  ```php
+  $user = UserModel::find(305);
+  
+  //使用 Db::raw() 实现 price 字段的自增
+  $user->price    = Db::raw('price+1');
+  
+  $user->save();
+  ```
+
+<br>
+
+##### 使用 allowField() 设置允许更新的数据
+
+- ###### 说明
+
+  使用 `allowField()` 设置允许更新的字段，其它字段将无法进行写入；
+
+- ###### 例
+
+  ```php
+  $user->allowField(['username','email'])->save(...)
+  ```
+
+- ###### 📌使用 Db::raw 进行更新的字段不受 allwField() 限制
+
+  ```php
+  $user = UserModel::find(305);
+  $user->username = '李黑';
+  $user->password = '123';
+  
+  //使用 Db::raw() 实现 price 字段的自增
+  $user->price    = Db::raw('price+1');
+  $user->allowField(["username","password"])->force()->save();
+  ```
+
+  - 执行的 Sql 语句为：
+
+    ```sql
+    UPDATE `tp_user` SET `username` = '李黑' , `password` = '123' , `price` = price+1 , `create_time` = '2021-04-07 14:45:37' , `update_time` = '2021-04-07 15:14:04.576889' WHERE `id` = 305
+    ```
+
+<br>
+
+##### 通过 saveAll() 批量修改数据
+
+- ###### 说明
+
+  通过 `saveAll()`，可以批量修改数据，`saveAll()` 返回被修改的数据集合；
+
+- ###### 例
+
+  ```php
+  $list = [
+  	['id'=>118, 'username'=>'李白', 'email'=>'libai@163.com'],	
+  	['id'=>128, 'username'=>'李白', 'email'=>'libai@163.com'],
+  	['id'=>129, 'username'=>'李白', 'email'=>'libai@163.com']
+  ];
+  $user->saveAll($list);
+  ```
+
+- ###### 📌saveAll() 只能以 id 为条件进行更新
+
+<br>
+
+##### 使用 update() 修改数据
+
+- ###### 说明
+
+  1. `::update()` 可以用于简化新增数据。
+  2. `::update()` 的参数 1 是修改数据的数组，必选；参数 2 为修改条件，如果不指定，默认使用 id 为修改条件；参数 3 是允许写入的字段，可选 。
+
+- ###### 例
+
+  ```php
+  UserModel::update([
+  	'id' => 118,
+  	'username' => '李黑',
+  	'email' => 'lihei@163.com'
+  ]);
+  
+  UserModel::update([
+  	'username' => '李黑',
+  	'email' => 'lihei@163.com'
+  ],['id'=>118]);
+  
+  UserModel::update([
+  	'username' => '李黑',
+  	'email' => 'lihei@163.com'
+  ], ['id'=>118], ['username']); //只更新 username
+  ```
+
+- ###### 📌update() 可以使用 id 之外的条件对数据进行批量修改。
+
+<br>
+
+---
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.12.3	删除
+
+##### 通过 delete() 删除数据
+
+- ###### 说明
+
+  通过 delete()  删除数据需要先通过主键查询到想要删除的数据，然后再调用 delete() 方法将数据删除。delete() 返回布尔值，用于判断删除是否成功。
+
+- ###### 例
+
+  ```php
+  //1.使用 find() 方法查询想要删除的数据；
+  $user = UserModel::find(93);
+  
+  //2.通过 delete() 删除数据
+  echo $user->delete();
+  
+  echo Db::getLastSql();
+  ```
+
+<br>
+
+##### 使用静态方法 destory() 删除数据
+
+- ###### 说明
+
+  可以使用 **静态方法** `destroy()` 通过主键删除数据。
+
+  `destroy()` 也可以批量删除数据。
+
+- ###### 例
+
+  ```php
+  UserModel::destroy(1)
+  ```
+
+- ###### 例——批量删除数据
+
+  ```php
+  UserModel::destroy([80, 90, 91]);
+  ```
+
+<br>
+
+##### 根据查询条件进行删除
+
+- ###### 例
+
+  ```php
+  UserModel::where('id', '>', 80)->delete();
+  ```
+
+<br>
+
+##### 使用闭包的方式进行删除
+
+- ###### 例
+
+  ```php
+  UserModel::destroy(function ($query) {
+  $query->where('id', '>', 80);
+  });
+  ```
+
+---
+
+<div STYLE="page-break-after: always;"></div>
+
+## 5.13	使用模型查询数据
+
+##### 使用 find() 查询数据
+
+- ###### 说明
+
+  1. 使用 `find()` 通过主键查询数据，也可以使用 `where()`  进行条件筛选。
+  2. 如果数据不存在，则 `find()` 返回 `Null`；
+
+- ###### 例——使用 find() 通过主键查询数据
+
+  ```php
+  $user = UserModel::find(129);
+  return json($user);
+  ```
+
+- ###### 例——使用 where() 进行条件筛选
+
+  ```php
+  $user = UserModel::where('username', '辉夜')->find();
+  return json($user);
+  ```
+
+- ###### findOrEmpty() 
+
+  `findOrEmpty()`  与 `find()` 都用于查询数据，区别在于，如果数据不存在 `findOrEmpty()` 将**返回空模型**<font size=1>（ 可以通过 isEmpty() 判断，返回的数据是否为空模型）</font>。
+
+  ```php
+  $user = UserModel::findOrEmpty(1111);
+  
+  if ($user->isEmpty()) {
+  	echo '空模型，无数据！';
+  }
+  ```
+
+<br>
+
+##### 通过 select() 查询多条数据
+
+- ###### 说明
+
+  可以使用 select() 查询所有数据，可以向 select() 中传入一个 id 数组，查询指定 id 的多条数据。
+
+- ###### 例
+
+  ```php
+  $user = UserModel::select([19,20,21]);
+  
+  dump($user);
+  ```
+
+- 
+
+<br>
+
+##### 使用方法连缀进行复杂查询
+
+- ###### 说明
+
+  模型方法也可以使用 where 等连缀查询，和数据库查询方式一样
+
+- ###### 例
+
+  ```php
+  $user = UserModel::where('status', 1)
+  ->limit(5)
+  ->order('id', 'desc')
+  ->select();
+  ```
+
+- ###### 例——获取某个字段或者某个列的值
+
+  ```php
+  UserModel::where('id', 19)->value('username');
+  UserModel::whereIn('id',[19,20,21])->column('username','id');
+  ```
+
+<br>
+
+##### 动态查询
+
+- ###### 说明
+
+  模型支持动态查询 `getByElementName()`。
+
+- ###### 例
+
+  ```php
+  UserModel::getByUsername('辉夜');
+  UserModel::getByEmail('huiye@163.com');
+  ```
+
+<br>
+
+##### 聚合查询
+
+- ###### 说明
+
+  模型支持聚合查询：max、min、sum、count、avg 等。
+
+- ###### 例
+
+  ```php
+  UserModel::max('price'); 
+  ```
+
+<br>
+
+##### 使用 chunk() 分批处理数据
+
+- ###### 说明
+
+  使用 chunk()方法可以分批处理数据，防止数据库一次性开销过大。
+
+- ###### 例
+
+  ```php
+  UserModel::chunk(5, function ($users) { 
+      foreach($users as $user) { 
+          echo $user->username; 
+      } 
+      echo '<br>------<br>';
+  });
+  ```
+
+<br>
+
+##### 游标查询
+
+- ###### 说明
+
+  使用游标查询，可以大幅度减少海量数据的内存开销。游标查询每次查询只读一行，然后再读取时，自动定位到下一行继续读取。
+
+- ###### 例
+
+  ```php
+  foreach (UserModel::where('status', 1)->cursor() as $user) { 
+      echo $user->username; 
+      echo '<br>------<br>';
+  }
+  ```
+
+---
+
+<div STYLE="page-break-after: always;"></div>
+
+## 5.12	字段缓存
+
+##### 模型字段获取
+
+- 模型的数据字段和表字段是对应关系，在默认情况下会自动进行获取，包括字段的类型。
+
+<br>
+
+##### 自动获取字段的问题
+
+- 自动获取字段会导致增加一次查询，如果在模型中配置字段信息，可以减少内存开销；
+
+<br>
+
+##### 通过 $schema 字段，手动定义字段信息
+
+- ###### 说明
+
+  可以在模型类中设置 `$schema` 字段，明确定义字段信息，字段需要对应表写完整。
+
+- ###### 例
+
+  ```php
+  //设置字段信息，需要写完整的数据表字段
+  protected $schema = [
+  	'id' => 'int',
+  	'username' => 'string',
+  	'status' => 'int',
+  	'create_time' => 'datetime',
+  	...
+  ];
+  ```
+
+- ###### 📌`$schema` 的局限性
+
+  `$schema` 属性只对模型有效。可以直接使用 **字段缓存文件**，字段缓存文件同时对模型和数据库 Db 类有效。
+
+<br>
+
+##### 字段缓存文件
+
+- ###### 说明
+
+  ThinkPHP 提供了一条命令，用于生成一个字段信息缓存，生成后的字段缓存文件在 runtime/schema 目录下。
+
+- ###### ThinkPHP 字段缓存生成命令
+
+  ```shell
+  php think optimize:schema
+  ```
+
+- ###### 生成的字段缓存文件内容示例
+
+  ```php
+  <?php 
+  return array (
+    'id' => 'int',
+    'username' => 'string',
+    'password' => 'string',
+    'gender' => 'string',
+    ...
+  );
+  ```
+
+- ###### 开启字段缓存
+
+  默认情况下不会自动生成字段缓存文件，需要在 config/database.php 中进行配置。
+
+  ```php
+  // 开启字段缓存
+  'fields_cache' => true
+  ```
+
+---
+
+<br>
+
+## 5.13	在模型中封装数据
+
+##### 对模型中的数据进行获取与赋值
+
+- ###### 说明
+
+  当数据获取到后，可以使用 `->` 和数组单独获取数据，也可以使用 `->` 和数组为字段赋值，从而将数据交给模型处理。
+
+- ###### 例——获取字段中的数据
+
+  ```php
+  $user = UserModel::find(19);
+  echo $user->username;
+  echo $user['email'];
+  ```
+
+- ###### 例——为字段进行赋值
+
+  ```php
+  $user = new UserModel();
+  $user->username = 'Mr.Lee';
+  $user['email'] = 'lee@163.com';
+  ```
+
+- ###### 📌字段严格区分大小写
+
+  默认情况下，字段严格区分大小写，也就是需要和数据表字段保持一致。可以将模型属性 `$strict` 设置为 `false` ，实现非严格字段；
+
+  ```php
+  //将 $strict 设置为 true 
+  echo $user->create_time;
+  
+  ////将 $strict 设置为 fakse
+  echo $user->createTime; //并非肆无忌惮的不严格，只能首字母大写
+  ```
+
+<br>
+
+##### 在模型端对数据进行封装
+
+- ###### 说明
+
+  可以在模型端把数据整理好，直接交给控制器直接调用。
+
+- ###### 例
+
+  ```php
+  //模型端
+  public function getUsername($id)
+  {
+  	$obj = $this->find($id);
+  	return $obj->getAttr('username');
+  }
+  ```
+
+  ```php
+  //控制器端调用
+  $user = new UserModel();
+  return $user->getUsername(19);
+  ```
+
+---
+
+<div STYLE="page-break-after: always;"></div>
+
+## 5.14	模型的获取器与修改器
+
+### 5.14.1	获取器
+
+##### 作用
+
+- 获取器的作用是对模型实例的数据做出 **自动处理**。
+
+<br>
+
+##### 获取器的本质
+
+- 每个获取器都对应模型中各自的一个特殊方法。该方法为 `public`，命名规范为 `getFieldAttr()`。
+
+<br>
+
+##### 例——使用获取器将 status 转换为对应的文字信息
+
+```php
+//User 模型
+class User extends Model
+{
+    public function getStatusAttr($value){
+		$status = [-1=>'删除', 0=>'禁用', 1=>'正常', 2=>'待审核'];
+		return $status[$value];
+	}
+}
+```
+
+```php
+//控制器端
+class DemoController{
+	public index(){
+		$user = UserModel::find(19);
+		return $user->status;
+	}
+}
+```
+
+<br>
+
+##### 📌getFieldAttr() 中 Field 除了可以是字段值，也可以是自定义的虚拟字段
+
+- ###### 例
+
+  ```php
+  //User 模型
+  class User extends Model
+  {
+      public function getNothingAttr($value, $data){
+  		$myGet = [-1=>'删除', 0=>'禁用', 1=>'正常', 2=>'待审核'];
+  		return $myGet[$data['status']];
+  	}
+  }
+  ```
+
+  ```php
+  //控制器端
+  class DemoController{
+  	public index(){
+  		$user = UserModel::find(19);
+  		return $user->nothing;
+  	}
+  }
+  ```
+
+  - 此时，Nothing 字段不存在，而参数 `$value` 只是为了占位，并未使用；
+  - 第二个参数 `$data` 得到的是查询到的数据，通过 $data 获取具体的字段。
+
+<br>
+
+##### 定义获取器后，可通过 getData() 获取原始值
+
+- ###### 说明
+
+  定义获取器后，将无法再通过字段名获取字段的原始值<font size=1>（直接通过字段名进行调用，将返回获取器转换后的值）</font>。如果定义了获取器后，想要获取字段原始值，可以使用 getData()方法；
+
+- ###### 例
+
+  ```php
+  return $user->getData('status');
+  ```
+
+<br>
+
+##### 动态获取器
+
+- ###### 说明
+
+  使用 WithAttr() 可以 **在控制器端** 实现动态获取器。
+
+- ###### 例——将 Email 字段转换为全大写形式
+
+  ```php
+  $user = UserModel::WithAttr('email', function ($value) {
+  	return strtoupper($value);
+  })->select();
+  
+  return json($user);
+  ```
+
+- ###### 例——将 status 转换为描述信息
+
+  ```php
+  $user = UserModel::WithAttr('status', function ($value) {
+  	$status = [-1=>'删除', 0=>'禁用', 1=>'正常', 2=>'待审核'];
+  	return $status[$value];
+  })->select();
+  
+  return json($user);
+  ```
+
+- ###### 动态获取器的优先级
+
+  如果同时定义了模型获取器和动态获取器，那么 **动态获取器优先级更高**。
+
+---
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.14.2	修改器
+
+##### 作用
+
+- 模型修改器的作用，就是对模型设置对象的值进行处理<font size=1>（比如，我们要新增数据的时候，对数据就行格式化、过滤、转换等处理）</font>。新增、修改数据时都会触发修改器。
+
+<br>
+
+##### 定义修改器
+
+- ###### 修改器的命名规则
+
+  模型修改器的命名规则为 `setFieldAttr`。
+
+- ###### 例——将邮箱转换为大写
+
+  ```php
+  public function setEmailAttr($value)
+  {
+  	return strtoupper($value);
+  }
+  ```
+
+<br>
+
+##### 模型修改器只对模型有效
+
+- 模型修改器只对模型方法有效，如果直接调用数据库方法，那么修改器将失效，比如 `Db::table("user")->insert()`。
+
+---
+
+<div STYLE="page-break-after: always;"></div>
+
+## 5.15	查询范围（查询封装）
+
+##### 说明
+
+- 可以在模型端创建封装的<u>查询或写入</u>方法，方便控制器端等调用。
+
+<br>
+
+##### 查询范围方法的命名规范
+
+- 前缀 scope，后缀随意，调用时直接把后缀作为参数使用；
+
+<br>
+
+##### 例——封装一个筛选所有性别为男的查询、查询结果只显示部分字段且只有前 5 条
+
+```php
+//User 模型
+class User extends Model
+{
+    public function scopeMale($query){
+		$query->where('gender', '男')
+			  ->field('id,username,gender,email')
+			  ->limit(5);
+	}
+}
+```
+
+```php
+//控制器端
+class DemoController{
+	public index(){
+		$result = UserModel::scope('male')->select();
+		//$result = UserModel::male()->select();
+		return json($result);
+	}
+}
+```
+
+<br>
+
+##### 带参数的查询范围方法
+
+- ###### 说明
+
+  查询封装可以传递参数。
+
+- ###### 例——以邮箱为条件进行查询
+
+  ```php
+  //User 模型
+  class User extends Model{
+      public function scopeEmail($query, $value){
+  		$query->where('email', 'like', '%'.$value.'%');
+  	}
+  }
+  ```
+
+  ```php
+  //控制器端
+  class DemoController{
+  	public index(){
+  		$result = UserModel::scope('email', 'xiao')->select();
+  		//$result = UserModel::email('xiao')->select();
+  		return json($result);
+  	}
+  }
+  ```
+
+<br>
+
+##### 连缀调用查询范围方法
+
+- ##### 说明
+
+  查询范围方法会返回 $query 对象，因此可以进行连缀。
+
+- ###### 例——查找所有分数大于 80 分的 user 的邮箱
+
+  ```php
+  //User 模型
+  class User extends Model{
+      public function scopePrice($query, $value){
+  		$query->where('price', '>', $value);
+  	}
+      
+      public function scopeEmail($query, $value){
+  		$query->where('email', 'like', '%'.$value.'%');
+  	}
+  }
+  ```
+
+  ```php
+  //控制器端
+  class DemoController{
+  	public index(){
+  		$result = UserModel::scope('email', 'xiao')
+  					 	->scope('price', 80)
+  						->select();
+          
+  		//$result = UserModel::email('xiao')
+  		// ->price(80)
+  		// ->select();
+  		
+          return json($result);
+  	}
+  }
+  ```
+
+<br>
+
+##### 📌查询范围方法的限制
+
+- 查询范围只能使用 `find()` 和 `select()` 两种方法。
+
+<br>
+
+##### 全局查询范围方法
+
+- ###### 说明
+
+  如果定义了全局查询范围方法，那么在此模型上进行的所有查询都会加上全局条件。
+
+- ###### 定义全局查询范围方法
+
+  ```php
+  protected $globalScope = ['status'];
+  
+  //全局范围
+  public function scopeStatus($query)
+  {
+  	$query->where('status',1);
+  }
+  ```
+
+- ###### 取消全局查询范围
+
+  定义了全局查询后，如果想取消这个查询的所有全局查询，可以用下面方法：
+
+  ```
+  UserModel::withoutGlobalScope()
+  ```
+
+- ###### 定义多个全局查询后，取消部分全局查询
+
+  可以通过在 withoutGlobalScope() 中添加参数，指定需要取消的全局查询：
+
+  ```php
+  UserModel::withoutGlobalScope(['status']
+  ```
+
+---
+
+<div STYLE="page-break-after: always;"></div>
+
 # 附录
 
 ##### 最后编辑时间
