@@ -1,64 +1,56 @@
-# 1	异常
-
-
+# 1	集合
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;"><br/><br/><br/></div>
 
-# 2	文件
-
----
-
-<div STYLE="page-break-after: always;"><br></div>
-
-# 3	集合
+# 2	函数式编程
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;"><br/><br/><br/></div>
 
-# 4	字符串进阶
-
----
-
-<div STYLE="page-break-after: always;"><br></div>
-
-# 5	数组进阶
+# 3	流式编程
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;"><br/><br/><br/></div>
 
-# 6	泛型
-
----
-
-<div STYLE="page-break-after: always;"><br></div>
-
-# 7	枚举类型
+# 4	异常
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;"><br/><br/><br/></div>
 
-# 8	反射
-
----
-
-<div STYLE="page-break-after: always;"><br></div>
-
-# 9	注解
+# 5	文件
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;"><br/><br/><br/></div>
 
-# 10	并发
+# 6	类型信息
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;"><br/><br/><br/></div>
+
+# 7	泛型
+
+---
+
+<div STYLE="page-break-after: always;"><br/><br/><br/></div>
+
+# 8	注解
+
+---
+
+<div STYLE="page-break-after: always;"><br/><br/><br/></div>
+
+# 9	数组、字符串与枚举扩展
+
+---
+
+<div STYLE="page-break-after: always;"><br/><br/><br/></div>
 
 # 附录
 
@@ -88,5 +80,5 @@
 
 ##### 脚注
 
-[^xxx]: 
+
 
