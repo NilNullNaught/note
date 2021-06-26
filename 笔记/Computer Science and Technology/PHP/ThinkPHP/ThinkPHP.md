@@ -1,16 +1,16 @@
-# 1	ThinkPHP
+# 1	ThinkPHP 概述
 
-## 1.1	概述
+## 1.1	简介
 
-##### ThinkPHP 简介
+##### 什么是 ThinkPHP
 
-- ThinkPHP是一个免开源的、快速简单的、面向对象的 **轻量级PHP开发框架**，是为了敏捷 WEB 应用开发和简化企业应用开发而生。ThinkPHP从诞生以来一直秉承简洁实用的设计原则，在保持出色的性能和至简代码的同时，更注重易用性。
+ThinkPHP 是一个开源的、快速简单的、面向对象的 **轻量级PHP开发框架**，为了敏捷 WEB 应用开发和简化企业应用开发而生。ThinkPHP从诞生以来一直秉承简洁实用的设计原则，在保持出色的性能和至简代码的同时，更注重易用性。
 
 <br>
 
 ##### ThinkPHP 的开源协议
 
-- ThinkPHP 遵循 `Apache2` 开源许可协议发布，意味着你可以免费使用 ThinkPHP，甚至允许把你基于 ThinkPHP 开发的应用开源或商业产品发布/销售。
+ThinkPHP 遵循 `Apache2` 开源许可协议发布，意味着你可以免费使用 ThinkPHP，甚至允许把你基于 ThinkPHP 开发的应用开源或商业产品发布/销售。
 
 <br>
 
@@ -37,15 +37,19 @@
 
 -------
 
-<div STYLE="page-break-after: always;"><br></div>
-
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br></div>
 ## 1.2	Hello World
 
 ### 1.2.1	Windows 环境下安装 ThinkPHP6.0
 
 ##### 步骤
 
-1. 下载并安装 Composer[^Composer]。
+1. 下载并安装 Composer[^1.2.1-1]。
 
 2. 如果是第一次安装，切换到 WEB 根目录下面并执行下面的命令：
 
@@ -56,20 +60,31 @@
 
 3. 开启调试模式。由于应用默认是部署模式，在开发阶段，可以修改环境变量 `APP_DEBUG` 开启调试模式，上线部署后切换到部署模式。
 
-
 <br>
 
-##### .env 文件
+##### 📌.env 文件
 
-- **说明**：环境变量文件。本地开发时可以在应用根目录下面定义 `.env` 文件。
-- **.example.env 文件**：通过 Composrer 的 `create-project` 命令安装 ThinkPHP 后，在根目录会自带一个 `.example.env` 文件（环境变量示例文件），你可以直接更名为 `.env` 文件并根据你的要求进行修改。*（该示例文件已经开启调试模式）*
+###### 什么是 .env 文件
 
+.env 文件即环境变量文件。本地开发时可以在应用根目录下面定义 `.env` 文件。
+
+###### .example.env 文件
+
+通过 Composrer 的 `create-project` 命令安装 ThinkPHP 后，在根目录会自带一个 `.example.env` 文件（环境变量示例文件），你可以直接更名为 `.env` 文件并根据你的要求进行修改。注意，在该示例文件已经开启调试模式。
 
 <br>
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+[^1.2.1-1]: Composer 是 PHP 的一个依赖管理工具。它允许你申明项目所依赖的代码库，它会在你的项目中为你安装他们。
+
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 1.2.2	测试运行
 
@@ -94,29 +109,33 @@
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 1.3	ThinkPHP 编程规范
 
 ##### 目录和文件
 
-- 目录使用小写 + 下划线；
+- 目录使用 `小写+下划线`；
 - 类库、函数文件统一以 `.php` 为后缀；
 - 类的文件名均以命名空间定义，并且命名空间的路径和类库文件所在路径一致；
-- 类*（包含接口和 Trait）*文件采用驼峰法命名*（首字母大写）*，其它文件采用小写 + 下划线命名；
-- 类名*（包括接口和 Trait）*和文件名保持一致，统一采用驼峰法命名（首字母大写）；
-
+- 类（包含接口和 Trait）文件采用驼峰法命名，首字母大写，其它文件采用小写 + 下划线命名；
+- 类名（包括接口名和 Trait名）和文件名保持一致，统一采用驼峰法命名（首字母大写）；
 
 <br>
 
 ##### 函数和类、属性命名
 
-- 类的命名采用驼峰法*（首字母大写）*，例如 `User`、`UserType`；
-- 函数的命名使用小写字母和下划线（小写字母开头）的方式，例如 `get_client_ip`；
-- 方法的命名使用驼峰法（首字母小写），例如 `getUserName`；
-- 属性的命名使用驼峰法（首字母小写），例如 `tableName`、`instance`；
-- 特例：以双下划线`__`打头的函数或方法作为魔术方法，例如 `__call` 和 `__autoload`；
-
+- 类的命名采用驼峰法，首字母大写，例如 `User`、`UserType`；
+- 函数的命名使用小写字母和下划线的方式，例如 `get_client_ip`；
+- 方法的命名使用驼峰法，首字母小写，例如 `getUserName`；
+- 属性的命名使用驼峰法，首字母小写，例如 `tableName`、`instance`；
+- 特例：以双下划线`__`打头的函数或方法作为魔术方法[^1.3-1]，例如 `__call` 和 `__autoload`；
 
 <br>
 
@@ -133,12 +152,19 @@
 
 - 数据表和字段采用小写加下划线方式命名，并注意字段名不要以下划线开头，例如 `think_user` 表和 `user_name`字段，不建议使用驼峰和中文作为数据表及字段命名。
 
-
 <br>
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+[^1.3-1]: 魔术方法是在特定的情况下被触发方法，利用魔术方法可以轻松实现 PHP 面向对象中的重载。
+
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 1.4	目录结构
 
@@ -146,20 +172,26 @@
 
 ##### 📌ThinkPHP 6.0 多应用部署
 
-- ThinkPHP 6.0 支持多应用模式部署，实际的目录结构取决于采用的是单应用还是多应用模式。
+`ThinkPHP 6.0` 支持多应用模式部署，实际的目录结构取决于采用的是单应用还是多应用模式。
 
 <br>
 
 ##### 📌ThinkPHP 部署注意事项
 
-1. 在实际的部署中，请确保只有public目录可以对外访问。
-2. 在 mac 或者 linux 环境下面，注意需要设置 runtime 目录权限为 777。
+- 在实际的部署中，请确保只有 `public` 目录可以对外访问。
+- 在 `mac` 或者 `linux` 环境下面，注意需要设置 `runtime` 目录权限为 `777`。
 
 <br>
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 1.4.1	单应用模式
 
@@ -222,7 +254,13 @@ www  WEB部署目录（或者子目录）
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 1.4.2	多应用模式
 
@@ -285,14 +323,20 @@ www  WEB部署目录（或者子目录）
 
 ##### 📌多应用部署的注意点
 
-- 多应用模式部署后，需要删除 app 目录下的 controller 目录*（系统根据该目录作为判断是否单应用的依据）*。
+- 多应用模式部署后，需要删除 `app` 目录下的 `controller `目录，因为系统根据该目录作为判断是否单应用的依据。
 
 
 <br>
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 1.4.3	默认应用文件
 
@@ -317,22 +361,27 @@ www  WEB部署目录（或者子目录）
 
 ##### 📌默认配置文件使用注意点
 
-1. `BaseController.php`、`Request.php` 和`ExceptionHandle.php`三个文件是系统默认提供的基础文件，位置你可以随意移动，但注意要同步调整类的命名空间。
-2. 如果不需要使用`Request.php` 和`ExceptionHandle.php`文件，或者要调整类名，必须同步调整`provider.php`文件中的容器对象绑定。
-
+1. `BaseController.php`、`Request.php` 和 `ExceptionHandle.php` 三个文件是系统默认提供的基础文件，位置你可以随意移动，但注意要同步调整类的命名空间。
+2. 如果不需要使用 `Request.php` 和 `ExceptionHandle.php` 文件，或者要调整类名，必须同步调整 `provider.php` 文件中的容器对象绑定。
 
 <br>
 
 ##### 📌provider.php
 
-- `provider.php`服务提供定义文件只能全局定义，不支持在应用下单独定义。
+- `provider.php` 服务提供定义文件只能全局定义，不支持在应用下单独定义。
 
 
 <br>
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 1.5	配置文件
 
@@ -348,14 +397,20 @@ www  WEB部署目录（或者子目录）
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 1.5.1	开启调试模式
 
 ##### 开启调试模式的方法
 
-- **第一种方法**：直接将根目录下的 `.example.env` 文件修改为 `.env` 文件，该文件中默认开启了调试模式。
-- 第二种方法：在 `.env` 文件中修改 `APP_DEBUG` 属性为 `true` 。
+1. **第一种方法**：直接将根目录下的 `.example.env` 文件修改为 `.env` 文件，该文件中默认开启了调试模式。
+2. **第二种方法**：在 `.env` 文件中修改 `APP_DEBUG` 属性为 `true` 。
 
 <br>
 
@@ -364,7 +419,7 @@ www  WEB部署目录（或者子目录）
 1. 记录系统运行流程的执行过程;
 2. 展示错误和调试信息，并开启日志记录;
 3. 模版修改可以及时生效(不会被缓存干扰);
-4. 启动右下角的Trace调试功能，更加强大;
+4. 启动右下角的 `Trace` 调试功能，更加强大;
 5. 发生异常时，也会显示异常信息。
 
 <br>
@@ -378,7 +433,13 @@ www  WEB部署目录（或者子目录）
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 1.5.2	获取配置文件的值
 
@@ -428,7 +489,14 @@ class test
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
+
 
 # 2	框架架构
 
@@ -436,7 +504,7 @@ class test
 
 ##### 说明
 
-- 对于一个HTTP应用来说，从用户发起请求到响应输出结束，大致的标准请求流程如下：
+- 对于一个 `HTTP` 应用来说，从用户发起请求到响应输出结束，大致的标准请求流程如下：
   1. 载入 `Composer` 的自动加载 `autoload` 文件
   2. 实例化系统应用基础类 `think\App`
   3. 获取应用目录等相关路径信息
@@ -483,7 +551,13 @@ class test
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 2.2	架构总览
 
@@ -654,7 +728,13 @@ class test
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 2.3	入口文件
 
@@ -717,7 +797,13 @@ class test
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 2.4	多应用模式
 
@@ -974,7 +1060,13 @@ class test
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 2.6	容器和依赖注入
 
@@ -1326,7 +1418,13 @@ class test
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 2.7	服务
 
@@ -1435,7 +1533,13 @@ class test
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 2.8	门面
 
@@ -1615,7 +1719,13 @@ echo Cache::get('name');
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 2.9	中间件
 
@@ -1630,7 +1740,13 @@ echo Cache::get('name');
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 2.9.1	定义中间件
 
@@ -1824,7 +1940,13 @@ class Check
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 2.9.2	中间件的分类与注册
 
@@ -2090,7 +2212,13 @@ class Check
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 2.9.3	中间件的执行优先级
 
@@ -2119,7 +2247,13 @@ class Check
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 2.10	事件
 
@@ -2155,7 +2289,13 @@ class Check
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 2.10.1	定义事件
 
@@ -2256,7 +2396,13 @@ class Check
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 2.10.2	事件监听
 
@@ -2333,7 +2479,13 @@ Event::listen('UserLogin', function($user) {
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 2.10.3	事件订阅
 
@@ -2468,7 +2620,13 @@ Event::listen('UserLogin', function($user) {
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 2.10.4	内置事件
 
@@ -2526,7 +2684,13 @@ Event::listen('UserLogin', function($user) {
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 # 3	URL 解析
 
@@ -2540,7 +2704,13 @@ Event::listen('UserLogin', function($user) {
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 3.1	默认 URL
 
@@ -2605,7 +2775,13 @@ http://serverName/index.php?s=/控制器/操作/[参数名/参数值...]
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 3.2	URL 重写
 
@@ -2684,7 +2860,13 @@ http://serverName/index.php?s=/控制器/操作/[参数名/参数值...]
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 # 4	控制器
 
@@ -2715,7 +2897,13 @@ return [
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 4.1	定义控制器
 
@@ -2786,7 +2974,13 @@ return [
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 4.2	控制器渲染输出
 
@@ -2814,7 +3008,13 @@ return [
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 4.3	基础控制器
 
@@ -2851,7 +3051,13 @@ class Test extends BaseController
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 4.4	Error 控制器
 
@@ -2884,7 +3090,13 @@ class Error{
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 4.5	多级控制器
 
@@ -2919,7 +3131,13 @@ class Test
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 # 5	数据库访问与模型
 
@@ -2937,7 +3155,13 @@ class Test
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.1	连接数据库
 
@@ -3093,7 +3317,13 @@ DEBUG = true
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.2	通过模型访问数据库
 
@@ -3131,7 +3361,13 @@ DEBUG = true
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.3	数据库查询基础
 
@@ -3199,7 +3435,13 @@ DEBUG = true
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.3.2	数据集查询
 
@@ -3254,7 +3496,13 @@ DEBUG = true
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.3.3	时间查询
 
@@ -3359,7 +3607,13 @@ DEBUG = true
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.3.4	其他查询
 
@@ -3442,7 +3696,13 @@ DEBUG = true
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.3.5	链式操作
 
@@ -3466,7 +3726,13 @@ DEBUG = true
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.3.6	保留查询对象[^?2]
 
@@ -3518,7 +3784,13 @@ DEBUG = true
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.4	数据增删改
 
@@ -3592,7 +3864,13 @@ dump(Db::table('person')->select());
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.4.2	批量数据新增
 
@@ -3628,7 +3906,13 @@ dump(Db::table('person')->select());
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.4.3	replace()  方法与使用 save() 新增
 
@@ -3760,7 +4044,13 @@ echo(Db::table('person')->update($person2));//修改成功输出1
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.4.5	数据删除
 
@@ -3800,7 +4090,13 @@ Db:table('person')->delete(true);
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.5	数据库查询表达式
 
@@ -3824,7 +4120,13 @@ Db:table('person')->delete(true);
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.5.1	比较查询
 
@@ -3851,7 +4153,13 @@ dump($c3);
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.5.2	like
 
@@ -3912,7 +4220,13 @@ echo Db::getLastSql()."<br>";
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.5.3	between
 
@@ -3963,7 +4277,13 @@ echo Db::getLastSql()."<br>";
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.5.4	in
 
@@ -4014,7 +4334,13 @@ echo Db::getLastSql()."<br>";
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.5.5	null 与 not null
 
@@ -4065,7 +4391,13 @@ echo Db::getLastSql()."<br>";
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.5.6	自定义查询表达式拼接 Exp
 
@@ -4100,7 +4432,13 @@ echo Db::getLastSql()."<br>";
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.6	特殊查询方法
 
@@ -4171,7 +4509,13 @@ echo Db::getLastSql()."<br>";
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.6.2	子查询
 
@@ -4243,7 +4587,13 @@ $result = Db::name('one')->where('id', 'in', function ($query) {
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.6.3	原生查询
 
@@ -4273,7 +4623,13 @@ $result = Db::name('one')->where('id', 'in', function ($query) {
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.7	链式查询	
 
@@ -4461,7 +4817,13 @@ $result = Db::name('one')->where('id', 'in', function ($query) {
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.7.2	field()
 
@@ -4547,7 +4909,13 @@ Db::table('person')->field(['id', 'username', 'email'])->select();
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.7.3	alias()
 
@@ -4574,7 +4942,13 @@ echo Db::getLastSql();
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.7.4	limit() 与 page()
 
@@ -4620,7 +4994,13 @@ echo Db::getLastSql();
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.7.5	order()
 
@@ -4661,7 +5041,13 @@ Db::table('person')->order(['id'=>'desc', 'age'=>'asc'])->select();
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.7.6	group() 与 having()
 
@@ -4703,7 +5089,13 @@ Db::table('person')->order(['id'=>'desc', 'age'=>'asc'])->select();
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.8	快捷查询方法
 
@@ -4781,7 +5173,13 @@ Db::table('person')->order(['id'=>'desc', 'age'=>'asc'])->select();
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.9	数据库事务
 
@@ -4831,7 +5229,13 @@ try {
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.10	获取器与数据集处理
 
@@ -4872,7 +5276,13 @@ try {
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.11	模型基础
 
@@ -4973,7 +5383,13 @@ try {
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.12	使用模型进行增加、修改以及删除
 
@@ -5125,7 +5541,13 @@ try {
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.12.2	修改
 
@@ -5269,7 +5691,13 @@ try {
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.12.3	删除
 
@@ -5337,7 +5765,13 @@ try {
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.13	使用模型查询数据
 
@@ -5483,7 +5917,13 @@ try {
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.12	字段缓存
 
@@ -5625,7 +6065,13 @@ try {
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.14	模型的获取器与修改器
 
@@ -5745,7 +6191,13 @@ class DemoController{
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.14.2	修改器
 
@@ -5778,7 +6230,13 @@ class DemoController{
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.15	查询范围（查询封装）
 
@@ -5933,7 +6391,13 @@ class DemoController{
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.16	模型的搜索器
 
@@ -6027,7 +6491,13 @@ class DemoController{
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.17	模型数据集
 
@@ -6065,7 +6535,13 @@ return json($result)
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.18	自动时间戳
 
@@ -6153,7 +6629,13 @@ return json($result)
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.19	模型只读字段
 
@@ -6180,7 +6662,13 @@ $user->readonly(['username', 'email'])->save();
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.20	模型的数据类型与转换
 
@@ -6240,7 +6728,13 @@ $user->readonly(['username', 'email'])->save();
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.21	JSON 字符串
 
@@ -6312,7 +6806,13 @@ where('list->username', '辉夜')->find();
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.21.2	Model JSON
 
@@ -6398,7 +6898,13 @@ $user->list = $list;
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.22	模型的软删除
 
@@ -6504,7 +7010,13 @@ $user->restore();
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.22	事件
 
@@ -6516,7 +7028,13 @@ $user->restore();
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.22.1	Db:: 事件
 
@@ -6556,7 +7074,13 @@ $user->restore();
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.22.2	模型事件
 
@@ -6592,7 +7116,13 @@ $user->restore();
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ## 5.23	关联模型
 
@@ -6604,7 +7134,13 @@ $user->restore();
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.23.1	关联模型定义
 
@@ -6678,7 +7214,13 @@ class Democontroller{
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.23.2	关联操作
 
@@ -6780,7 +7322,13 @@ class Democontroller{
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.23.3	一对一关联
 
@@ -6855,13 +7403,19 @@ return json($user)
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 ### 5.23.4	一对多关联
 
 ###### 说明
 
-- hasMany 模式，适合主表关联附表，实现一对多查询
+- `hasMany` 模式，适合主表关联附表，实现一对多查询
 
 <br>
 
@@ -6887,25 +7441,271 @@ return $this->hasMany(Profile::class,'user_id', 'id');
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
+### 5.23.5	多对多关联
 
-### 5.23.5	多对多关联（❗未完成）
+##### 多对多关联
+
+​	举例来说，一个用户对应多个角色，而一个角色对应多个用户，这就是多对多。多对多关系最经典的应用就是权限控制。
+
+<br/>
+
+##### 例——多对多关系
+
+1. 有多对多关系的三张表 tp_user（用户表）、tp_role（角色表）、tp_access（中间表），tp_access 包含了 tp_user 和 tp_role 表的关联 id。
+
+2. 在 User.php 的模型中，设置多对多关联
+
+   ```php
+   public function roles(){
+   	return $this->belongsToMany(Role::class, Access::class);
+   }
+   ```
+
+   在 roles 方法中，通过 belongsToMany() 设置多对多关联，具体参数如下：
+
+   ```php
+   belongsToMany('关联模型','中间表',['外键','关联键']);
+   $this->belongsToMany(Role::class, Access::class, 'role_id', 'user_id');
+   ```
+
+3. `role.php` 和 `access.php` 创建为空模型，但是注意 `Role` 继承 `Model` 即可，而中间表需要继承 `Pivot`。
+
+4. 在 `user.php` 中，创建 many() 方法，用于测试，查询方式如下
+
+   ```php
+   public function many(){
+   	//得到一个用户：蜡笔小新
+   	$user = UserModel::find(21);
+   	//获取这个用户的所有角色
+   	$roles = $user->roles;
+   	//输出这个角色所具有的权限【十天精品课堂系列】 主讲：李炎恢
+   	return json($roles);
+   }
+   ```
+
+5. 当我们要给一个用户创建一个角色时，用到多对多关联新增；而关联新增后，不但会给 `tp_role` 新增一条数据，也会给 `tp_access` 新增一条；
+
+   ```php
+   $user->roles()->save(['type'=>'测试管理员']);
+   $user->roles()->saveAll([[...],[...]]);
+   ```
+
+   一般来说，上面的这种新增方式，用于初始化角色比较合适，也就是说，各种权限的角色，并不需要再新增了，都是初始制定好的。
+
+   所以，我们真正需要就是通过用户表新增到中间表关联即可：
+
+   ```php
+   $user->roles()->save(1);
+   或：
+   $user->roles()->save(Role::find(1));
+   $user->roles()->saveAll([1,2,3]);
+   或：
+   $user->roles()->attach(1);
+   $user->roles()->attach(2, ['details'=>'测试详情']);
+   ```
+
+6. 除了新增，还有直接删除中间表数据的方法：
+
+   ```php
+   $user->roles()->detach(2)
+   ```
+
+<br/>
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
+### 5.23.6	关联预载入
 
-### 5.23.5	关联预载入（❗未完成）
+##### 什么是关联预载入
+
+在普通的关联查询下，我们循环数据列表会执行 `n+1` 次 `SQL` 查询：
+
+```php
+$list = UserModel::select([19, 20, 21]);
+foreach ($list as $user) {
+	dump($user->profile);
+}
+```
+
+上述代码采用一对一的构建方式，打开 trace 调试工具，会得到四次查询，如果采用关联预载入的方式，将会减少到两次，也就是起步一次，循环一次：
+
+```php
+$list = UserModel::with(['profile'])->select([19, 20, 21]);
+foreach ($list as $user) {
+	dump($user->profile);
+}
+```
+
+<br>
+
+##### 关联预载入的优点与缺点
+
+关联预载入**减少了查询次数提高了性能**，但是**不支持多次调用**。
+
+<br>
+
+##### 对多个附表进行关联预载入
+
+如果你有主表关联了多个附表，都想要进行预载入，可以传入多个模型方法即可：
+
+```php
+/**
+ *前提条件：创建一张表 tp_book，和 tp_profile 一样，关联 tp_user；
+ */
+$list = UserModel::with(['profile,book'])->select([19, 20, 21]);
+foreach ($list as $user) {
+	dump($user->profile.$user->book);
+}
+```
+
+<br>
+
+##### 在关联模型中实现链式操作
+
+如果想要在关联模型实现链式操作，可以使用闭包，比如添加 `->field()`：
+
+```php
+$user = UserModel::field('id,username')->with(['profile'=>function ($query) {
+	$query->field('user_id, hobby');
+}])->select([19,20,21]);
+
+```
+
+<br>
+
+##### 延迟预载入
+
+关联预载入还提供了一个延迟预载入，就是先执行 `select()` 再 `load()` 载入：
+
+```php
+$list = UserModel::select([19, 20, 21]);
+$list->load(['profile']);
+foreach ($list as $user) {
+	dump($user->profile);
+}
+```
+
+<br>
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
+### 5.23.7	关联统计和输出
 
-### 5.23.6	关联统计和输出（❗未完成）
+##### 使用 withCount() 进行关联统计
+
+使用 `withCount()` ，可以统计主表关联附表的个数；
+
+```php
+$list = UserModel::withCount(['profile'])->select([19,20,21]);
+foreach ($list as $user) {
+	echo $user->profile_count;//输出用 profile_count
+}
+```
+
+<br>
+
+##### 关联统计的输出
+
+###### 关联统计输出方法
+
+关联统计的输出方法采用形似 `关联方法名_ count` 的结构，不单单支持 Count，还支持如下统计方法：
+
+- withMax()
+- withMin()
+- withSum()
+- withAvg()
+- ...
+
+###### 指定统计字段
+
+除了 withCount() 不需要指定字段，其它均需要指定统计字段；
+
+```php
+$list = UserModel::withSum(['profile'], 'status')->select([19,20,21]);
+foreach ($list as $user) {
+	echo $user->profile_sum.'<br>';
+}
+```
+
+###### 自定义输出属性
+
+对于输出的属性，可以自定义：
+
+```php
+$list = UserModel::withSum(['profile'=>'p_s'], 'status')->select([19,20,21]);
+foreach ($list as $user) {
+	echo $user->p_s.'<br>';
+}
+```
+
+<br>
+
+##### 隐藏主表字段或附属表的字段
+
+###### 使用 hidden() 方法
+
+使用 `hidden()` 方法，隐藏主表字段或附属表的字段；
+
+```php
+$list = UserModel::with('profile')->select();
+return json($list->hidden(['profile.status']));
+```
+
+或：
+
+```php
+return json($list
+->hidden(['username','password','profile'=>['status','id']]));
+```
+
+###### 使用 visible() 方法
+
+使用 `visible()` 方法，只显示相关的字段；
+
+```php
+$list->visible(['profile.status'])
+```
+
+###### 使用 append() 方法
+
+使用 `append()` 方法，添加一个额外字段，比如另一个关联的对象模型；
+
+```php
+$list->append(['book]
+```
+
+<br>
 
 ---
 
-<div STYLE="page-break-after: always;"><br></div>
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
 # 附录
 
@@ -6950,8 +7750,11 @@ return $this->hasMany(Profile::class,'user_id', 'id');
 
 ##### 脚注
 
-[^Composer]: Composer 是 PHP 的一个依赖管理工具。它允许你申明项目所依赖的代码库，它会在你的项目中为你安装他们。
+
+
 [^PDO 模式]: PDO 即 PHP 数据对象，PDO 提供了一个数据访问抽象层，这意味着，不管使用哪种数据库，都可以用相同的函数（方法）来查询和获取数据。
 
 [^SQL 预处理模式]: 一种编译过的要执行的 SQL 语句模板，可以使用不同的变量参数对其进行定制。
+
+
 
