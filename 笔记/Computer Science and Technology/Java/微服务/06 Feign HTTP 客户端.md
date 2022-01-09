@@ -11,9 +11,31 @@
 
 ##### 什么是 Feign
 
-Feign 是一个声明式、模板化的 HTTP 客户端，官方地址：https://github.com/OpenFeign/feign。
+Feign 是由 Netflix 开发的 **声明式、模板化** 的 HTTP 客户端，Feign 可以帮助我们更快捷、优雅地调用 HTTP API。
 
-Feign 的作用就是帮助我们 **优雅** 的实现 http 请求的发送，解决上面提到的问题。Feign 可以把 Rest 的请求进行隐藏，伪装成类似 SpringMVC 的 Controller 格式。如此一来，不需要再进行拼接 url、拼接参数等等操作，一切交由 Feign 完成。
+Feign 支持多种注解，例如 Feign 自带的注解或者 JAX-RS 注解等。
+
+<br>
+
+##### Feign 的作用
+
+Feign 的作用就是帮助我们优雅的实现 http 请求的发送，解决上面提到的问题。Feign 可以把 Rest 的请求进行隐藏，伪装成类似 SpringMVC 的 Controller 格式。如此一来，不需要再进行拼接 url、拼接参数等等操作，一切交由 Feign 完成。
+
+<br>
+
+##### Spring Cloud Feign
+
+Spring Cloud 对 Feign 进行了增强，使 Feign 支持了 Spring MVC 注解，并整合了 Ribbon 和 Eureka，从而让 Feign 的使用更加方便。
+
+Spring Cloud Feign 是基于 Netflix feign 实现**，整合了 Spring Cloud Ribbon 和 Spring Cloud Hystrix**，除了提供这两者的强大功能外，还提供了一种声明式的 Web 服务客户端定义的方式。
+
+Spring Cloud Feign 帮助我们定义和实现依赖服务接口的定义。在 Spring Cloud feign 的实现下，只需要创建一个接口并用注解方式配置它，即可完成服务提供方的接口绑定，简化了在使用 Spring Cloud Ribbon 时自行封装服务调用客户端的开发量。
+
+<br>
+
+##### 官方地址
+
+https://github.com/OpenFeign/feign。
 
 <br>
 

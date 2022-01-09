@@ -4,7 +4,11 @@
 
 ##### Nacos 简介
 
-Nacos 由阿里巴巴出品，是 Spring Cloud Alibaba 的注册中心组件。相比 Eureka 功能更加丰富，在国内受欢迎程度较高。Nacos 是Spring Cloud Alibaba的组件，而 Spring Cloud Alibaba 也遵循 Spring Cloud 中定义的服务注册、服务发现规范。因此使用 Nacos 和使用 Eureka 对于微服务来说，并没有太大区别。
+Nacos ，是由阿里巴巴出品的 Spring Cloud Alibaba 的注册中心组件。相比 Eureka 功能更加丰富，在国内受欢迎程度较高。Nacos 是Spring Cloud Alibaba的组件，而 Spring Cloud Alibaba 也遵循 Spring Cloud 中定义的服务注册、服务发现规范。因此使用 Nacos 和使用 Eureka 对于微服务来说，并没有太大区别。
+
+相对于 Spring Cloud Eureka 来说，Nacos 更强大。Nacos = Spring Cloud Eureka + Spring Cloud Config。Nacos 可以与 Spring, Spring Boot, Spring Cloud 集成，并能代替 Spring Cloud Eureka, Spring Cloud Config。
+
+通过 Nacos Server 和 spring-cloud-starter-alibaba-nacos-discovery 可以实现服务的注册与发现。
 
 <br>
 
@@ -23,6 +27,21 @@ Nacos 由阿里巴巴出品，是 Spring Cloud Alibaba 的注册中心组件。�
 - Nacos 集群默认采用 AP 方式，当集群中存在非临时实例时，采用 CP 模式；Eureka 采用 AP 方式。
 
 <br>
+
+##### Nacos 的功能
+
+Nacos 是以服务为主要服务对象的中间件，Nacos支持所有主流的服务发现、配置和管理，主要提供以下四大功能：
+
+- 服务发现和服务健康监测
+- 动态配置服务
+- 动态DNS服务
+- 服务及其元数据管理
+
+<br>
+
+##### Nacos 结构图
+
+![img](img/6e5b55f7-3252-4dea-81e9-e0ffd86987b4.jpg)
 
 ##### Nacos 官方文档
 
@@ -83,7 +102,8 @@ Nacos 的默认端口是 8848，如果你电脑上的其它进程占用了 8848 
 进入 bin 目录，在 bin 目录下打开 cmd 窗口，输入：
 
 ```shell
-startup.cmd -m standalone #以单应用模式启动 Nacos
+#以单应用模式启动 Nacos
+startup.cmd -m standalone
 ```
 
 <img src="img/5.2-5.png" alt="nacos 启动成功效果" style="zoom:50%;" />
