@@ -4,7 +4,7 @@
 
 ##### Nacos 简介
 
-Nacos ，是由阿里巴巴出品的 Spring Cloud Alibaba 的注册中心组件。相比 Eureka 功能更加丰富，在国内受欢迎程度较高。Nacos 是Spring Cloud Alibaba的组件，而 Spring Cloud Alibaba 也遵循 Spring Cloud 中定义的服务注册、服务发现规范。因此使用 Nacos 和使用 Eureka 对于微服务来说，并没有太大区别。
+Nacos ，是由阿里巴巴出品的 Spring Cloud Alibaba 的注册中心组件。相比 Eureka 功能更加丰富，在国内受欢迎程度较高。Nacos 是 Spring Cloud Alibaba 的组件，而 Spring Cloud Alibaba 也遵循 Spring Cloud 中定义的服务注册、服务发现规范。因此使用 Nacos 和使用 Eureka 对于微服务来说，并没有太大区别。
 
 相对于 Spring Cloud Eureka 来说，Nacos 更强大。Nacos = Spring Cloud Eureka + Spring Cloud Config。Nacos 可以与 Spring, Spring Boot, Spring Cloud 集成，并能代替 Spring Cloud Eureka, Spring Cloud Config。
 
@@ -413,9 +413,7 @@ Spring Cloud 框架使用 Spring Cloud Config 进行配置管理，但是 Nacos 
 
    <img src="/img/5.8.1-3.png" alt="image-20210714164742924" style="zoom:50%;" />
 
-2. 在弹出的表单中，填写配置信息：
-
-<img src="img/image-20210714164856664.png" alt="image-20210714164856664" style="zoom:50%;" />
+2. 在弹出的表单中，填写配置信息。
 
 ###### 📌注意
 

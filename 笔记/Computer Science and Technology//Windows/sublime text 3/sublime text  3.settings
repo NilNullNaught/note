@@ -1,0 +1,16 @@
+{
+	"ignored_packages":
+	[
+		"Vintage"
+	],
+
+	//设置字体大小
+	"font_size": 12,
+
+	//关闭——记住上次打开的文件（需要同时设置以下两个属性）
+	"hot_exit": false,
+	"remember_open_files": false,
+
+	//关闭自动更新，需要注册码
+	"update_check":false,
+}
