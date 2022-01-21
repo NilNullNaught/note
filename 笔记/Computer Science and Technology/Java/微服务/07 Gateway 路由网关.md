@@ -26,11 +26,11 @@ Gateway 网关是我们服务的守门神，所有微服务的统一入口。
 
 ##### Spring Cloud Gateway 核心概念
 
-网关提供 API 全托管服务，丰富的API管理功能，辅助企业管理大规模的API，以降低管理成本和安全风险，包括协议适配、协议转发、安全策略、防刷、流量、监控日志等贡呢。一般来说网关对外暴露的URL或者接口信息，我们统称为路由信息。如果研发过网关中间件或者使用过Zuul的人，会知道网关的核心是Filter以及Filter Chain（Filter责任链）。Sprig Cloud Gateway也具有路由和Filter的概念。下面介绍一下Spring Cloud Gateway中几个重要的概念。
+网关提供 API 全托管服务，丰富的 API 管理功能，辅助企业管理大规模的 API，以降低管理成本和安全风险，包括协议适配、协议转发、安全策略、防刷、流量、监控日志等功能。一般来说网关对外暴露的URL或者接口信息，我们统称为路由信息。如果研发过网关中间件或者使用过 Zuul 的人，会知道 **网关的核心是Filter 以及Filter Chain（Filter责任链）**。Sprig Cloud Gateway也具有路由和Filter的概念。下面介绍一下Spring Cloud Gateway中几个重要的概念。
 
-- 路由：路由是网关最基础的部分，路由信息有一个ID、一个目的URL、一组断言和一组Filter组成。如果断言路由为真，则说明请求的URL和配置匹配
-- 断言：Java8中的断言函数。Spring Cloud Gateway中的断言函数输入类型是Spring5.0框架中的ServerWebExchange。Spring Cloud Gateway中的断言函数允许开发者去定义匹配来自于http request中的任何信息，比如请求头和参数等。
-- 过滤器：一个标准的Spring webFilter。Spring cloud gateway中的filter分为两种类型的Filter，分别是Gateway Filter和Global Filter。过滤器Filter将会对请求和响应进行修改处理
+- **路由**：路由是网关最基础的部分，路由信息有一个ID、一个目的URL、一组断言和一组 Filter 组成。如果断言路由为真，则说明请求的 URL 和配置匹配。
+- **断言**：Spring Cloud Gateway 中的断言函数输入类型是 Spring5.0 框架中的 ServerWebExchange。Spring Cloud Gateway 中的断言函数允许开发者去定义匹配来自于 http request 中的任何信息，比如请求头和参数等。
+- **过滤器**：一个标准的 Spring webFilter。Spring cloud gateway 中 的filter分为两种类型的Filter，分别是Gateway Filter和Global Filter。过滤器Filter将会对请求和响应进行修改处理。
 
 <br>
 
@@ -205,7 +205,7 @@ Gateway  提供了 31 种不同的路由过滤器工厂。例如：
 
 ###### 需求
 
-给所有进入 userservice 的请求添加一个请求头：Text=Test AddRequestHeader  GatewayFilter
+给所有进入 userservice 的请求添加一个请求头：Head=Test AddRequestHeader  GatewayFilter
 
 ###### 实现
 
@@ -221,7 +221,7 @@ Gateway  提供了 31 种不同的路由过滤器工厂。例如：
         predicates: 
         - Path=/user/** 
         filters: # 过滤器
-        - AddRequestHeader=TestText,Test AddRequestHeader  GatewayFilter # 添加请求头
+        - AddRequestHeader=HeadText,Test AddRequestHeader  GatewayFilter # 添加的请求头
         #当前过滤器写在userservice路由下，因此仅仅对访问userservice的请求有效。
 ```
 
@@ -252,7 +252,7 @@ spring:
         predicates: 
         - Path=/user/**
       default-filters: # 默认过滤项
-      - AddRequestHeader=Truth, Itcast is freaking awesome! 
+      - AddRequestHeader=Head, somemessage
 ```
 
 <br>
@@ -484,7 +484,9 @@ CORS，这个以前应该学习过，这里不再赘述了。不知道的小伙�
 
 <br>
 
-##### 解决跨域问题
+##### gateway 使用解决跨域问题
+
+###### 方式一
 
 在 gateway 服务的 application.yml 文件中，添加下面的配置：
 
@@ -510,7 +512,25 @@ spring:
             maxAge: 360000 # 这次跨域检测的有效期
 ```
 
+###### 方式二
 
+```java
+@Configuration
+public class CorsConfig {
+    @Bean
+    public CorsWebFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedMethod("*");# 允许的跨域ajax的请求方式,"*" 代表允许所有种类的跨域请求
+        config.addAllowedOrigin("*");# 允许哪些网站的跨域请求,"*" 代表允许所有网站的跨域请求
+        config.addAllowedHeader("*");# 允许在请求中携带的头信息
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());
+        source.registerCorsConfiguration("/**", config);
+
+        return new CorsWebFilter(source);
+    }
+}
+```
 
 
 

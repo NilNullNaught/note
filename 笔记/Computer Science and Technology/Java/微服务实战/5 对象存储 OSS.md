@@ -29,7 +29,7 @@ https://www.aliyun.com/product/oss。
 
 ![QQ截图20211107222454](img/QQ%E6%88%AA%E5%9B%BE20211107222454.png)
 
-![QQ截图20211107222604](img/QQ%E6%88%AA%E5%9B%BE20211107222604.png)
+![image-20220118183001090](img/image-20220118183001090.png)
 
 ###### bucket 属性（待补充）
 
@@ -67,7 +67,6 @@ https://www.aliyun.com/product/oss。
 ###### 引入依赖
 
 ```xml
-<dependencies>
     <!-- 阿里云oss依赖 -->
     <dependency>
         <groupId>com.aliyun.oss</groupId>
@@ -79,8 +78,9 @@ https://www.aliyun.com/product/oss。
         <groupId>joda-time</groupId>
         <artifactId>joda-time</artifactId>
     </dependency>
-</dependencies>
 ```
+
+- aliyun-sdk-oss 的版本需要 3.0 以上。
 
 ###### 配置application.properties、
 
@@ -116,8 +116,6 @@ public class OssApplication {
     }
 }
 ```
-
-- `@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)` 的作用：spring boot 会默认加载org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration 这个类，而 DataSourceAutoConfiguration 类使用了 @Configuration 注解向 spring 注入了 dataSource bean，又因为项目（oss模块）中并没有关于 dataSource 相关的配置信息，所以当 spring 创建 dataSource bean 时因缺少相关的信息就会报错。
 
 ###### 创建常量读取工具类
 

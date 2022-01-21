@@ -48,8 +48,13 @@ https://github.com/OpenFeign/feign。
     <br>
     <br>
 </div>
-
 ## 6.2	Feign 远程调用基础
+
+##### 前提条件
+
+服务提供者与服务调用者都已经在注册中心（nacos） 中进行注册。
+
+<br>
 
 ##### Feign 基本使用步骤
 
@@ -87,7 +92,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient("userservice")
+@FeignClient("userservice")// 被调用的w
 public interface UserClient {
     @GetMapping("/user/{id}")
     User findById(@PathVariable("id") Long id);
@@ -100,7 +105,7 @@ public interface UserClient {
 //- 返回值类型：User
 ```
 
-4. 修改微服务 Controller 中的方法，使用 Feign 客户端代替 RestTemplate：
+4. 使用 Feign 客户端调用接口：
 
 ```java
 @RestController
@@ -140,7 +145,6 @@ public class OrderController {
     <br>
     <br>
 </div>
-
 ## 6.3	Feign 配置
 
 ##### Feign 支持自定义的配置
@@ -329,8 +333,6 @@ public class UserController {
 
 那么，有没有一种办法简化这种重复的代码编写呢？
 
-=-0984567·123
-
 <br>
 
 ##### 通过继承方式实现共享
@@ -361,8 +363,6 @@ public class UserController {
 
 将 Feign 的Client抽取为独立模块，并且把接口有关的POJO、默认的Feign配置都放到这个模块中，提供给所有消费者使用。例如，将 UserClient、User、Feign 的默认配置都抽取到一个 feign-api 包中，所有微服务引用该依赖包，即可直接使用。
 
-![image-20210714214041796](img/image-20210714214041796-163178268239310.png)
-
 ###### 实现步骤
 
 1. 首先创建一个 module，命名为 feign-api
@@ -381,19 +381,115 @@ public class UserController {
 ```
 
 4. 修改微服务中与 pojo、Client、DefaultFeignConfiguration 相关的类或接口，从 feign-api 中导入。
-5. 由于微服务的 @EnableFeignClients 注解在 cn.itcast.order 包下，与 feign-api 不在同一个包，所以无法扫描到 feign-api 中的内容，解决这个问题有两种方式：
+5. 由于微服务的 @EnableFeignClients 注解在 `GroupId.ProjectName.ModuleName` （比如 `cn.nilnullnaught.nnnnote.user`）包下，与 feign-api 不在同一个包，所以无法扫描到 feign-api 中的内容，解决这个问题有三种方式：
 
 ```java
 //指定 Feign 应该扫描的包 
-@EnableFeignClients(basePackages = "cn.itcast.feign.clients")
+@EnableFeignClients(basePackages = "cn.nilnullnaught.nnnnote.feign.clients")
+@SpringApplication
+public class Application{
+    ...
+}
 ```
 
 ```java
 //指定需要加载的 Client 接口
 @EnableFeignClients(clients = {UserClient.class})
+@SpringApplication
+public class Application{
+    ...
+}
 ```
 
 6. 测试。
+
+---
+
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
+## 6.6	Feign 的默认超时时间设置
+
+##### 问题
+
+Feign 的默认超时时间太短。
+
+<br>
+
+##### Ribbon 超时时间
+
+Feign 底层的负载均衡通过 Ribbon实现
+
+###### 全局配置
+
+对所有的服务该配置都生效
+
+```yaml
+ ribbon:  
+	#连接超时时间，单位毫秒，默认为1秒
+    ReadTimeout: 30000 #该值会被FeignClient配置connectTimeout覆盖
+    #建立连接之后，读取响应资源超时时间，默认为1秒
+    ConnectTimeout: 30000 #该值会被FeignClient配置readTimeout覆盖
+```
+
+###### 指定服务配置
+
+```yaml
+# servicename 是服务的名称，该配置只针对该服务生效
+servicename:
+  ribbon:
+  	#连接超时时间，单位毫秒，默认为1秒
+    ReadTimeout: 30000 #该值会被FeignClient配置readTimeout覆盖
+    #建立连接之后，读取响应资源超时时间，默认为1秒
+    ConnectTimeout: 30000 #该值会被FeignClient配置readTimeout覆盖
+```
+
+<br>
+
+##### Feign
+
+###### 全局配置
+
+```yaml
+feign:
+  client:
+    config:
+      default:
+        #连接超时时间，单位毫秒
+        connectTimeout: 5000 
+        #建立连接之后，读取响应资源超时时间
+        readTimeout: 5000 
+```
+
+###### 指定服务配置
+
+```yaml
+feign:
+  client:
+    config:
+      annoroad-beta:
+      	#连接超时时间，单位毫秒
+        connectTimeout: 10000 
+        #建立连接之后，读取响应资源超时时间
+        readTimeout: 10000
+```
+
+<br>
+
+##### 📌建议使用 Feign 配置超时时间
+
+理由：
+
+1. Ribbon 的配置要想生效必须满足微服务相互调用的时候通过注册中心，如果你是在本地通过 @FeignClient 注解的 url 参数进行服务相互调用的测试，此时 ribbon 设置的超时时间将会失效，但是通过 Feign 设置的超时时间不会受到影响（仍然会生效）。
+2. 如果同时配置了Ribbon、Feign，那么 Feign 的配置将生效。
+
+综上所述建议使用 Feign 的来设置超时时间
+
+<br>
 
 ---
 

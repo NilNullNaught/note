@@ -516,8 +516,9 @@ Spring Cloud 框架使用 Spring Cloud Config 进行配置管理，但是 Nacos 
 
    ```java
    @Slf4j
-   @RestController//添加 @RefreshScope
+   @RestController
    @RequestMapping("/user")
+   @RefreshScope//配置热更新
    public class UserController {
    
    	......
@@ -541,7 +542,7 @@ Spring Cloud 框架使用 Spring Cloud Config 进行配置管理，但是 Nacos 
 
 ##### 方式二 —— 使用 PatternProperties 类
 
-1. 在微服务中，添加一个类[^5.8.2-1]
+1. 在微服务中，添加一个配置类
 
    ```java
    package cn.itcast.user.config;
@@ -585,8 +586,6 @@ Spring Cloud 框架使用 Spring Cloud Config 进行配置管理，但是 Nacos 
 <br>
 
 ---
-
-[^5.8.2-1]: 一般是配置类。
 
 <div STYLE="page-break-after: always;">
     <br>

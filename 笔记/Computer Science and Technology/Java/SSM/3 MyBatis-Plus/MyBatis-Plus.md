@@ -317,7 +317,7 @@ mybatis-plus:
 
 <br>
 
-##### 其他主键策略
+##### 其他主键策略（以过时）
 
 分析 IdType 源码可知：
 
@@ -343,6 +343,15 @@ public enum IdType {
     }
 }
 
+```
+
+<br>
+
+##### 使用 Mybatis-plus ID 生成器生成 ID（在代码逻辑中进行）
+
+```
+        //生成 UUID
+        String IdWorkerID = IdWorker.get32UUID();
 ```
 
 <br>
@@ -409,24 +418,55 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-@Component
+
 public class MyMetaObjectHandler implements MetaObjectHandler {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MyMetaObjectHandler.class);
-
+/** 旧版
     @Override
     public void insertFill(MetaObject metaObject) {
-        LOGGER.info("start insert fill ....");
+        //使用实体类属性名称，而不是数据库字段名称
         this.setFieldValByName("createTime", new Date(), metaObject);
         this.setFieldValByName("updateTime", new Date(), metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        LOGGER.info("start update fill ....");
         this.setFieldValByName("updateTime", new Date(), metaObject);
     }
+*/
+    
+//新版
+    @Override
+    public void insertFill(MetaObject metaObject) {
+        // 起始版本 3.3.0(推荐使用)
+        //使用实体类属性名称，而不是数据库字段名称
+        this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
+        this.strictInsertFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now()); 
+        // 或者
+         // 起始版本 3.3.3(推荐)
+        this.strictInsertFill(metaObject, "createTime", () -> LocalDateTime.now(), LocalDateTime.class);
+        this.strictInsertFill(metaObject, "updateTime", () -> LocalDateTime.now(), LocalDateTime.class);
+
+        // 或者
+        // 也可以使用(3.3.0 该方法有bug)
+        this.fillStrategy(metaObject, "createTime", LocalDateTime.now()); // 也可以使用(3.3.0 该方法有bug)
+        this.fillStrategy(metaObject, "updateTime", LocalDateTime.now()); // 也可以使用(3.3.0 该方法有bug)
+    }
+
+    @Override
+    public void updateFill(MetaObject metaObject) {
+        log.info("start update fill ....");
+        // 起始版本 3.3.0(推荐)
+        this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now()); 
+        // 或者
+        // 起始版本 3.3.3(推荐)
+        this.strictUpdateFill(metaObject, "updateTime", () -> LocalDateTime.now(), LocalDateTime.class); 
+        // 或者
+        // 或者也可以使用(3.3.0 该方法有bug)
+        this.fillStrategy(metaObject, "updateTime", LocalDateTime.now()); 
+    }
 }
+
+
 ```
 
 ###### 第四步
