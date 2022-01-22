@@ -500,3 +500,88 @@ feign:
     <br>
     <br>
 </div>
+## 6.7	在请求头中添加参数
+
+##### 请求发送者
+
+```java
+
+@Autowired
+private ServiceHandlerClient serviceHandlerClient
+
+public void sendRequest(){
+
+	serviceHandlerClient.paramInHeader("Hello world");
+}
+
+```
+
+<br>
+
+##### feign接口
+
+```java
+@FeignClient(name = "service-handler")
+public interface ServiceHandlerClient {
+
+    @PostMapping("/paramInHeader")
+    public String paramInHeader(@RequestHeader("token")String token);
+}
+```
+
+<br>
+
+##### 请求处理者
+
+```java
+
+
+    @PostMapping("/paramInHeader")
+    public String paramInHeader(@RequestHeader("token")String token){
+    	return token;
+    }
+```
+
+<br>
+
+---
+
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
+
+## 6.8	使用 feign 传输文件
+
+##### feign 接口
+
+```
+    @PostMapping(value = "/path",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String upDateFile(,@RequestPart("file")MultipartFile file);
+```
+
+<br>
+
+##### 请求处理者
+
+```
+    @PostMapping("/path")
+    public String upDateFile(@RequestPart("file")MultipartFile file) {
+        return "OK";
+    }
+```
+
+<br>
+
+---
+
+<div STYLE="page-break-after: always;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
