@@ -1538,7 +1538,7 @@ notExists(boolean condition, String notExistsSql)
 - 拼接 NOT EXISTS ( sql语句 )
 - 例: `notExists("select id from table where age = 1")`--->`not exists (select id from table where age = 1)`
 
-## [#](https://mp.baomidou.com/guide/wrapper.html#querywrapper)QueryWrapper
+## 📌QueryWrapper
 
 说明:
 
@@ -1572,7 +1572,7 @@ select(Class<T> entityClass, Predicate<TableFieldInfo> predicate)
 
 - 例: `select(i -> i.getProperty().startsWith("test"))`
 
-## [#](https://mp.baomidou.com/guide/wrapper.html#updatewrapper)UpdateWrapper
+## 📌 UpdateWrapper
 
 说明:
 
