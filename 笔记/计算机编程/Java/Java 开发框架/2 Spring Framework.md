@@ -2609,9 +2609,7 @@ public class BookDaoImpl implements BookDao {
 
 ##### 为第三方 bean 注入资源
 
-###### 注入简单数据类型
-
-例：
+###### 例——注入简单数据类型
 
 1. 在 resources 下创建一个 jdbc.properties 文件，并添加对应的属性键值对：
 
@@ -2665,47 +2663,52 @@ public class BookDaoImpl implements BookDao {
    }
    ```
 
-###### 注入引用数据类型
+###### 例——注入引用数据类型
 
-例：
+1. 在 resources 下创建一个 jdbc.properties 文件，并添加对应的属性键值对：
 
-1. 在 `SpringConfig` 中扫描 `UserDao`，扫描的目的是让 Spring 能管理到 `UserDao`,也就是说要让 IoC 容器中有一个 `UserDao`对象：
+   ```properties
+   jdbc.driver=com.mysql.jdbc.Driver
+   jdbc.url=jdbc:mysql://127.0.0.1:3306/spring_db
+   jdbc.username=root
+   jdbc.password=root
+   ```
 
-```java
-@Configuration
-@ComponentScan("cn.nilnullnaught.dao")
-@Import({JdbcConfig.class})
-public class SpringConfig {
-}
-```
+2. 在 `SpringConfig` 中扫描 `UserDao`，扫描的目的是让 Spring 能管理到 `UserDao`,也就是说要让 IoC 容器中有一个 `UserDao`对象：
 
-2. 在 `JdbcConfig` 类的 `dataSource` 方法上添加参数：
+   ```java
+   @Configuration
+   @ComponentScan("cn.nilnullnaught.dao")
+   @Import({JdbcConfig.class})
+   public class SpringConfig {
+   }
+   ```
 
-```java
-public class JdbcConfig {
-    @Value("${jdbc.driver}")
-    private String driver;
-    @Value("${jdbc.url}")
-    private String url;
-    @Value("${jdbc.userName}")
-    private String userName;
-    @Value("${jdbc.password}")
-    private String password;
+3. 在 `JdbcConfig` 类的 `dataSource` 方法上添加参数：
 
-    @Bean//引用类型注入只需要为 bean 定义方法设置形参即可，容器会根据类型自动装配对象。
-	public DataSource dataSource(UserDao userDao){
-    	System.out.println(userDao);
-    	DruidDataSource ds = new DruidDataSource();
-    	ds.setDriverClassName(driver);
-    	ds.setUrl(url);
-    	ds.setUsername(userName);
-    	ds.setPassword(password);
-    	return ds;
-	}
-}
-```
-
-3. 运行程序。
+   ```java
+   public class JdbcConfig {
+       @Value("${jdbc.driver}")
+       private String driver;
+       @Value("${jdbc.url}")
+       private String url;
+       @Value("${jdbc.userName}")
+       private String userName;
+       @Value("${jdbc.password}")
+       private String password;
+   
+       @Bean//引用类型注入只需要为 bean 定义方法设置形参即可，容器会根据类型自动装配对象。
+   	public DataSource dataSource(UserDao userDao){
+       	System.out.println(userDao);
+       	DruidDataSource ds = new DruidDataSource();
+       	ds.setDriverClassName(driver);
+       	ds.setUrl(url);
+       	ds.setUsername(userName);
+       	ds.setPassword(password);
+       	return ds;
+   	}
+   }
+   ```
 
 <br>
 
