@@ -41,12 +41,12 @@
 8. **支持 ORM 映射**：提供映射标签，支持对象与数据库的 ORM 字段关系映射。
 9. **支持对象关系映射**：提供对象关系映射标签，支持对象关系组件维护。
 
-1. <br>
+<br>
 
-2. ##### MyBatis 的缺点
+##### MyBatis 的缺点
 
-3. SQL 语句的编写工作量较大，尤其是字段多、关联表多时，更是如此，**对开发人员编写 SQL 语句的功底有一定要求**；
-4. SQL 语句依赖于数据库，导致 **数据库移植性差**，不能随意更换数据库。
+1. SQL 语句的编写工作量较大，尤其是字段多、关联表多时，更是如此，**对开发人员编写 SQL 语句的功底有一定要求**；
+2. SQL 语句依赖于数据库，导致 **数据库移植性差**，不能随意更换数据库。
 
 <br>
 
@@ -74,12 +74,12 @@
 
 ##### 不**同点**
 
-1. **hibernate 是全自动， 而 mybatis 是半自动**：hibernate 完全可以通过对象关系模型实现对数据库的操作，拥有完整的 JavaBean 对象与数据库的映射结构来自动生成 sq|。而 mybatis 仅有基本的字段映射，对象数据以及对象实际关系仍然需要通过手写 sql 来实现和管理。
-2. **hibernate 数据库移植性远大于 mybatis**：hibernate 通过它强大的映射结构和 hql 语言，大大降低了对象与数据库（Oracle、 MySQL等） 的耦合性，而 mybatis 由于需要手写 sq|，因此与数据库的耦合性直接取决于程序员写 sql 的方法，如果 sql 不具通用性而用了很多某数据库特性的 sql 语句的话，移植性也会随之降低很多，成本很高。
-3. **hibernate 拥有完整的日志系统，mybatis 则欠缺一些**：hibernate 日志系统非常健全，涉及广泛，包括：sq|记录、关系异常、优化警告、缓存提示、脏数据警告等;而 mybatis 则除了基本记录功能外，功能薄弱很多。
-4. **mybatis 相比 hibernate 需要关心很多细节**：hibernate 配置要比 mybatis 复杂的多，学习成本也比 mybatis 高。但也正因为 mybatis 使用简单，才导致它要比 hibernate 关心很多技术细节。mybatis 由于不用考虑很多细节，开发模式上与传统 jdbc 区别很小，因此很容易上手并开发项目，但忽略细节会导致项目前期 bug 较多，因而开发出相对稳定的软件很慢，而开发出软件却很快。hibernate则正好与之相反。但是如果使用hibernate很熟练的话，实际上开发效率丝毫不差于甚至超越mybatis。
-5. **SQL 直接优化上，mybatis 要比 hibernate 方便很多**：由于 mybatis 的 sql 都是写在 xml 里，因此优化 sql 比 hibernate 方便很多。hibernate 的 sql 很多都是自动生成的，无法直接维护 sql ，虽有 hql，但功能还是不及 sql 强大，见到报表等变态需求时，hql 也歇菜，也就是说 hql 是有局限的；hibernate 虽然也支持原生 sq|，但开发模式上却与 orm 不同，需要转换思维，因此使用上不是非常方便。总之写 sql 的灵活度上 hibernate 不及 mybatis；
-6. **缓存机制上，hibernate 要比 mybatis 更好一些**：MyBatis 的二级缓存配置都是在每个具体的表对象映射中进行详细配置，这样针对不同的表可以自定义不同的缓存机制。并且 Mybatis 可以在命名空间中共享相同的缓存配置和实例，通过 Cache-ref 来实现。而 Hibernate 对查询对象有着良好的管理机制，用户无需关心 SQL。所以在使用二级缓存时如果出现脏数据，系统会报出错误并提示。
+1. **Hibernate 是全自动， 而 MyBatis是半自动**：Hibernate 完全可以通过对象关系模型实现对数据库的操作，拥有完整的 JavaBean 对象与数据库的映射结构来自动生成 SQL。而 MyBatis 仅有基本的字段映射，对象数据以及对象实际关系仍然需要通过手写 SQL 来实现和管理。
+2. **Hibernate 数据库移植性远大于 MyBatis**：Hibernate 通过它强大的映射结构和 HQL 语言，大大降低了对象与数据库（Oracle、 MySQL等） 的耦合性，而 MyBatis 由于需要手写 SQL，因此与数据库的耦合性直接取决于程序员写 SQL 的方法，如果 SQL 不具通用性而用了很多某数据库特性的 SQL 语句，移植性也会降低很多。
+3. **Hibernate 拥有完整的日志系统，MyBatis 则欠缺一些**：Hibernate 的日志系统非常健全，涉及广泛，包括：SQL 记录、关系异常、优化警告、缓存提示、脏数据警告等；而 MyBatis 除了基本记录功能外，功能薄弱很多。
+4. **MyBatis 相比 Hibernate 需要关心很多细节**：Hibernate 配置要比 MyBatis 复杂的多，学习成本也比 MyBatis 高。但也正因为 MyBatis 使用简单，才导致它要比 Hibernate 关心很多技术细节。MyBatis 由于不用考虑很多细节，开发模式上与传统 JDBC 区别很小，因此很容易上手并开发项目，但忽略细节会导致项目前期 bug 较多，因而开发出相对稳定的软件很慢，而开发出软件却很快。Hibernate 则正好与之相反。但是如果使用 Hibernate 很熟练的话，实际上开发效率丝毫不低于甚至高于 MyBatis。
+5. **SQL 直接优化上，MyBatis 要比 Hibernate 方便很多**：由于 MyBatis 的 SQL 都是写在 xml 里，因此优化 SQL 比 Hibernate 方便很多。Hibernate 的 SQL 很多都是自动生成的，无法直接维护 SQL ，虽有 HQL ，但功能还是不及 SQL 强大，见到报表等变态需求时，HQL 也歇菜，也就是说 HQL 是有局限的；Hibernate 虽然也支持原生 SQL，但开发模式上却与 orm 不同，需要转换思维，因此使用上不是非常方便。总之写 SQL 的灵活度上 Hibernate 不及 MyBatis ；
+6. **缓存机制上，Hibernate 要比 MyBatis 更好一些**：MyBatis 的二级缓存配置都是在每个具体的表对象映射中进行详细配置，这样针对不同的表可以自定义不同的缓存机制。并且 MyBatis 可以在命名空间中共享相同的缓存配置和实例，通过 Cache-ref 来实现。而 Hibernate 对查询对象有着良好的管理机制，用户无需关心 SQL。所以在使用二级缓存时如果出现脏数据，系统会报出错误并提示。
 
 <br>
 
@@ -138,14 +138,14 @@ MyBatis 支持用插件对四大核心对象进行拦截，对 mybatis 来说插
     <br>
     <br></div>
 
-## 1.5	Mybatis 中 #{} 和 ${} 的区别是什么?
+## 1.5	MyBatis 中 #{} 和 ${} 的区别是什么?
 
 ##### 区别
 
 对参数的处理方式不同，\#{} 是预编译处理，${} 是直接进行字符串替换：
 
-1. Mybatis 在处理 #{} 时，会将 SQL 中的 #{} 替换为 ? 号，调用 PreparedStatement 的 set 方法来赋值；
-2. Mybatis 在处理 \${} 时，就是把 \${} 替换成变量的值；
+1. MyBatis 在处理 #{} 时，会将 SQL 中的 #{} 替换为 ? 号，调用 PreparedStatement 的 set 方法来赋值；
+2. MyBatis 在处理 \${} 时，就是把 \${} 替换成变量的值；
 
 推荐使用 \#{}，\#{} 可以有效的防止 SQL 注入，提高系统安全性，
 
