@@ -171,7 +171,7 @@ nuxt.config.js 文件用于组织Nuxt.js 应用的个性化配置，以便覆盖
 	<br>
 </div>
 
-### 8.1.4	NBUT 项目安装插件
+### 9.1.4	NUXT 项目安装插件
 
 ##### 例——安装幻灯片插件
 
@@ -208,6 +208,17 @@ module.exports = {
 ```
 
 <br>
+
+---
+
+<div STYLE="page-break-after: always;">
+    <br>
+	<br>
+	<br>
+	<br>
+	<br>
+</div>
+## asyncData()
 
 ---
 
