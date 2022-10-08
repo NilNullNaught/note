@@ -104,7 +104,8 @@ develop 分支是保存当前最新开发成果的分支。
 1. 一个项目同时只能存在一个 develop 分支；
 2. develop 分支衍生出各个 feature 分支；
 3. develop 分支是保护分支，不可直接 push 到远程仓库 develop 分支；
-4. develop 分支不能与 master 分支直接交互。
+4. develop 分支不能与 master 分支直接交互；
+5. **开发时，一般从 develop 分支上拉取代码（Git pull）。**
 
 <br>
 
@@ -128,7 +129,9 @@ feature 分支的父类分支是 develop 分支，feature 分支是 develop 分�
 6. feature 分支代码可以保存在开发者自己的代码库中而不强制提交到主代码库里；
 7. feature 分支只与 develop 分支交互，不能与 master 分支直接交互。
 
-总之，如果多人同时开发，需要分割成几个小功能，每个人都需要从 develop 中拉出一个粒度尽量小的 feature 分支，确保能尽早 merge 回d evelop 分支，否则冲突解决起来就没完没了。同时，当一个功能停止开发，这个分支将直接废弃，不影响 develop 分支。
+总之，如果多人同时开发，需要分割成几个小功能，每个人都需要从 develop 中拉出一个粒度尽量小的 feature 分支，确保能尽早 merge 回 develop 分支，否则冲突解决起来就没完没了。同时，当一个功能停止开发，这个分支将直接废弃，不影响 develop 分支。
+
+❓feature 分支需要在远程代码库创建吗，还是说只需要在本地创建呢？
 
 ###### release 分支
 
