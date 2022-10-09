@@ -212,7 +212,7 @@ git log -1
 
 <br>
 
-# 3	高级用法
+# 3	高级
 
 ## 3.1	分支
 
@@ -309,7 +309,7 @@ git fetch origin master
 **使用 pull 将远程版本库上的修改同步到本地**
 
 ```
-//pull 命令相当于将 fetch 和 merge 这两个命令一起执行，它可以从远程版本库上获取最新的代码并且合并到本地
+//pull 命令相当于将 fetch 和 merge 这两个命令一起执行，它可以从远程版本库上获取最新的代码并且合并到本地当前分支
 git pull origin master
 ```
 

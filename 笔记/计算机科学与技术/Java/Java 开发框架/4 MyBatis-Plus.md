@@ -106,12 +106,13 @@ INSERT INTO user (id, name, age, email) VALUES
         <artifactId>mybatis-plus-boot-starter</artifactId>
         <version>3.0.5</version>
     </dependency>
-
-    <!--mysql-->
-    <dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
-    </dependency>
+    
+            <!-- MySQL 驱动 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.28</version>
+        </dependency>
     
 </dependencies>
 ```
