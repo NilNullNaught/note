@@ -1,44 +1,66 @@
-# 1	概述
+<div STYLE="page-break-after: always;">
+	<br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+	<center><h3><font size="20px">
+        Linux
+    </font></h3></center>
+	<br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
-1.1	
+# 1	Linux 概述
 
-##### Linux 简介
+## 1.1	Linux 简介
 
-##### Linux arch
-
----
-
-
-
-
-
-## 1.2	基本概念
-
-### 1.2.1	命令参数
-
----
+#### 什么是 Linux
 
 <br>
 
-### 1.2.2	目录结构
-
-##### 树状目录结构
-
-![img](img/d0c50-linux2bfile2bsystem2bhierarchy.jpg)
+#### Linux arch
 
 <br>
 
-##### `/` 目录
+---
 
-`/` 目录是Linux的根目录。
+<div STYLE="page-break-after: always;"><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br></div>
 
-##### `~` 目录
+## 1.2	Linux 目录结构
 
-`~` 目录 又叫 **家目录**，Linux 是多用户操作系统，可以同时有多个用户对同一台 Linux 主机进行操作，`~` 目录代表各个用户的个人目录，`~` 目录的实际目录是 `/home/用户名`。
+#### 树状目录结构
 
-root 用户的 `~` 目录 的实际目录 `/home`
+![](img/Linux/1.2/1.jpg)
 
-##### 说明
+1. **`/` 目录**：Linux 的根目录。
+2. **`~` 目录**： `~` 目录 又叫 **家目录**。Linux 同时可以有多个用户对同一台 Linux 主机进行操作，`~` 目录代表各个用户的个人目录，`~` 目录的实际目录是 `/home/用户名`。root 用户的 `~` 目录 是 `/home` 目录。
+
+<br>
+
+#### 说明
 
 - **/bin**：
   bin 是 Binaries (二进制文件) 的缩写, 这个目录存放着最经常使用的命令。
@@ -121,62 +143,34 @@ root 用户的 `~` 目录 的实际目录 `/home`
 - **/run**：
   是一个临时文件系统，存储系统启动以来的信息。当系统重启时，这个目录下的文件应该被删掉或清除。如果你的系统上有 /var/run 目录，应该让它指向 run。
 
----
-
 <br>
 
-# 2	环境配置
+---
 
-## 2.1	安装 JDK
+<div STYLE="page-break-after: always;"><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br></div>
 
-### 2.1.1	yum安装
+## 1.3	远程连接
 
-**步骤**
+#### 使用 PuTTY 远程连接阿里云服务器
 
-1. 查询需要安装的 JDK 版本
-
-   ```
-   yum -y list java*
-   ```
-
-2. 安装jdk1.8
-
-   ```
-   yum install -y java-1.8.0-openjdk.x86_64
-   ```
-
-3. 配置环境变量
-
-```
-vi /etc/profile
-```
-
-```
-#set java environment
-JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.14.1.1-1.el7_9.x86_64
-JRE_HOME=$JAVA_HOME
-CLASS_PATH=.:$JRE_HOME/lib
-PATH=$PATH:$JAVA_HOME/bin
-export JAVA_HOME JRE_HOME CLASS_PATH PATH
-```
-
-4. 让修改生效
-
-```
-source /etc/profile
-```
+1. 确认阿里云服务器开放安全组规则；
+2. 绑定密钥；
+3. 
 
 
 
 ---
 
-<br>
 
-## 2.2	安装 Docker
-
----
-
-<br>
 
 # 3	基本命令
 
@@ -554,6 +548,16 @@ $ mv /usr/runoob/*  .
 
 <br>
 
+## 3.10	从网络下载文件命令
+
+https://www.cnblogs.com/jmbt/p/16644551.html
+
+
+
+---
+
+
+
 # 4	扩展命令
 
 ## 4.1	tree
@@ -733,40 +737,57 @@ kill -9 【进程号】
 
 
 
-# 附录
+# 2	环境配置
 
-##### 最后编辑时间
+## 2.1	安装 JDK
 
-- 2021/03/06
+### 2.1.1	yum安装
 
-##### 环境
+**步骤**
 
-- centOS 7.3
+1. 查询需要安装的 JDK 版本
 
-##### 参考
+   ```
+   yum -y list java*
+   ```
 
-- 
+2. 安装jdk1.8
 
-##### 相关资料
+   ```
+   yum install -y java-1.8.0-openjdk.x86_64
+   ```
 
-- 
+3. 配置环境变量
 
-##### 脚注
+```
+vi /etc/profile
+```
 
-[^]: 
+```
+#set java environment
+JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.14.1.1-1.el7_9.x86_64
+JRE_HOME=$JAVA_HOME
+CLASS_PATH=.:$JRE_HOME/lib
+PATH=$PATH:$JAVA_HOME/bin
+export JAVA_HOME JRE_HOME CLASS_PATH PATH
+```
 
-##### 代码链接
+4. 让修改生效
 
-[1]:
+```
+source /etc/profile
+```
 
-##### 锚点
 
-[](#1) 
 
-##### 质疑
+---
 
-[^!1]: 
+<br>
 
-##### 疑问
+## 2.2	安装 Docker
+
+---
+
+<br>
 
 [^?1]: 
