@@ -1,69 +1,69 @@
 # 1	概述
 
-## 1.1	Git
+## 1.1	Git 简介
 
-**什么是 Git**
+#### 什么是 Git
 
-- Git 是一个**开源**的**分布式版本控制工具**，Git被开发出来的初衷是为了更好地管理 Linux 内核，而现在早已被广泛应用于全球各种大中小型项目中。
-
----
+- Git 是一个**开源**的**分布式版本控制工具**，Git 被开发出来的初衷是为了更好地管理 Linux 内核，而现在早已被广泛应用于全球各种大中小型项目中。
 
 <br>
 
-## 1.2	安装 Git
-
-### 1.2.1	在 Linux 系统上安装 Git[^!1]
-
-
-
 ---
+
+<div STYLE="page-break-after: always;"></div>
+
+## 1.2	在 Linux 系统上安装 Git[^❗需要补充]
 
 <br>
 
-### 1.2.2	在 Windows 系统上安装 Git
+---
 
-**步骤**
+<div STYLE="page-break-after: always;"></div>
+
+## 1.3	在 Windows 系统上安装 Git
+
+#### 步骤
 
 1. 进入 https://gitforwindows.org/ 下载安装包
 2. 使用安装包进行安装
 
-**注意**
+#### 注意
 
-- Git 在安装时有大量可配置内容，暂时不清楚作用。
+1. Git 在安装时有大量可配置内容，暂时不清楚作用。
 
 ---
 
-<br>
+<div STYLE="page-break-after: always;"></div>
 
 # 2	基础命令
 
 ## 2.1	配置身份
 
-**例**
+#### 例
 
-- 打开 Git Bash，输入下列语句：
+1. 打开 Git Bash，输入下列语句：
 
-  ```bash
-  git config --global user.name "NNN"
-  git config --global user.email "null3519768673@gmail.com"
-  ```
+   ```bash
+   git config --global user.name "NNN"
+   git config --global user.email "null3519768673@gmail.com"
+   ```
 
-- 配置完成后，输入可以输入同样的命令查看是否配置成功，将具体的用户名和邮箱去掉即可：
+2. 配置完成后，输入可以输入同样的命令查看是否配置成功，将具体的用户名和邮箱去掉即可：
 
-  ```bash
-  git config --global user.name 
-  git config --global user.email
-  ```
-```
-  
+   ```bash
+   git config --global user.name 
+   git config --global user.email
+   ```
+
+   <br>
 
 ---
 
-<br>
+<div STYLE="page-break-after: always;"></div>
 
 ## 2.2	创建代码仓库
 
-**步骤**
+#### 步骤
 
 1. 进入需要创建仓库的项目下
 
@@ -71,19 +71,20 @@
 
    ```bash
    git init
-   
-   
-```
 
 3. 输入上述命令后，会在项目的根目录下生成一个隐藏的 .git 目录，这个目录就是来记录本地所有 Git 操作的。
 
-**注意**
+<br>
 
-- 如果要删除本地仓库，直接删除该目录即可。
+#### 注意
+
+如果要删除本地仓库，直接删除该目录即可。
+
+<br>
 
 ---
 
-<br>
+<div STYLE="page-break-after: always;"></div>
 
 ## 2.3	提交本地代码
 

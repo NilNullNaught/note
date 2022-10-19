@@ -1,54 +1,154 @@
-# 1	重要配置
+<div STYLE="page-break-after: always;">
+	<br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+	<center><h3><font size="20px">
+        IntelliJ IDEA 使用手册与注意事项
+    </font></h3></center>
+	<br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
 
-## 1.1	在 IDEA 中统一设置字符编码
+
+# 1	配置
+
+## 1.1	必要配置
+
+#### 统一设置字符编码
+
+1. 打开设置界面：
+
+   1. 方式一：在项目选择界面选择 `Customize → All settings...`。
+
+      <img src="./assets/IntelliJ IDEA 使用手册与注意事项/1.1/1.png" style="zoom:50%;" />
+
+   2. 方式二：进入项目后选择 `File → Settings...` 。
+
+      <img src="./assets/IntelliJ IDEA 使用手册与注意事项/1.1/2.png" style="zoom: 67%;" />
+
+2. 选择 `Editor → File ENcodings`：
+
+   <img src="./assets/IntelliJ IDEA 使用手册与注意事项/1.1/3.png" style="zoom:50%;" />
+
+3. 修改下列选项：
+
+   1. Global Encodings：选择 `UTF-8`；
+
+   2. Project Encodings：选择 `UTF-8；`
+
+   3. Default encoding for properties files：选择 `UTF-8` 并勾选 `Transparent native-to-ascii conversion`。
+
+      <img src="./assets/IntelliJ IDEA 使用手册与注意事项/1.1/4.png" style="zoom:50%;" />
+
+4. 点击 Apply ，然后点击 OK。
+
+<br>
 
 ---
 
+<div STYLE="page-break-after: always;"><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br></div>
 
+## 1.2	个性化配置
 
-## 1.2	设置 properties 的字符编码
+#### 选择字体样式与大小
 
----
+1. 打开设置界面
+2. 依次点击 `Appearance & Behavior → Appearance`
+3. 勾选 Use custom font，并设置字体大小
 
+<br>
 
+#### 设置启动 IDEA 时不自动打开项目
 
-## 1.3	Maven 配置
+1. 打开设置界面
+2. `Appearance & Behavior → System Settings`
+3. 取消勾选 Reopen project on start up
 
----
-
-
-
-# 2	个性化配置
-
-## 2.1	设置字体大小
-
-
-
----
-
-
-
-## 2.2	设置主体
-
----
-
-
-
-## 2.3	设置启动 IDEA 时不自动打开项目
-
-- Appearance & Behavior → System Settings → 取消勾选 Reopen last project on start up
+<br>
 
 ---
 
+<div STYLE="page-break-after: always;"><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br></div>
 
+## 1.3	配置导出与导入（❗未完成）
 
-# 3	常用快捷键
+---
+
+<div STYLE="page-break-after: always;"><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br></div>
+
+# 2	实用功能
+
+## 2.1	常用快捷键
+
+#### 快捷键
 
 | 快捷键         | 功能     |
 | -------------- | -------- |
 | CTRL + ALT + L | 代码排版 |
 | ALT + ENTER    | 代码补全 |
-|                |          |
+
+<br>
+
+---
+
+<div STYLE="page-break-after: always;"><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br></div>
+
+|      |      |
+| ---- | ---- |
+|      |      |
+|      |      |
+|      |      |
 
 ---
 
@@ -198,3 +298,6 @@ your code;
 
 ---
 
+
+
+https://blog.csdn.net/weixin_39818691/article/details/111252613

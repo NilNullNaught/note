@@ -147,6 +147,20 @@ document.write('Hello World！');
 <br>
 <br>
 <br></div>
+## 1.3	Babel
+
+---
+
+<div STYLE="page-break-after: always;"><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br></div>
 
 # 2	基本语法
 
@@ -385,6 +399,7 @@ const MY_AGE  // SyntaxError: Missing initializer in const declaration
 <br>
 <br>
 <br></div>
+# 
 
 # 附录
 
