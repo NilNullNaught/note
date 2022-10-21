@@ -654,7 +654,7 @@ pscp -l [用户名] -i [密钥位置] [文件名] [IP 地址]:/home
 例
 
 ```
-pscp -l root -i D:\kits\PuTTY\key\key.ppk NNNnoteService222.tar.gz 8.131.72.52:/home
+pscp -l root -i C:\kit\PuTTY\key\key.ppk redis-6.2.7.tar.gz 8.131.72.52:/home
 ```
 
 ###### 注意

@@ -3466,7 +3466,7 @@ Spring 为了管理事务，提供了一个平台事务管理器 `PlatformTransa
 
 ###### 注意
 
-启动 Spring boot项目时，就已经自动装配事务了，所以在 Spring boot 项目中不加 `@EnableTransactionManagement` 注解也可以正常使用事务。
+启动 Spring boot 项目时，就已经自动装配事务了，所以在 Spring boot 项目中不加 `@EnableTransactionManagement` 注解也可以正常使用事务。
 
 <br>
 
