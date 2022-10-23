@@ -310,7 +310,7 @@ https://blog.csdn.net/qq_39505245/article/details/124705850
 
 ```bash
 //远程版本库的 Git 地址是 https://github.com/example/test.git
- https://github.com/example/test.git
+git clone https://github.com/example/test.git
 ```
 
 **把本地修改的内容同步到远程版本库上**

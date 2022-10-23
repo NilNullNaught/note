@@ -64,16 +64,8 @@ ECMAScript 6.0（简称 ES6）是 JavaScript 语言的下一代标准，在 2015
 
 ----
 
-<div STYLE="page-break-after: always;"><br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br></div>
+<div STYLE="page-break-after: always;"></div>
+
 
 ## 1.2	JavaScript 的引入方式
 
@@ -137,30 +129,107 @@ document.write('Hello World！');
 
 ---
 
-<div STYLE="page-break-after: always;"><br>
+<div STYLE="page-break-after: always;"></div>
+
+## 1.3	Babel 转码器
+
+#### 什么是 Babel
+
+Babel 是一个广泛使用的转码器，可以将 ES6 代码转为 ES5 代码，从而在现有不支持 ES6 的环境下执行。这意味着，你可以现在就用 ES6 编写程序，而不用担心现有环境是否支持。
+
 <br>
+
+#### 安装命令行转码工具
+
+Babel 提供babel-cli工具，用于命令行转码。它的安装命令如下：
+
+```sh
+#使用 npm 全局安装 Babel
+npm install --global babel-cli
+
+#查看是否安装成功
+babel --version
+```
+
 <br>
+
+#### Babel 基本使用步骤
+
+###### 第一步
+
+初始化项目：
+
+```sh
+npm init -y
+```
+
+###### 第二步
+
+创建文件 `src/example.js`，内容为：
+
+```js
+// 转码前
+// 定义数据
+let input = [1, 2, 3]
+// 将数组的每个元素 +1
+input = input.map(item => item + 1)
+console.log(input)
+```
+
+###### 第三步
+
+配置 `.babelrc` 文件，=，`.babelrc` 是 Babel 的配置文件，存放在项目的根目录下，该文件用来设置转码规则和插件，基本格式如下：
+
+```js
+{
+    "presets": [],
+    "plugins": []
+}
+```
+
+使用 presets 字段设定转码规则，将 es2015 规则加入 `.babelrc`：
+
+```js
+{
+    "presets": ["es2015"],
+    "plugins": []
+}
+```
+
+###### 第四步
+
+在项目中安装转码器：
+
+```sh
+npm install --save-dev babel-preset-es2015
+```
+
+###### 第五步
+
+转码：
+
+```shell
+# 转码结果写入一个文件
+mkdir dist1
+# --out-file 或 -o 参数指定输出文件
+babel src/example.js --out-file dist1/compiled.js
+# 或者
+babel src/example.js -o dist1/compiled.js
+
+# 整个目录转码
+mkdir dist2
+# --out-dir 或 -d 参数指定输出目录
+babel src --out-dir dist2
+# 或者
+babel src -d dist2
+```
+
 <br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br></div>
-## 1.3	Babel
 
 ---
 
-<div STYLE="page-break-after: always;"><br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br></div>
+<div STYLE="page-break-after: always;"></div>
+
 
 # 2	基本语法
 
@@ -214,16 +283,7 @@ JavaScript 跟 HTML 和 CSS 一样，会忽略一些空白符号，但是换行�
 
 ---
 
-<div STYLE="page-break-after: always;"><br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br></div>
+<div STYLE="page-break-after: always;"></div>
 
 ## 2.2	输入和输出
 
@@ -254,16 +314,7 @@ JavaScript 可以接收用户的输入，然后再将输入的结果输出。
 
 ---
 
-<div STYLE="page-break-after: always;"><br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br></div>
+<div STYLE="page-break-after: always;"></div>
 
 ## 2.3	变量与常量
 
@@ -335,17 +386,6 @@ console.log(b)  // 2
 
 <br>
 
-#### 变量名命名规则
-
-关于变量的名称（标识符）有一系列的规则需要遵守：
-
-1. 只能是字母、数字、下划线、$，且不能能数字开头；
-2. 字母区分大小写，如 Age 和 age 是不同的变量；
-3. JavaScript 内部的关键字或保留字不允许作为变量名使用；
-4. 尽量保证变量具有一定的语义，见字知义。
-
-<br>
-
 #### 常量
 
 常量在声明之后不允许改变，且声明后必须立即初始化。
@@ -372,34 +412,237 @@ const MY_AGE  // SyntaxError: Missing initializer in const declaration
 
 <br>
 
----
+#### 变量与常量的命名规则
 
-<div STYLE="page-break-after: always;"><br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br></div>
+关于变量的名称（标识符）有一系列的规则需要遵守：
 
-## 2.4	
+1. 只能是字母、数字、下划线、$，且不能能数字开头；
+2. 字母区分大小写，如 Age 和 age 是不同的变量；
+3. JavaScript 内部的关键字或保留字不允许作为变量名使用；
+4. 尽量保证变量具有一定的语义，见字知义。
+
+<br>
 
 ---
 
-<div STYLE="page-break-after: always;"><br>
+<div STYLE="page-break-after: always;"></div>
+## 2.4	关键字与保留字
+
+#### 关键字
+
+关键字指 JS 本身已经使用了的字符，不能再用它们充当变量名或方法名。
+
+###### JS 现有的关键字
+
+break、case、catch、continue、default、delete、do、else、finally、for、function、if、in、instanceof、new、return、switch、this、throw、try、typeof、var、void、while、with 等。
+
 <br>
+
+####  保留字
+
+保留字实际上就是预留的“关键字”，意思是现在虽然还不是关键字，但是未来可能会成为关键字，同样不能使用它们当变量名或方法名。
+
+###### JS 现有的保留字
+
+boolean、byte、char、class、const、debugger、double、enum、export、extends、fimal、float、goto、implements、import、int、interface、long、mative、package、private、protected、public、short、static、super、synchronized、throws、transient、volatile 等。
+
+###### 注意
+
+如果将保留字用作变量名或函数名，那么除非将来的浏览器实现了该保留字，否则很可能收不到任何错误消息。当浏览器将其实现后，该单词将被看做关键字，如此将出现关键字错误。
+
 <br>
+
+---
+
+<div STYLE="page-break-after: always;"></div>
+
+## 2.5	数据类型
+
+#### 检测数据类型——typeof 关键字
+
+JS 中通过 **关键字 `typeof` ** 检测数据类型。
+
 <br>
+
+#### 数值类型 number
+
+JS 中的数值类型包括 **整数、小数（浮点数）、正数、负数**。
+
+###### 例
+
+```js
+let score = 100; // 正整数
+let price = 12.345; // 小数
+let temperature = -40; // 负数
+
+document.write(typeof score); // 结果为 number
+document.write(typeof price); // 结果为 number
+document.write(typeof temperature); // 结果为 number
+```
+
 <br>
+
+#### 字符串类型 string
+
+通过单引号（ `''`） 、双引号（ `""`）或反引号包裹的数据都叫字符串，一般推荐使用单引号。
+
+###### 例
+
+```js
+let user_name = '小明'; // 使用单引号
+let gender = "男"; // 使用双引号
+let str = '123'; // 看上去是数字，但是用引号包裹了就成了字符串了
+let str1 = ''; // 这种情况叫空字符串
+	
+documeent.write(typeof user_name); // 结果为 string
+documeent.write(typeof gender); // 结果为 string
+documeent.write(typeof str); // 结果为 string
+```
+
 <br>
+
+#### 布尔类型 boolean
+
+表示肯定或否定时在计算机中对应的是布尔类型数据，它有两个固定的值 `true` 和 `false`。
+
+###### 例
+
+```js
+let flag = true; 
+flag = false; 
+
+document.write(typeof flag); // 结果为 boolean
+```
+
 <br>
+
+#### 未定义 undefined
+
+`undefined` 是特殊的类型，只有一个值 undefined。如果只声明变量，不进行赋值，变量的默认值为 `undefined`。
+
+###### 例
+
+```js
+// 只声明了变量，并末赋值
+let tmp;
+document.write(typeof tmp); // 结果为 undefined
+```
+
 <br>
+
+---
+
+<div STYLE="page-break-after: always;"></div>
+
+## 2.6	类型转换
+
+#### 隐式转换
+
+某些运算符被执行时，系统内部自动将数据类型进行转换，这种转换称为隐式转换。
+
+###### 例——使用数值与字符串进行算术运算
+
+```
+let num = 13; // 数值
+let num2 = '2'; // 字符串
+
+// 结果为 132
+// 原因是将数值 num 转换成了字符串，相当于 '13'
+// 然后 + 将两个字符串拼接到了一起
+console.log(num + num2);
+
+// 结果为 11
+// 原因是将字符串 num2 转换成了数值，相当于 2
+// 然后数值 13 减去 数值 2
+console.log(num - num2);
+```
+
 <br>
-<br></div>
-# 
+
+#### 显式转换
+
+编写程序时过度依靠系统内部的隐式转换是不严谨的。为了避免因隐式转换带来的问题，通常需要对数据进行显示转换。
+
+###### 转换为数值类型——Number()
+
+`Number()` 可以将变量显示转换成数值类型，转换失败时结果为 `NaN`（Not a Number，即不是一个数字）：
+
+```js
+let t = '12';
+let f = 8;
+
+// 显式将字符串 12 转换成数值 12
+t = Number(t);
+
+// 检测转换后的类型
+// console.log(typeof t);
+console.log(t + f); // 结果为 20
+
+// 并不是所有的值都可以被转成数值类型
+let str = 'hello';
+// 将 hello 转成数值是不现实的，当无法转换成
+// 数值时，得到的结果为 NaN （Not a Number）
+console.log(Number(str));
+```
+
+<br>
+
+---
+
+<br>
+
+## 2.7	模板字符串
+
+#### 模板字符串
+
+使用反引号 ``` ` 包裹的字符串就是模板字符串，模板字符串相当于加强版的字符串。
+
+模板字符串中可以插入变量和表达式，还可以用来定义多行字符串。
+
+###### 例——定义多行字符串
+
+```js
+let string1 =  `Hey,
+can you stop angry now?`
+console.log(string1)
+// 输出：
+// Hey,
+// can you stop angry now?
+```
+
+###### 例——在字符串中插入变量和表达式
+
+可以在 `${}` 中放入变量和 JavaScript 表达式。
+
+```java
+let name = "Mike"
+let age = 27
+let info = `My Name is ${name},I am ${age+1} years old next year.`
+console.log(info)
+// My Name is Mike,I am 28 years old next year.
+```
+
+###### 例——在字符串中调用函数
+
+```js
+function f(){
+    return "have fun!"
+}
+let string2 = `Game start,${f()}`
+console.log(string2);  // Game start,have fun!
+```
+
+<br>
+
+---
+
+<br>
+
+## 3
+
+---
+
+
 
 # 附录
 
