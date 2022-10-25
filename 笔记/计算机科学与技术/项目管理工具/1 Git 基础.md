@@ -79,7 +79,7 @@ Git 是一个 **开源** 的 **分布式版本控制工具**，Git 被开发出�
 
 #### Git 工作机制
 
-![](./assets/Git 基础/1.png)
+![](./assets/Git 基础/1.1/1.png)
 
 <br>
 
@@ -127,14 +127,6 @@ https://git-scm.com/
 ```sh
 git --version
 ```
-
-<br>
-
----
-
-<div STYLE="page-break-after: always;"></div>
-
-## 1.3	创建远程代码库[^1.3-❗1]
 
 <br>
 
@@ -212,8 +204,12 @@ git config --global user.email
 ###### git status可能出现的三种情况
 
 1. 无文件改动：
-2. 有文件改动但未添加到暂存区
-3. 有文件改动已添加到暂存区，但未提交
+
+   ![](./assets/Git 基础/2.4/1.png)
+
+2. 有文件改动但未添加到暂存区：
+
+3. 有文件改动已添加到暂存区，但未提交：
 
 <br>
 
@@ -562,4 +558,3 @@ git pull origin master
 #### ❗❓
 
 [^1.2-❗1]: 需要补充。
-[^1.3-❗1]: 需要补充。
