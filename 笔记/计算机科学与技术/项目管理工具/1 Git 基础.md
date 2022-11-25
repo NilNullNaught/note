@@ -595,8 +595,8 @@ git clone https://github.com/NilNullNaught/note.git
 
 ###### 基础命令
 
-```sh
-git remote add ${别名} ${远程版本库地址}
+```
+git remote add
 ```
 
 1. 该命令必须进入 `git clone` 到本地的代码库文件夹中使用；
