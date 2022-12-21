@@ -60,6 +60,22 @@
 
 <div STYLE="page-break-after: always;"></div>
 
+## vue
+
+#### this.$set
+
+#### render 函数
+
+#### 混入模式
+
+#### asynic 和 synchro
+
+#### watch 与 computed
+
+---
+
+<div STYLE="page-break-after: always;"></div>
+
 # 附录
 
 ##### 参考资料
