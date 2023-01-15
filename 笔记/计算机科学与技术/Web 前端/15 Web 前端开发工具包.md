@@ -506,6 +506,164 @@ this.saveTableState(${当前列绑定的列属性}, this.columnsRelate.storePath
 
 <div STYLE="page-break-after: always;"></div>
 
+## 5	列拖拽 v2
+
+```js
+import Sortable from 'sortablejs';
+import VXETable from 'vxe-table'
+import {setLocalStringifyValue, getLocalParseValue, isLocal} from "@/common/js/storage";
+
+const VXE_TABLE_CUSTOM_COLUMN_DRAG = "VXE_TABLE_CUSTOM_COLUMN_DRAG";
+const tableColumnDropUtil = {
+    data() {
+        return {
+            //列拖拽
+            colDrag: false,
+        }
+    },
+    created() {
+        this.$nextTick(() => {
+            //获取表格列拖拽状态
+            this.getTableState(this.$refs.xGrid.id);
+        })
+    },
+    mounted() {
+        /** 表格列拖拽 */
+        this.columnDrop(this.$refs.xGrid, this.$refs.xGrid.id);
+    },
+    methods: {
+        /**
+         * 列拖拽
+         * @param el        指定的表格元素
+         * @param key       存入缓存的key属性
+         */
+        columnDrop: function (el, key) {
+            this.$nextTick(() => {
+                const $table = el;
+                this.colDrag = Sortable.create($table.$el.querySelector('.body--wrapper>.vxe-table--header .vxe-header--row'), {
+                    handle: '.vxe-header--column',
+                    ghostClass: 'sortable-ghost', //拖拽样式
+                    animation: 150, // 拖拽延时，效果更好看
+                    onEnd: ({item, newIndex, oldIndex}) => {
+                        const {fullColumn, tableColumn} = $table.getTableColumn()
+                        const targetThElem = item
+                        const wrapperElem = targetThElem.parentNode
+                        const oldColumn = fullColumn[oldIndex]
+                        const newColumn = fullColumn[newIndex]
+                        if (newColumn.fixed || oldColumn.fixed) {
+                            const oldThElem = wrapperElem.children[oldIndex]
+                            // 错误的移动
+                            if (newIndex > oldIndex) {
+                                wrapperElem.insertBefore(targetThElem, oldThElem)
+                            } else {
+                                wrapperElem.insertBefore(targetThElem, oldThElem ? oldThElem.nextElementSibling : oldThElem)
+                            }
+                            VXETable.modal.message({content: '固定列不允许拖动，即将还原操作！', status: 'error'})
+                            return
+                        }
+                        // 获取列索引 columnIndex > fullColumn
+                        const oldColumnIndex = $table.getColumnIndex(tableColumn[oldIndex])
+                        const newColumnIndex = $table.getColumnIndex(tableColumn[newIndex])
+                        // 移动到目标列
+                        const currRow = fullColumn.splice(oldColumnIndex, 1)[0]
+                        fullColumn.splice(newColumnIndex, 0, currRow)
+                        $table.loadColumn(fullColumn)
+                        this.saveTableState(key, fullColumn);
+                    }
+                })
+            })
+        },
+
+        /**
+         * 获取存储的表状态赋值
+         * @param key 存储列顺序key
+         */
+        getTableState: function (key) {
+            if (isLocal(VXE_TABLE_CUSTOM_COLUMN_DRAG)) {
+                let columns = getLocalParseValue(VXE_TABLE_CUSTOM_COLUMN_DRAG);
+                if (columns[key]) {
+                    let newColumns = [];
+                    //  是否为列表页
+                    if (this.mainTable) {
+                        this.mainTable.forEach((m,index) => {
+
+                            if (!m.field) {
+                                m.field = index
+
+                            }
+                            let str = columns[key].find((i) =>
+                                m.field === i.field
+                            )
+                            newColumns[str.index] = m;
+                        })
+                    } else {
+                        this.gridOptions.columns.forEach((obj,index) => {
+                            if (!obj.field) {
+                                obj.field = index
+                            }
+                            let str = columns[key].find((i) =>
+                                obj.field === i.field
+                            )
+                            newColumns[str.index] = obj;
+                        })
+                    }
+                    this.gridOptions.columns = newColumns;
+                } else {
+                    //是否为list页面
+                    if (this.mainTable) {
+                        this.gridOptions.columns = this.mainTable
+                    }
+                }
+            }
+        }
+        ,
+        /**
+         * 保存表格列顺序
+         * @param key      存储的key
+         * @param columns 排序后的列
+         */
+        saveTableState(key, columns) {
+            let columnAttribute = {
+                [key]: columns.map((obj, index) => {
+                    let t = {}
+                    t.index = index
+                    if (obj.field && obj.field != undefined) {
+                        t.field = obj.field
+                    }else {
+                        t.field = index
+                    }
+                    return t
+                })
+            }
+            let arr = {};
+            if (isLocal(VXE_TABLE_CUSTOM_COLUMN_DRAG)) {
+                arr = getLocalParseValue(VXE_TABLE_CUSTOM_COLUMN_DRAG);
+                for (let key in arr) {
+                    if (key === VXE_TABLE_CUSTOM_COLUMN_DRAG) {
+                        arr[key] = columnAttribute;
+                    } else {
+                        Object.assign(arr, columnAttribute);
+                    }
+                }
+            } else {
+                Object.assign(arr, columnAttribute);
+            }
+            setLocalStringifyValue(VXE_TABLE_CUSTOM_COLUMN_DRAG, arr)
+        },
+    },
+
+    beforeDestroy() {
+        if (this.colDrag) {
+            this.colDrag.destroy()
+        }
+    },
+};
+// 定义一个混入对象
+export default tableColumnDropUtil
+
+```
+
+
 
 # 附录
 
