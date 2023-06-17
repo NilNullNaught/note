@@ -122,6 +122,13 @@
 
 <div STYLE="page-break-after: always;"></div>
 
+## 1.4	页面布局保存
+
+使用 顶部工具栏 → window → layout 修改与保存当前页面布局。
+
+---
+
+<div STYLE="page-break-after: always;"></div>
 
 # 2	常用功能
 
@@ -308,3 +315,19 @@ https://blog.csdn.net/weixin_39818691/article/details/111252613
 ----
 
 <div STYLE="page-break-after: always;"></div>
+
+# 项目管理工具
+
+## changeList 功能
+
+<br>
+
+#### 说明
+
+1. 可以将不能修改的文件移入其他 changeList
+2. 也可以将根据模块划分changList，从而实现快速的分模块提交
+
+<br>
+
+---
+
